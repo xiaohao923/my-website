@@ -46,6 +46,7 @@
       text-decoration: none;
       font-weight: 600;
       transition: background-color 0.3s ease;
+      margin: 5px;
     }
     .discord-link:hover {
       background-color: #5b6eae;
@@ -55,6 +56,12 @@
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .views {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #666;
     }
   </style>
 </head>
@@ -69,7 +76,7 @@
   <header>
     <h1>哥的網站</h1>
     <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
-    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">追蹤我的ig</a>
+    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">追蹤我的 IG</a>
   </header>
 
   <section>
@@ -81,5 +88,20 @@
        alt="Discord 圖片" 
        style="max-width: 100%; height: auto; margin-top: 20px;">
   </section>
+
+  <div class="views">
+    👀 目前瀏覽次數：<span id="viewCount">載入中...</span>
+  </div>
+
+  <script>
+    fetch('https://api.countapi.xyz/hit/xiaohao923/my-website-index')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('viewCount').innerText = data.value;
+      })
+      .catch(() => {
+        document.getElementById('viewCount').innerText = "載入失敗";
+      });
+  </script>
 </body>
 </html>
