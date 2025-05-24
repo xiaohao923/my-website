@@ -94,14 +94,38 @@
   </div>
 
   <script>
-    fetch('https://api.countapi.xyz/hit/xiaohao923/my-website-index')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('viewCount').innerText = data.value;
-      })
-      .catch(() => {
-        document.getElementById('viewCount').innerText = "載入失敗";
-      });
+    (async () => {
+      const binId = '6831cec68a456b7966a4c859';
+      const apiKey = '$2a$10$rUTs2dmXhZK3L31uvEbzH.dh9A2kIdYTwfQF3JG/LejqcXbfttTlK';
+      const url = `https://api.jsonbin.io/v3/b/${binId}`;
+      const viewElement = document.getElementById('viewCount');
+
+      try {
+        // 讀取目前的瀏覽數
+        const getRes = await fetch(url + '/latest', {
+          headers: { 'X-Master-Key': apiKey }
+        });
+        const data = await getRes.json();
+        const currentViews = data.record.views || 0;
+
+        // 增加並顯示
+        const newViews = currentViews + 1;
+        viewElement.textContent = newViews;
+
+        // 回寫更新瀏覽數
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': apiKey
+          },
+          body: JSON.stringify({ views: newViews })
+        });
+      } catch (error) {
+        console.error('讀取失敗', error);
+        viewElement.textContent = '載入失敗';
+      }
+    })();
   </script>
 </body>
 </html>
