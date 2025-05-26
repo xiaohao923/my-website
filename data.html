@@ -11,6 +11,22 @@
       margin: 0;
       padding: 0;
     }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: #4b0082;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+    .back-button:hover {
+      background-color: #6a0dad;
+    }
     header {
       background-color: #4b0082;
       color: white;
@@ -31,6 +47,7 @@
     ul {
       list-style-type: square;
       padding-left: 20px;
+      line-height: 1.8;
     }
     footer {
       text-align: center;
@@ -42,6 +59,9 @@
 </head>
 <body>
 
+  <!-- 返回主頁按鈕 -->
+  <a href="/index.html" class="back-button">🏠 返回主頁</a>
+
   <header>
     <h1>零號之地 - 目前活動</h1>
   </header>
@@ -49,9 +69,9 @@
   <main>
     <h2>📢 活動公告</h2>
     <ul>
-      <li>🔥discord伺服器達到200人時將贈送三人nitro </li>
-      <li>🎁 加入伺服器即可獲得專屬身分組和特殊稱號！</li>
-      <li>🛠 正在開發新的炸群方式請慢慢等待</li>
+      <li>🔥 當 Discord 伺服器人數達到 <strong>200</strong> 時，將抽出 <strong>3 位幸運成員贈送 Nitro</strong>！</li>
+      <li>🎁 加入伺服器即可獲得 <strong>專屬身分組</strong> 和 <strong>特殊稱號</strong>！</li>
+      <li>🛠 正在開發全新功能模組，<strong>敬請期待</strong>～</li>
     </ul>
   </main>
 
