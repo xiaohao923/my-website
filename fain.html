@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>我的網站</title>
+<style>
+  /* 基本字體與背景 */
+  body {
+    font-family: "Microsoft JhengHei", sans-serif;
+    background-color: #f7f6fc;
+    margin: 0;
+    color: #333;
+  }
+
+  /* 導覽列 */
+  nav {
+    background-color: #6a4baf;
+    padding: 12px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  nav ul li {
+    margin-right: 30px;
+  }
+  nav ul li:last-child {
+    margin-right: 0;
+  }
+  nav ul li a {
+    color: #f0e9ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  nav ul li a:hover,
+  nav ul li a:focus {
+    color: #d0bcff;
+    text-decoration: underline;
+  }
+
+  /* 主要內容區塊 */
+  main {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  /* 按鈕樣式 */
+  .btn {
+    background-color: #7f65d4;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+  .btn:hover,
+  .btn:focus {
+    background-color: #5a3dbd;
+  }
+
+  /* 響應式手機版 */
+  @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      gap: 12px;
+    }
+    nav ul li {
+      margin-right: 0;
+    }
+    main {
+      margin: 20px 10px;
+      padding: 0 10px;
+    }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="index.html">首頁</a></li>
+    <li><a href="activities.html">目前活動</a></li>
+    <li><a href="about.html">關於我們</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>歡迎來到我的網站～嗷嗷 💜</h1>
+  <p>這是一個示範頁面，請將內容替換成你自己的文字與圖片。</p>
+
+  <button class="btn">立即行動</button>
+</main>
+</body>
+</html>
