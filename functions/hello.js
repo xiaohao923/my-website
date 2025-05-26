@@ -1,4 +1,5 @@
-// functions/hello.js
-export async function onRequest(context) {
-  return new Response("你好！這是來自 Cloudflare Functions 的動態回應！");
+export async function onRequest() {
+  return new Response("嗷嗷～這是 Cloudflare Functions 動態回應～", {
+    headers: { "Content-Type": "text/plain" },
+  });
 }
