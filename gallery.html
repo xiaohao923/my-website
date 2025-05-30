@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>圖片展示頁</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .gallery {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .image-item {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .image-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .caption {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <a class="back-button" href="index.html">← 回到主頁</a>
+
+    <div class="gallery">
+        <div class="image-item">
+            <img src="image1.jpg" alt="圖片1">
+            <div class="caption">這是圖片一的說明文字</div>
+        </div>
+
+        <div class="image-item">
+            <img src="image2.jpg" alt="圖片2">
+            <div class="caption">這是圖片二的說明文字</div>
+        </div>
+
+        <div class="image-item">
+            <img src="image3.jpg" alt="圖片3">
+            <div class="caption">這是圖片三的說明文字</div>
+        </div>
+
+        <!-- 可以繼續加更多圖片 -->
+    </div>
+
+</body>
+</html>
