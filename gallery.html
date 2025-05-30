@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>圖片展示頁</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,28 +20,42 @@
             padding: 10px 15px;
             text-decoration: none;
             border-radius: 5px;
+            z-index: 999;
         }
 
         .gallery {
-            max-width: 800px;
-            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 60px auto 0; /* 預留空間給回首頁按鈕 */
         }
 
         .image-item {
+            flex: 1 1 calc(33.33% - 20px); /* 每排三個，含間距 */
             margin-bottom: 30px;
+            margin-right: 10px;
+            margin-left: 10px;
+            box-sizing: border-box;
             text-align: center;
         }
 
         .image-item img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
         .caption {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #333;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .image-item {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
@@ -50,11 +65,21 @@
 
     <div class="gallery">
         <div class="image-item">
-            <img src="IMG_4828.jpeg" alt="圖片1">
-            <div class="caption">七仔家族資金截圖更新時間5/30 9:09</div>
+            <div class="caption">這是圖片一的說明文字</div>
+            <img src="image1.jpg" alt="圖片1">
         </div>
 
-        <!-- 可以繼續加更多圖片 -->
+        <div class="image-item">
+            <div class="caption">這是圖片二的說明文字</div>
+            <img src="image2.jpg" alt="圖片2">
+        </div>
+
+        <div class="image-item">
+            <div class="caption">這是圖片三的說明文字</div>
+            <img src="image3.jpg" alt="圖片3">
+        </div>
+
+        <!-- 可繼續新增更多圖片項目 -->
     </div>
 
 </body>
