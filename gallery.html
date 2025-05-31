@@ -57,6 +57,30 @@
                 flex: 1 1 100%;
             }
         }
+
+        .floating-xiaohao {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 999;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -74,6 +98,9 @@
         </div>
         <!-- 可以繼續新增更多圖片項目 -->
     </div>
+
+    <!-- 浮動 XIAOHAO -->
+    <div class="floating-xiaohao">XIAOHAO</div>
 
 </body>
 </html>
