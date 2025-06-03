@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WePlay 活動與代射價格</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      margin: 0;
+      padding: 40px 20px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    nav a {
+      color: #5865f2;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 1.05em;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+    section {
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 40px;
+    }
+    ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    img {
+      display: block;
+      margin: 25px auto 0;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    footer {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 60px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+    footer span {
+      color: #5865f2;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">🏠 首頁</a>
+    <a href="vip.html">🎁 VIP 價格表</a>
+  </nav>
+
+  <h1>🎮 WePlay 目前活動</h1>
+  <section>
+    <ul>
+      <li>端午節活動(至6/5 23:59)</li>
+    </ul>
+  </section>
+
+  <h1>📦 代射價格表</h1>
+  <section>
+    <ul>
+      <li>100個粽心如意700台幣(有機會爆29999的宮廷秘境</li>
+      <li>眾裡尋他 1800台幣</li>
+    </ul>
+  </section>
+
+  <footer>
+    📩 有興趣請私訊 weplay ID：<span>xiaohao666789</span>
+  </footer>
+
+</body>
+</html>
