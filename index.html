@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>xiaohao的個人網站 - 首頁</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
   <style>
     html, body {
@@ -18,28 +18,28 @@
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('https://assets.codepen.io/1462889/stars.svg');
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://assets.codepen.io/1462889/stars.svg') repeat-y;
       animation: moveStars 100s linear infinite;
       z-index: -1;
     }
     @keyframes moveStars {
       from {transform: translateY(0);}
-      to {transform: translateY(-2000px);}
+      to {transform: translateY(-1000px);}
     }
     nav {
       text-align: center;
       margin-top: 20px;
     }
     nav a {
-      margin: 0 10px;
+      margin: 0 12px;
       color: #00ffee;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 700;
       text-shadow: 0 0 8px #00ffee;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      user-select: text;
     }
     nav a:hover {
       color: #fff;
@@ -50,8 +50,10 @@
       margin: 60px 20px 40px;
     }
     header h1 {
+      font-weight: 700;
       font-size: 3rem;
       animation: glow 2s ease-in-out infinite alternate;
+      user-select: text;
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
@@ -62,12 +64,16 @@
       background: #00ffee;
       color: #000;
       padding: 10px 20px;
-      margin: 10px;
+      margin-right: 12px;
       border-radius: 8px;
-      font-weight: bold;
+      font-weight: 700;
       text-decoration: none;
-      transition: 0.3s;
+      transition: background-color 0.3s, color 0.3s;
       box-shadow: 0 0 15px #00ffee;
+      user-select: text;
+    }
+    .discord-link:last-child {
+      margin-right: 0;
     }
     .discord-link:hover {
       background: #0ff;
@@ -88,6 +94,7 @@
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.8s ease, transform 0.8s ease;
+      user-select: text;
     }
     section p.visible {
       opacity: 1;
@@ -99,6 +106,7 @@
       margin-top: 30px;
       color: #88f6f6;
       text-shadow: 0 0 6px #00ffee;
+      user-select: text;
     }
     .quote {
       font-size: 1.2rem;
@@ -107,6 +115,7 @@
       color: #fff;
       font-style: italic;
       text-shadow: 0 0 10px #00ffee;
+      user-select: text;
     }
   </style>
 </head>
@@ -124,8 +133,8 @@
 
   <header>
     <h1>Xiaohao</h1>
-    <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
-    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">Follow IG</a>
+    <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link" rel="noopener noreferrer">加入我的 Discord 群組</a>
+    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link" rel="noopener noreferrer">Follow IG</a>
   </header>
 
   <section>
@@ -175,7 +184,6 @@
       }
     })();
 
-    // 段落滾動進入動畫
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
