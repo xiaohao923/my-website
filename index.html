@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>xiaohao的個人網站 - 首頁</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap&family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
+      overflow-x: hidden;
+      font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
       background: black;
       color: #00ffff;
     }
@@ -26,7 +26,7 @@
       text-align: center;
       max-width: 800px;
       margin: 0 auto;
-      padding-top: 15vh;
+      padding-top: 10vh;
       animation: fadeIn 2s ease;
     }
     h1 {
@@ -45,10 +45,12 @@
       border-right: 2px solid #00ffff;
     }
     nav {
-      margin-top: 50px;
+      margin-top: 30px;
+      flex-wrap: wrap;
     }
     nav a {
-      margin: 0 10px;
+      display: inline-block;
+      margin: 5px 10px;
       color: #00ffff;
       text-decoration: none;
       font-weight: bold;
@@ -61,17 +63,29 @@
       text-shadow: 0 0 10px #00ffff;
       transform: scale(1.1);
     }
-
+    section {
+      margin: 40px auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 700px;
+      color: white;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .views {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #66ffff;
+    }
     @keyframes fadeIn {
       0% { opacity: 0; transform: translateY(30px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes pulse {
       0%, 100% { text-shadow: 0 0 10px #00ffff; }
       50% { text-shadow: 0 0 30px #00ffff; }
     }
-
     @keyframes typing {
       from { width: 0; }
       to { width: 100%; }
@@ -82,7 +96,7 @@
   <canvas id="bg"></canvas>
   <div class="container">
     <h1>Xiaohao</h1>
-    <div class="quote">人生只是一場遊戲 有時輸有時贏 但不管如何隊友總是會變得</div>
+    <div class="quote">人生只是一場遊戲 有時輸有時贏 但不管如何隊友總是會變得。</div>
     <nav>
       <a href="index.html">首頁</a>
       <a href="about.html">關於我</a>
@@ -94,9 +108,26 @@
       <a href="weplay.html">weplay vip 禮物價目表</a>
     </nav>
   </div>
+
+  <section>
+    <h2>Hi!</h2>
+    <p>正在為未來的我留下值得紀錄的事</p>
+    <p>有事可以加入我的 DC 群找我，沒事就不要吵</p>
+    <p>想認識可以追蹤我的哀居也可以加入dc💗</p>
+    <p>weplay資訊有在更新了啦</p>
+    <p>3y愛吃棒棒糖🍭</p>
+    <p>這邊還在持續更新中</p>
+    <img src="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" 
+         alt="Discord 圖片" 
+         style="max-width: 100%; height: auto; margin-top: 20px;">
+  </section>
+
+  <div class="views">
+    👀 目前瀏覽次數：<span id="viewCount">載入中...</span>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script>
-    // 星空背景 using Three.js
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg') });
@@ -128,6 +159,38 @@
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+  </script>
+
+  <script>
+    (async () => {
+      const binId = '6831d0a38561e97a501aed41';
+      const apiKey = '$2a$10$rUTs2dmXhZK3L31uvEbzH.dh9A2kIdYTwfQF3JG/LejqcXbfttTlK';
+      const url = `https://api.jsonbin.io/v3/b/${binId}`;
+      const viewElement = document.getElementById('viewCount');
+
+      try {
+        const getRes = await fetch(url + '/latest', {
+          headers: { 'X-Master-Key': apiKey }
+        });
+        const data = await getRes.json();
+        const currentViews = data.record.views || 0;
+
+        const newViews = currentViews + 1;
+        viewElement.textContent = newViews;
+
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': apiKey
+          },
+          body: JSON.stringify({ views: newViews })
+        });
+      } catch (error) {
+        console.error('讀取失敗', error);
+        viewElement.textContent = '載入失敗';
+      }
+    })();
   </script>
 </body>
 </html>
