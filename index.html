@@ -4,162 +4,140 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>xiaohao的個人網站 - 首頁</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap&family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
+      color: #00ffee;
       overflow-x: hidden;
-      font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
-      background: black;
-      color: #00ffff;
     }
-    canvas {
+    body::before {
+      content: '';
       position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://assets.codepen.io/1462889/stars.svg');
+      animation: moveStars 100s linear infinite;
       z-index: -1;
     }
-    .container {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-      padding-top: 10vh;
-      animation: fadeIn 2s ease;
-    }
-    h1 {
-      font-size: 3.5rem;
-      color: #00ffff;
-      text-shadow: 0 0 20px #00ffff;
-      animation: pulse 2s infinite;
-    }
-    .quote {
-      font-size: 1.2rem;
-      color: #ffffff;
-      margin-top: 20px;
-      animation: typing 4s steps(40, end);
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #00ffff;
+    @keyframes moveStars {
+      from {transform: translateY(0);}
+      to {transform: translateY(-2000px);}
     }
     nav {
-      margin-top: 30px;
-      flex-wrap: wrap;
+      text-align: center;
+      margin-top: 20px;
     }
     nav a {
-      display: inline-block;
-      margin: 5px 10px;
-      color: #00ffff;
+      margin: 0 10px;
+      color: #00ffee;
       text-decoration: none;
       font-weight: bold;
-      padding: 10px 15px;
-      border: 2px solid transparent;
-      transition: all 0.3s ease;
+      text-shadow: 0 0 8px #00ffee;
     }
     nav a:hover {
-      border: 2px solid #00ffff;
-      text-shadow: 0 0 10px #00ffff;
-      transform: scale(1.1);
+      color: #fff;
+      text-shadow: 0 0 12px #0ff;
+    }
+    header {
+      text-align: center;
+      margin: 60px 20px 40px;
+    }
+    header h1 {
+      font-size: 3rem;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+      to { text-shadow: 0 0 20px #0ff, 0 0 30px #0ff; }
+    }
+    .discord-link {
+      display: inline-block;
+      background: #00ffee;
+      color: #000;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      box-shadow: 0 0 15px #00ffee;
+    }
+    .discord-link:hover {
+      background: #0ff;
+      color: black;
     }
     section {
-      margin: 40px auto;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 25px;
-      border-radius: 10px;
       max-width: 700px;
-      color: white;
-      font-family: 'Noto Sans TC', sans-serif;
+      margin: 0 auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffee;
+    }
+    section p {
+      font-size: 1.2rem;
+      margin: 1em 0;
+      text-shadow: 0 0 8px #0ff;
     }
     .views {
       text-align: center;
-      margin-top: 20px;
       font-size: 1.1rem;
-      color: #66ffff;
+      margin-top: 30px;
+      color: #88f6f6;
+      text-shadow: 0 0 6px #00ffee;
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 10px #00ffff; }
-      50% { text-shadow: 0 0 30px #00ffff; }
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+    .quote {
+      font-size: 1.2rem;
+      margin-top: 40px;
+      text-align: center;
+      color: #fff;
+      font-style: italic;
+      text-shadow: 0 0 10px #00ffee;
     }
   </style>
 </head>
 <body>
-  <canvas id="bg"></canvas>
-  <div class="container">
+  <nav>
+    <a href="index.html">首頁</a>
+    <a href="about.html">關於我</a>
+    <a href="contact.html">聯絡我</a>
+    <a href="discord.html">群組介紹</a>
+    <a href="SAHN.html">群組規定</a>
+    <a href="data.html">目前活動</a>
+    <a href="main.html">更新紀錄</a>
+    <a href="weplay.html">weplay vip 禮物價目表</a>
+  </nav>
+
+  <header>
     <h1>Xiaohao</h1>
-    <div class="quote">人生只是一場遊戲 有時輸有時贏 但不管如何隊友總是會變得。</div>
-    <nav>
-      <a href="index.html">首頁</a>
-      <a href="about.html">關於我</a>
-      <a href="contact.html">聯絡我</a>
-      <a href="discord.html">群組介紹</a>
-      <a href="SAHN.html">群組規定</a>
-      <a href="data.html">目前活動</a>
-      <a href="main.html">更新紀錄</a>
-      <a href="weplay.html">weplay vip 禮物價目表</a>
-    </nav>
-  </div>
+    <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
+    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">Follow IG</a>
+  </header>
 
   <section>
-    <h2>Hi!</h2>
+    <h2 style="text-align:center; font-size: 2rem; text-shadow: 0 0 10px #0ff;">Hi!</h2>
     <p>正在為未來的我留下值得紀錄的事</p>
     <p>有事可以加入我的 DC 群找我，沒事就不要吵</p>
     <p>想認識可以追蹤我的哀居也可以加入dc💗</p>
     <p>weplay資訊有在更新了啦</p>
     <p>3y愛吃棒棒糖🍭</p>
     <p>這邊還在持續更新中</p>
-    <img src="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" 
-         alt="Discord 圖片" 
-         style="max-width: 100%; height: auto; margin-top: 20px;">
   </section>
+
+  <div class="quote">
+    「人生只是一場遊戲 有時輸有時贏 但不管如何隊友總是會變得。」
+  </div>
 
   <div class="views">
     👀 目前瀏覽次數：<span id="viewCount">載入中...</span>
   </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script>
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg') });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 10000;
-    const positions = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i++) {
-      positions[i] = (Math.random() - 0.5) * 2000;
-    }
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const starMaterial = new THREE.PointsMaterial({ color: 0x00ffff });
-    const starField = new THREE.Points(starGeometry, starMaterial);
-    scene.add(starField);
-
-    camera.position.z = 5;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      starField.rotation.y += 0.0005;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
 
   <script>
     (async () => {
@@ -174,10 +152,8 @@
         });
         const data = await getRes.json();
         const currentViews = data.record.views || 0;
-
         const newViews = currentViews + 1;
         viewElement.textContent = newViews;
-
         await fetch(url, {
           method: 'PUT',
           headers: {
