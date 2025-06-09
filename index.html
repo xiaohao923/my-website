@@ -1,357 +1,220 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>xiaohao的個人網站 - 超未來科技版</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+TC&display=swap" rel="stylesheet" />
-<link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
-<style>
-  /* Reset */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    background: #020214;
-    overflow-x: hidden;
-    font-family: 'Noto Sans TC', sans-serif;
-    color: #a0c4ff;
-    user-select: none;
-    perspective: 1000px;
-  }
-  body {
-    max-width: 720px;
-    margin: 40px auto;
-    padding: 0 24px 80px;
-    position: relative;
-  }
-  /* 粒子星空背景 */
-  #stars, #stars2, #stars3 {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -10;
-  }
-  #stars {
-    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield.png') repeat;
-    animation: starMove 120s linear infinite;
-    opacity: 0.7;
-  }
-  #stars2 {
-    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield2.png') repeat;
-    animation: starMove 200s linear infinite;
-    opacity: 0.4;
-  }
-  #stars3 {
-    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield3.png') repeat;
-    animation: starMove 300s linear infinite;
-    opacity: 0.3;
-  }
-  @keyframes starMove {
-    from { background-position: 0 0; }
-    to { background-position: -10000px 5000px; }
-  }
-
-  nav {
-    text-align: center;
-    margin-bottom: 36px;
-    font-family: 'Orbitron', monospace;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: #0ef;
-  }
-  nav a {
-    margin: 0 16px;
-    color: #00ffffcc;
-    text-decoration: none;
-    position: relative;
-    transition: color 0.3s ease;
-    text-shadow:
-      0 0 6px #0ff,
-      0 0 20px #33ffffbb;
-  }
-  nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #00ffffcc, #33ffffdd);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-    border-radius: 2px;
-  }
-  nav a:hover {
-    color: #00ffffee;
-  }
-  nav a:hover::after {
-    transform: scaleX(1);
-  }
-
-  header {
-    text-align: center;
-    margin-bottom: 48px;
-    color: #1de9b6;
-    user-select: text;
-  }
-  header h1 {
-    font-family: 'Orbitron', monospace;
-    font-weight: 900;
-    font-size: 4rem;
-    letter-spacing: 0.14em;
-    color: #00ffe7;
-    text-shadow:
-      0 0 8px #00ffe7,
-      0 0 25px #00ffe7,
-      0 0 45px #00fffaaa,
-      0 0 70px #00fffaaa;
-    animation: glitch 3s infinite ease-in-out;
-  }
-  @keyframes glitch {
-    0%, 100% {
-      text-shadow:
-        0 0 8px #00ffe7,
-        0 0 25px #00ffe7,
-        0 0 45px #00fffaaa,
-        0 0 70px #00fffaaa;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>xiaohao的個人網站 - 首頁</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Sans TC", sans-serif;
+      color: #0ff;
+      background-color: #020214;
+      overflow-x: hidden;
     }
-    50% {
-      text-shadow:
-        2px 0 8px #00ffea,
-        -2px 0 8px #00aaff,
-        2px 0 25px #00e9ff,
-        -2px 0 25px #005577;
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
-  }
-
-  .discord-link {
-    display: inline-block;
-    font-family: 'Orbitron', monospace;
-    font-weight: 700;
-    background: linear-gradient(90deg, #00fff7, #0077ff);
-    color: #020214;
-    padding: 16px 32px;
-    margin: 12px 12px;
-    border-radius: 32px;
-    box-shadow:
-      0 0 20px #00ffff,
-      0 0 60px #00aaff;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: all 0.35s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .discord-link::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 120%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-    transform: skewX(-30deg);
-    transition: all 0.6s ease;
-  }
-  .discord-link:hover::before {
-    left: 100%;
-  }
-  .discord-link:hover {
-    box-shadow:
-      0 0 40px #00ffff,
-      0 0 80px #00aaff;
-    transform: scale(1.1) translateY(-4px);
-  }
-
-  section {
-    position: relative;
-    background: rgba(10, 25, 40, 0.75);
-    border-radius: 24px;
-    padding: 32px 36px 48px;
-    margin-bottom: 60px;
-    box-shadow:
-      0 0 25px #0ff,
-      inset 0 0 80px #0aa;
-    backdrop-filter: blur(14px);
-    color: #9cdfff;
-    font-size: 1.18rem;
-    user-select: text;
-    overflow: hidden;
-  }
-  section::before {
-    content: '';
-    position: absolute;
-    top: -40%; left: -20%;
-    width: 160%; height: 160%;
-    background: radial-gradient(circle at center, #00ffff22 0%, transparent 70%);
-    filter: blur(60px);
-    animation: starMove 30s linear infinite reverse;
-    pointer-events: none;
-    z-index: 0;
-  }
-  section h2 {
-    position: relative;
-    font-family: 'Orbitron', monospace;
-    font-weight: 900;
-    font-size: 2.8rem;
-    margin-bottom: 24px;
-    color: #00e9ff;
-    text-shadow:
-      0 0 12px #00aaff,
-      0 0 35px #00eaff,
-      0 0 50px #33ccff;
-    filter: drop-shadow(0 0 10px #00ccffaa);
-    z-index: 1;
-  }
-  section p {
-    position: relative;
-    margin-bottom: 18px;
-    line-height: 1.6;
-    z-index: 1;
-    user-select: text;
-  }
-  section img {
-    margin-top: 28px;
-    width: 100%;
-    border-radius: 24px;
-    box-shadow:
-      0 0 48px #33bbffcc,
-      0 14px 46px rgba(0, 145, 255, 0.9);
-    filter: drop-shadow(0 0 18px #33bbffcc);
-    position: relative;
-    z-index: 1;
-    user-select: none;
-  }
-
-  .views {
-    text-align: center;
-    font-family: 'Orbitron', monospace;
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: #00ffffcc;
-    text-shadow:
-      0 0 10px #00ffffbb,
-      0 0 30px #00aaffaa;
-    margin-bottom: 40px;
-  }
-
-  /* 霓虹閃爍的語錄 */
-  .quote {
-    font-family: 'Orbitron', monospace;
-    text-align: center;
-    font-size: 1.8rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    color: #0ff;
-    text-shadow:
-      0 0 8px #00ffff,
-      0 0 15px #00ccff,
-      0 0 30px #00aaff,
-      0 0 50px #0077ff;
-    animation: neonPulse 3s infinite alternate ease-in-out;
-    margin-bottom: 60px;
-    user-select: text;
-    line-height: 1.4;
-    padding: 0 12px;
-    border-radius: 12px;
-    background: rgba(0,255,255,0.08);
-    box-shadow:
-      0 0 25px #00ffff99;
-  }
-  @keyframes neonPulse {
-    0% {
-      text-shadow:
-        0 0 6px #00ffffcc,
-        0 0 15px #00ccffcc,
-        0 0 25px #00aaffcc,
-        0 0 40px #0077ffcc;
+    nav {
+      text-align: center;
+      margin-top: 30px;
     }
-    100% {
-      text-shadow:
-        0 0 15px #00ffffee,
-        0 0 40px #00ccffee,
-        0 0 60px #00aaffee,
-        0 0 90px #0077ffee;
+    nav a {
+      margin: 0 10px;
+      color: #00ffffcc;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', monospace;
+      text-shadow: 0 0 5px #0ff;
     }
-  }
-
-</style>
+    nav a:hover {
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 3rem;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+      margin-bottom: 20px;
+    }
+    .discord-link {
+      display: inline-block;
+      margin: 8px;
+      padding: 12px 24px;
+      background: #00ffff33;
+      color: #0ff;
+      border: 1px solid #0ff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', monospace;
+      transition: background 0.3s ease;
+    }
+    .discord-link:hover {
+      background: #00ffff88;
+      color: #000;
+    }
+    section {
+      background-color: rgba(0, 0, 0, 0.5);
+      margin: 20px auto;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      box-shadow: 0 0 20px #00ffff44;
+    }
+    section h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #0ff;
+    }
+    section p {
+      font-size: 1.1rem;
+      color: #ccf;
+      margin: 8px 0;
+    }
+    section img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .quote {
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.6rem;
+      color: #0ff;
+      text-shadow: 0 0 15px #00ffff, 0 0 30px #00ccff;
+      margin: 50px auto;
+      background: rgba(0,255,255,0.1);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 90%;
+      animation: glow 4s infinite alternate ease-in-out;
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px #00ffff; }
+      100% { text-shadow: 0 0 30px #00ffff, 0 0 50px #00ccff; }
+    }
+    .views {
+      text-align: center;
+      color: #aaa;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
+  <canvas id="bg"></canvas>
+  <nav>
+    <a href="index.html">首頁</a>
+    <a href="about.html">關於我</a>
+    <a href="contact.html">聯絡我</a>
+    <a href="discord.html">群組介紹</a>
+    <a href="SAHN.html">群組規定</a>
+    <a href="data.html">目前活動</a>
+    <a href="main.html">更新紀錄</a>
+    <a href="Capitalleak.html">weplay各大家族資金外流</a>
+    <a href="weplay.html">weplay vip 禮物價目表</a>
+  </nav>
 
-<div id="stars"></div>
-<div id="stars2"></div>
-<div id="stars3"></div>
+  <header>
+    <h1>Xiaohao</h1>
+    <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
+    <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">follow IG</a>
+  </header>
 
-<nav>
-  <a href="index.html">首頁</a>
-  <a href="about.html">關於我</a>
-  <a href="contact.html">聯絡我</a>
-  <a href="discord.html">群組介紹</a>
-  <a href="SAHN.html">群組規定</a>
-  <a href="data.html">目前活動</a>
-  <a href="main.html">更新紀錄</a>
-  <a href="Capitalleak.html">weplay各大家族資金外流</a>
-  <a href="weplay.html">weplay vip 禮物價目表</a>
-</nav>
+  <section>
+    <h2>Hi!</h2>
+    <p>正在為未來的我留下值得紀錄的事</p>
+    <p>有事可以加入我的 DC 群找我，沒事就不要吵</p>
+    <p>想認識可以追蹤我的哀居也可以加入dc💗</p>
+    <p>weplay資訊有在更新了啦</p>
+    <p>3y愛吃棒棒糖🍭</p>
+    <p>這邊還在持續更新中</p>
+    <img src="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" alt="Discord 圖片">
+  </section>
 
-<header>
-  <h1>Xiaohao</h1>
-  <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
-  <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">follow IG</a>
-</header>
+  <div class="quote">
+    人生只是一場遊戲<br>有時輸有時贏<br>但不管如何隊友總是會變得
+  </div>
 
-<section>
-  <h2>Hi!</h2>
-  <p>正在為未來的我留下值得紀錄的事</p>
-  <p>有事可以加入我的 DC 群找我，沒事就不要吵</p>
-  <p>想認識可以追蹤我的哀居也可以加入dc💗</p>
-  <p>weplay資訊有在更新了啦</p>
-  <p>3y愛吃棒棒糖🍭</p>
-  <p>這邊還在持續更新中</p>
-  <img src="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" alt="Discord 圖片" />
-</section>
+  <div class="views">
+    👀 目前瀏覽次數：<span id="viewCount">載入中...</span>
+  </div>
 
-<div class="views">
-  👀 目前瀏覽次數：<span id="viewCount">載入中...</span>
-</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+  <script>
+    // 背景星空特效
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-<div class="quote">
- 人生只是一場遊戲<br>有時輸有時贏<br>但不管如何隊友總是會變得
-</div>
-
-<script>
-  (async () => {
-    const binId = '6831d0a38561e97a501aed41';
-    const apiKey = '$2a$10$rUTs2dmXhZK3L31uvEbzH.dh9A2kIdYTwfQF3JG/LejqcXbfttTlK';
-    const url = `https://api.jsonbin.io/v3/b/${binId}`;
-    const viewElement = document.getElementById('viewCount');
-
-    try {
-      const getRes = await fetch(url + '/latest', {
-        headers: { 'X-Master-Key': apiKey }
-      });
-      const data = await getRes.json();
-      const currentViews = data.record.views || 0;
-
-      const newViews = currentViews + 1;
-      viewElement.textContent = newViews;
-
-      await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': apiKey
-        },
-        body: JSON.stringify({ views: newViews })
-      });
-    } catch (error) {
-      console.error('讀取失敗', error);
-      viewElement.textContent = '載入失敗';
+    const geometry = new THREE.BufferGeometry();
+    const count = 3000;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 200;
     }
-  })();
-</script>
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+    const material = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.5 });
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    camera.position.z = 80;
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      particles.rotation.y += 0.0005;
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+  <script>
+    (async () => {
+      const binId = '6831d0a38561e97a501aed41';
+      const apiKey = '$2a$10$rUTs2dmXhZK3L31uvEbzH.dh9A2kIdYTwfQF3JG/LejqcXbfttTlK';
+      const url = `https://api.jsonbin.io/v3/b/${binId}`;
+      const viewElement = document.getElementById('viewCount');
+
+      try {
+        const getRes = await fetch(url + '/latest', {
+          headers: { 'X-Master-Key': apiKey }
+        });
+        const data = await getRes.json();
+        const currentViews = data.record.views || 0;
+        const newViews = currentViews + 1;
+        viewElement.textContent = newViews;
+        await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': apiKey
+          },
+          body: JSON.stringify({ views: newViews })
+        });
+      } catch (error) {
+        console.error('讀取失敗', error);
+        viewElement.textContent = '載入失敗';
+      }
+    })();
+  </script>
 </body>
 </html>
