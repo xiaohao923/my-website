@@ -3,270 +3,286 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>xiaohao的個人網站 - 首頁</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+<title>xiaohao的個人網站 - 超未來科技版</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+TC&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
 <style>
-  @keyframes waveBG {
-    0% {background-position: 0 0;}
-    100% {background-position: 200% 0;}
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
   }
-  @keyframes neonPulse {
-    0%, 100% {
-      text-shadow:
-        0 0 10px #66aaff,
-        0 0 20px #66aaff,
-        0 0 30px #88bbff,
-        0 0 40px #88bbff,
-        0 0 50px #66aaff;
-      color: #aaddff;
-    }
-    50% {
-      text-shadow:
-        0 0 20px #99ccff,
-        0 0 30px #99ccff,
-        0 0 40px #bbddff,
-        0 0 50px #bbddff,
-        0 0 60px #99ccff;
-      color: #ccddff;
-    }
+  html, body {
+    height: 100%;
+    background: #020214;
+    overflow-x: hidden;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: #a0c4ff;
+    user-select: none;
+    perspective: 1000px;
   }
-  @keyframes glowPulse {
-    0%, 100% {
-      box-shadow:
-        0 0 10px #66aaff,
-        0 0 20px #66aaff,
-        0 0 30px #88bbff,
-        0 0 40px #88bbff;
-    }
-    50% {
-      box-shadow:
-        0 0 20px #99bbff,
-        0 0 30px #99bbff,
-        0 0 40px #bbddff,
-        0 0 50px #bbddff;
-    }
+  body {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 0 24px 80px;
+    position: relative;
   }
-  @keyframes buttonWave {
-    0%, 100% {
-      transform: translateY(0);
-      box-shadow:
-        0 0 15px #66aaff,
-        0 0 30px #66aaff;
-    }
-    50% {
-      transform: translateY(-4px);
-      box-shadow:
-        0 0 25px #99bbff,
-        0 0 50px #99bbff;
-    }
+  /* 粒子星空背景 */
+  #stars, #stars2, #stars3 {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: -10;
   }
-  @keyframes flickerText {
-    0%, 100% {
-      opacity: 1;
-      text-shadow:
-        0 0 12px #66aaff,
-        0 0 22px #99bbff,
-        0 0 30px #bbddff,
-        0 0 40px #99bbff;
-    }
-    50% {
-      opacity: 0.75;
-      text-shadow:
-        0 0 20px #bbddff,
-        0 0 35px #ddeeff,
-        0 0 45px #bbddff;
-    }
+  #stars {
+    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield.png') repeat;
+    animation: starMove 120s linear infinite;
+    opacity: 0.7;
   }
-  @keyframes flameText {
-    0%, 100% {
-      text-shadow:
-        0 0 8px #66ccff,
-        0 -2px 20px #33aaff,
-        0 2px 12px #99ddff,
-        0 8px 40px #99ddff;
-      color: #aaddff;
-    }
-    50% {
-      text-shadow:
-        0 0 20px #99ccff,
-        0 -2px 30px #66aaff,
-        0 2px 18px #bbeeff,
-        0 10px 55px #bbeeff;
-      color: #ccddff;
-    }
+  #stars2 {
+    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield2.png') repeat;
+    animation: starMove 200s linear infinite;
+    opacity: 0.4;
+  }
+  #stars3 {
+    background: transparent url('https://cdn.jsdelivr.net/gh/jaywcjlove/css3/starfield3.png') repeat;
+    animation: starMove 300s linear infinite;
+    opacity: 0.3;
+  }
+  @keyframes starMove {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
   }
 
-  body {
-    margin: 0; padding: 40px 20px;
-    font-family: 'Noto Sans TC', sans-serif;
-    background: linear-gradient(270deg, #0b1423, #0c1830, #091528, #0b1423);
-    background-size: 400% 400%;
-    animation: waveBG 40s linear infinite;
-    color: #a0c4ff;
-    -webkit-font-smoothing: antialiased;
-    user-select: none;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-  }
   nav {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 36px;
     font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #0ef;
   }
   nav a {
-    margin: 0 12px;
-    color: #66aaff;
-    font-weight: 700;
+    margin: 0 16px;
+    color: #00ffffcc;
     text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
     text-shadow:
-      0 0 8px #66aaff,
-      0 0 16px #88bbff;
-    transition: all 0.25s ease-in-out;
+      0 0 6px #0ff,
+      0 0 20px #33ffffbb;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00ffffcc, #33ffffdd);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 2px;
   }
   nav a:hover {
-    color: #99bbff;
-    text-shadow:
-      0 0 14px #99bbff,
-      0 0 28px #bbddff;
-    text-decoration: underline;
+    color: #00ffffee;
   }
+  nav a:hover::after {
+    transform: scaleX(1);
+  }
+
   header {
     text-align: center;
-    margin-bottom: 40px;
-    color: #8ab9ff;
-    text-shadow:
-      0 0 15px #7ea9ff,
-      0 0 30px #7ea9ff,
-      0 0 45px #a3bfff;
+    margin-bottom: 48px;
+    color: #1de9b6;
     user-select: text;
   }
   header h1 {
     font-family: 'Orbitron', monospace;
     font-weight: 900;
-    font-size: 3.6rem;
-    animation: neonPulse 3s ease-in-out infinite;
-    margin-bottom: 12px;
+    font-size: 4rem;
+    letter-spacing: 0.14em;
+    color: #00ffe7;
+    text-shadow:
+      0 0 8px #00ffe7,
+      0 0 25px #00ffe7,
+      0 0 45px #00fffaaa,
+      0 0 70px #00fffaaa;
+    animation: glitch 3s infinite ease-in-out;
   }
+  @keyframes glitch {
+    0%, 100% {
+      text-shadow:
+        0 0 8px #00ffe7,
+        0 0 25px #00ffe7,
+        0 0 45px #00fffaaa,
+        0 0 70px #00fffaaa;
+    }
+    50% {
+      text-shadow:
+        2px 0 8px #00ffea,
+        -2px 0 8px #00aaff,
+        2px 0 25px #00e9ff,
+        -2px 0 25px #005577;
+    }
+  }
+
   .discord-link {
     display: inline-block;
     font-family: 'Orbitron', monospace;
     font-weight: 700;
-    background: linear-gradient(135deg, #3558ff, #66aaff);
-    color: #eef6ff;
-    padding: 14px 28px;
-    margin: 5px 8px;
-    border-radius: 20px;
-    text-decoration: none;
+    background: linear-gradient(90deg, #00fff7, #0077ff);
+    color: #020214;
+    padding: 16px 32px;
+    margin: 12px 12px;
+    border-radius: 32px;
     box-shadow:
-      0 0 12px #66aaff,
-      0 0 30px #66aaff;
-    transition: all 0.4s ease;
-    user-select: none;
-    animation: glowPulse 4s ease-in-out infinite;
+      0 0 20px #00ffff,
+      0 0 60px #00aaff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .discord-link::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: skewX(-30deg);
+    transition: all 0.6s ease;
+  }
+  .discord-link:hover::before {
+    left: 100%;
   }
   .discord-link:hover {
-    background: linear-gradient(135deg, #66aaff, #3558ff);
     box-shadow:
-      0 0 24px #99bbff,
-      0 0 48px #99bbff;
-    transform: scale(1.1);
-    animation: buttonWave 2.5s ease-in-out infinite;
+      0 0 40px #00ffff,
+      0 0 80px #00aaff;
+    transform: scale(1.1) translateY(-4px);
   }
 
   section {
-    background: rgba(20, 30, 60, 0.7);
-    border-radius: 24px;
-    padding: 30px 30px 40px;
-    margin-bottom: 40px;
-    box-shadow:
-      0 0 25px #4466ffbb,
-      inset 0 0 50px #223366dd;
-    backdrop-filter: blur(18px);
-    color: #b0caff;
-    font-size: 1.15rem;
-    user-select: text;
     position: relative;
+    background: rgba(10, 25, 40, 0.75);
+    border-radius: 24px;
+    padding: 32px 36px 48px;
+    margin-bottom: 60px;
+    box-shadow:
+      0 0 25px #0ff,
+      inset 0 0 80px #0aa;
+    backdrop-filter: blur(14px);
+    color: #9cdfff;
+    font-size: 1.18rem;
+    user-select: text;
     overflow: hidden;
   }
   section::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -30%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, #5577ff33 0%, transparent 70%);
-    animation: waveBG 25s linear infinite;
-    filter: blur(50px);
+    top: -40%; left: -20%;
+    width: 160%; height: 160%;
+    background: radial-gradient(circle at center, #00ffff22 0%, transparent 70%);
+    filter: blur(60px);
+    animation: starMove 30s linear infinite reverse;
     pointer-events: none;
+    z-index: 0;
   }
   section h2 {
     position: relative;
     font-family: 'Orbitron', monospace;
-    font-weight: 800;
-    font-size: 2.4rem;
-    margin-bottom: 18px;
-    background: linear-gradient(90deg, #99bbff, #aacaff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px #7799ff);
+    font-weight: 900;
+    font-size: 2.8rem;
+    margin-bottom: 24px;
+    color: #00e9ff;
+    text-shadow:
+      0 0 12px #00aaff,
+      0 0 35px #00eaff,
+      0 0 50px #33ccff;
+    filter: drop-shadow(0 0 10px #00ccffaa);
     z-index: 1;
   }
   section p {
     position: relative;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     line-height: 1.6;
     z-index: 1;
+    user-select: text;
   }
   section img {
-    margin-top: 22px;
+    margin-top: 28px;
     width: 100%;
-    border-radius: 18px;
+    border-radius: 24px;
     box-shadow:
-      0 0 30px #5577ffcc,
-      0 12px 36px rgba(50,80,180,0.7);
-    filter: drop-shadow(0 0 12px #5577ffcc);
-    user-select: none;
+      0 0 48px #33bbffcc,
+      0 14px 46px rgba(0, 145, 255, 0.9);
+    filter: drop-shadow(0 0 18px #33bbffcc);
     position: relative;
     z-index: 1;
+    user-select: none;
   }
+
   .views {
     text-align: center;
     font-family: 'Orbitron', monospace;
+    font-weight: 700;
     font-size: 1.6rem;
-    color: #99bbff;
+    color: #00ffffcc;
     text-shadow:
-      0 0 18px #7799ff,
-      0 0 30px #5577ff;
-    user-select: none;
-    animation: neonPulse 3s ease-in-out infinite;
-    margin-bottom: 60px;
+      0 0 10px #00ffffbb,
+      0 0 30px #00aaffaa;
+    margin-bottom: 40px;
   }
-  /* 新增語錄區 */
+
+  /* 霓虹閃爍的語錄 */
   .quote {
     font-family: 'Orbitron', monospace;
-    font-weight: 700;
-    font-size: 1.8rem;
-    color: #aaddff;
     text-align: center;
-    padding: 15px 25px;
-    border-radius: 16px;
-    margin: 0 auto 60px;
-    max-width: 600px;
-    background:
-      linear-gradient(135deg, rgba(102,170,255,0.4), rgba(51,119,255,0.2));
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #0ff;
+    text-shadow:
+      0 0 8px #00ffff,
+      0 0 15px #00ccff,
+      0 0 30px #00aaff,
+      0 0 50px #0077ff;
+    animation: neonPulse 3s infinite alternate ease-in-out;
+    margin-bottom: 60px;
+    user-select: text;
+    line-height: 1.4;
+    padding: 0 12px;
+    border-radius: 12px;
+    background: rgba(0,255,255,0.08);
     box-shadow:
-      0 0 20px #5599ffbb,
-      0 0 40px #5577ffcc;
-    filter: drop-shadow(0 0 12px #5599ffcc);
-    animation: flickerText 4s ease-in-out infinite;
-    user-select: none;
+      0 0 25px #00ffff99;
   }
+  @keyframes neonPulse {
+    0% {
+      text-shadow:
+        0 0 6px #00ffffcc,
+        0 0 15px #00ccffcc,
+        0 0 25px #00aaffcc,
+        0 0 40px #0077ffcc;
+    }
+    100% {
+      text-shadow:
+        0 0 15px #00ffffee,
+        0 0 40px #00ccffee,
+        0 0 60px #00aaffee,
+        0 0 90px #0077ffee;
+    }
+  }
+
 </style>
 </head>
 <body>
+
+<div id="stars"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
 
 <nav>
   <a href="index.html">首頁</a>
@@ -282,8 +298,8 @@
 
 <header>
   <h1>Xiaohao</h1>
-  <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" rel="noopener noreferrer" class="discord-link">加入我的 Discord 群組</a>
-  <a href="https://www.instagram.com/xiaohao_923/" target="_blank" rel="noopener noreferrer" class="discord-link">follow IG</a>
+  <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" class="discord-link">加入我的 Discord 群組</a>
+  <a href="https://www.instagram.com/xiaohao_923/" target="_blank" class="discord-link">follow IG</a>
 </header>
 
 <section>
@@ -302,7 +318,7 @@
 </div>
 
 <div class="quote">
-  人生只是一場遊戲<br>有時輸有時贏<br>但不管如何隊友總是會變得
+ 人生只是一場遊戲<br>有時輸有時贏<br>但不管如何隊友總是會變得
 </div>
 
 <script>
