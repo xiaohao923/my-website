@@ -46,6 +46,12 @@
       color: #0ff;
       text-shadow: 0 0 10px #0ff;
       margin-bottom: 20px;
+      animation: neon-flicker 3s infinite alternate;
+    }
+    @keyframes neon-flicker {
+      0%   { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; opacity: 1; }
+      50%  { text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff; opacity: 0.85; }
+      100% { text-shadow: 0 0 5px #00ffee; opacity: 1; }
     }
     .discord-link {
       display: inline-block;
