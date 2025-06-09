@@ -4,65 +4,133 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VIP 禮物價目表</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="weplay.png" />
   <style>
-    body {
-      font-family: "Noto Sans TC", sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
+      color: #00ffee;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://assets.codepen.io/1462889/stars.svg');
+      animation: moveStars 100s linear infinite;
+      z-index: -1;
+    }
+    @keyframes moveStars {
+      from {transform: translateY(0);}
+      to {transform: translateY(-2000px);}
+    }
+
     nav {
       text-align: center;
-      margin-bottom: 30px;
+      margin: 30px 0;
     }
     nav a {
+      color: #00ffee;
       margin: 0 15px;
-      color: #7289da;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
+      text-shadow: 0 0 8px #00ffee;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff, 0 0 20px #0ff;
     }
-    section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
+
     h1 {
-      color: #2c3e50;
       text-align: center;
+      font-size: 2.8rem;
       margin-bottom: 30px;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: glow 2.5s ease-in-out infinite alternate;
     }
+    h1 a {
+      color: #0ff;
+      font-size: 0.6em;
+      margin-left: 10px;
+      text-decoration: none;
+      vertical-align: middle;
+      font-weight: 400;
+      text-shadow: 0 0 6px #0ff;
+      transition: color 0.3s ease;
+    }
+    h1 a:hover {
+      color: #aaffff;
+      text-shadow: 0 0 12px #aaffff;
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      }
+      to {
+        text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+      }
+    }
+
+    section {
+      max-width: 700px;
+      margin: 0 auto 50px;
+      background: rgba(0, 17, 25, 0.85);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffee;
+      color: #00ffee;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    ul {
+      padding-left: 1.4em;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      list-style-type: disc;
+      text-shadow: 0 0 5px #00ffee;
+    }
+    ul li {
+      margin-bottom: 1em;
+    }
+
     section img {
       display: block;
-      margin: 20px auto 0;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 25px auto 0;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #00ffee;
       max-width: 100%;
       height: auto;
+      filter: drop-shadow(0 0 4px #00ffee);
+      animation: floatUpDown 6s ease-in-out infinite;
     }
-    ul {
-      padding-left: 20px;
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
-    li {
-      margin-bottom: 8px;
-    }
+
     footer {
       text-align: center;
-      margin-top: 40px;
-      font-weight: bold;
-      font-size: 1.1em;
+      margin: 40px 0 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #00ffee;
+      text-shadow: 0 0 10px #00ffee;
     }
     footer span {
-      color: #7289da;
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff;
     }
   </style>
 </head>
@@ -80,10 +148,10 @@
       <li>精靈球 33 台幣 / 600 紅包</li>
       <li>VR 眼鏡 可拿 200 禮物換</li>
     </ul>
-    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖">
+    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖" />
   </section>
 
-  <h1>價格表（活動期間）<a href="https://zeroxiaohao.me/weplay2" target="_blank">目前活動</a></h1>
+  <h1>價格表（活動期間）<a href="https://zeroxiaohao.me/weplay2" target="_blank" rel="noopener noreferrer">目前活動</a></h1>
   <section>
     <ul>
       <li>V10 訂製永浴愛河 4500 台幣 / 入兩單加一萬</li>
@@ -92,11 +160,27 @@
       <li>精靈球 33 台幣 / 600 紅包</li>
       <li>VR 眼鏡 可拿 200 禮物換</li>
     </ul>
-    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖">
+    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖" />
   </section>
 
   <footer>
     如有需要請私訊 weplay ID：<span>xiaohao666789</span>
   </footer>
+
+  <script>
+    // 區塊滾動出場動畫
+    const sections = document.querySelectorAll('section');
+    function checkSections() {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop < triggerBottom) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkSections);
+    window.addEventListener('load', checkSections);
+  </script>
 </body>
 </html>
