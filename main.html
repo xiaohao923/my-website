@@ -40,6 +40,7 @@
       border-radius: 6px;
       transition: all 0.3s ease;
       box-shadow: 0 0 8px #66ffff66;
+      user-select: text;
     }
     nav a:hover {
       color: #bb33ff;
@@ -148,6 +149,43 @@
       box-shadow:
         0 0 14px #bb33ff,
         0 0 18px #33ccff;
+    }
+
+    /* 手機自適應 */
+    @media screen and (max-width: 480px) {
+      body {
+        padding: 20px 10px;
+        max-width: 100%;
+        margin: 20px auto;
+      }
+      nav {
+        margin-bottom: 30px;
+      }
+      nav a {
+        display: inline-block;
+        margin: 8px 10px;
+        font-size: 0.9rem;
+        padding: 5px 8px;
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+      }
+      section {
+        padding: 20px 20px;
+        border-radius: 12px;
+      }
+      ul.updates li {
+        font-size: 1rem;
+        padding: 12px 0;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      ul.updates li span.date {
+        min-width: 100%;
+        margin-bottom: 6px;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
