@@ -4,41 +4,81 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>xiaohao的個人網站 - 關於我</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
   <style>
-    body {
-      font-family: "Noto Sans TC", sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
+      color: #00ffee;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://assets.codepen.io/1462889/stars.svg');
+      animation: moveStars 100s linear infinite;
+      z-index: -1;
+    }
+    @keyframes moveStars {
+      from {transform: translateY(0);}
+      to {transform: translateY(-2000px);}
     }
     nav {
       text-align: center;
-      margin-bottom: 30px;
+      margin: 30px 0;
     }
     nav a {
+      color: #00ffee;
       margin: 0 15px;
-      color: #7289da;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
+      text-shadow: 0 0 8px #00ffee;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
-    }
-    section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff, 0 0 20px #0ff;
     }
     h1 {
-      color: #2c3e50;
       text-align: center;
-      margin-bottom: 30px;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      }
+      to {
+        text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+      }
+    }
+    section {
+      max-width: 700px;
+      margin: 0 auto 60px;
+      background: rgba(0, 17, 25, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffee;
+    }
+    section p {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      margin: 1.5em 0;
+      opacity: 0;
+      transform: translateY(30px);
+      text-shadow: 0 0 8px #00ffee;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    section p.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -52,10 +92,27 @@
   </nav>
 
   <h1>關於我</h1>
+
   <section>
     <p>嗨 這裡是我的個人網站，最近在玩三角洲、程式設計和 與 Discord 群組相關的資訊。</p>
     <p>如果你有需要聯繫我 歡迎點擊首頁的連結！</p>
-    <p> 愛你們 </p>
+    <p>愛你們 💙</p>
   </section>
+
+  <script>
+    // 段落滾動進入動畫
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section p').forEach(p => {
+      observer.observe(p);
+    });
+  </script>
 </body>
 </html>
