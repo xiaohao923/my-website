@@ -4,61 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>xiaohao的個人網站 - 群組規範</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="1920A1D0-7F36-41F0-BCA7-88605FC45C2B.png" />
   <style>
-    body {
-      font-family: "Noto Sans TC", sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
+      color: #00ffee;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: url('https://assets.codepen.io/1462889/stars.svg');
+      animation: moveStars 100s linear infinite;
+      z-index: -1;
+    }
+    @keyframes moveStars {
+      from {transform: translateY(0);}
+      to {transform: translateY(-2000px);}
+    }
+
     nav {
       text-align: center;
-      margin-bottom: 30px;
+      margin: 30px 0;
     }
     nav a {
+      color: #00ffee;
       margin: 0 15px;
-      color: #7289da;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
+      text-shadow: 0 0 8px #00ffee;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
     nav a:hover {
-      text-decoration: underline;
+      color: #0ff;
+      text-shadow: 0 0 15px #0ff, 0 0 20px #0ff;
     }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      }
+      to {
+        text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+      }
+    }
+
     section {
-      background-color: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: 0 auto 60px;
+      background: rgba(0, 17, 25, 0.85);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffee;
+      color: #00ffee;
       white-space: pre-line;
     }
-    h1 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    a.email-link {
-      color: #7289da;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    a.email-link:hover {
-      text-decoration: underline;
-    }
+
     ol {
-      padding-left: 1.2em;
+      padding-left: 1.4em;
       margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-shadow: 0 0 5px #00ffee;
     }
     ol li {
-      margin-bottom: 0.8em;
+      margin-bottom: 1.2em;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    ol li.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .highlight {
-      color: #d9534f;
+      color: #ff5555;
       font-weight: 700;
+      text-shadow: 0 0 12px #ff4444;
+      margin-top: 1.5em;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .highlight.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -70,15 +114,37 @@
   <h1>我的 DC 群組規範</h1>
   <section>
     <ol>
-      <li>本伺服器機器人規範請詳細閱讀 </li>
+      <li>本伺服器機器人規範請詳細閱讀</li>
       <li>本伺服器普通文字、語音頻道禁止刷頻吵架等</li>
       <li>語音頻道禁止聲卡、爆麥、嘴炮…</li>
       <li>上述違者處以禁言一小時以上（視情況判定）</li>
       <li>若您的伺服器被炸了真的很不開心，麻煩妳自己進來開單</li>
       <li>上述條件本伺服器管理層擁有解釋權</li>
-      <li>機器人並非不會維護，若機器人下線太久沒通知/有意見等歡迎至開單處 </li>
-      <li>伺服器永久連結: <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" rel="noopener noreferrer">https://discord.gg/zeroxiaohao-no1</a></li>
+      <li>機器人並非不會維護，若機器人下線太久沒通知/有意見等歡迎至開單處</li>
+      <li>伺服器永久連結: <a href="https://discord.gg/zeroxiaohao-no1" target="_blank" rel="noopener noreferrer" style="color:#0ff; text-shadow:0 0 8px #0ff;">https://discord.gg/zeroxiaohao-no1</a></li>
     </ol>
     <p class="highlight"># 上述本伺服器有資格在此公布後更改！</p>
+  </section>
+
+  <script>
+    const items = document.querySelectorAll('ol li');
+    const highlight = document.querySelector('.highlight');
+    let delay = 0;
+
+    function showItems() {
+      items.forEach((item, idx) => {
+        setTimeout(() => {
+          item.classList.add('visible');
+        }, delay + idx * 250);
+      });
+      setTimeout(() => {
+        highlight.classList.add('visible');
+      }, delay + items.length * 250 + 300);
+    }
+
+    window.addEventListener('load', () => {
+      showItems();
+    });
+  </script>
 </body>
 </html>
