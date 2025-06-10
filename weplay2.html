@@ -10,58 +10,87 @@
     * {
       box-sizing: border-box;
     }
+
     body {
       font-family: "Noto Sans TC", sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
       margin: 0;
-      padding: 40px 20px;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 0;
+      background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
+      color: #2c3e50;
       line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
     }
+
     nav {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
+
     nav a {
       color: #5865f2;
       font-weight: bold;
       text-decoration: none;
       margin: 0 12px;
-      font-size: 1.05em;
+      font-size: 1.1em;
+      transition: color 0.3s;
     }
+
     nav a:hover {
+      color: #3742fa;
       text-decoration: underline;
     }
+
     h1 {
       text-align: center;
       color: #2c3e50;
-      font-size: 1.8em;
+      font-size: 2em;
       margin-bottom: 20px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+
     section {
       background: #fff;
       padding: 25px 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       margin-bottom: 40px;
+      max-width: 700px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.12);
+    }
+
     ul {
       padding-left: 20px;
       margin: 0;
     }
+
     li {
       margin-bottom: 10px;
+      font-size: 1.1em;
     }
-    img {
-      display: block;
-      margin: 25px auto 0;
-      max-width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    p {
+      margin-top: 15px;
+      font-size: 0.95em;
     }
+
+    p a {
+      color: #5865f2;
+      text-decoration: none;
+    }
+
+    p a:hover {
+      text-decoration: underline;
+    }
+
     footer {
       text-align: center;
       font-weight: bold;
@@ -69,9 +98,42 @@
       margin-top: 60px;
       padding-top: 10px;
       border-top: 1px solid #ccc;
+      color: #2c3e50;
     }
+
     footer span {
       color: #5865f2;
+    }
+
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 20px 15px;
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 6px 8px;
+        font-size: 1em;
+      }
+
+      section {
+        padding: 20px 15px;
+        margin-bottom: 30px;
+      }
+
+      li {
+        font-size: 1em;
+      }
+
+      footer {
+        font-size: 1em;
+        margin-top: 40px;
+      }
     }
   </style>
 </head>
@@ -85,23 +147,22 @@
   <h1>🎮 WePlay 活動</h1>
   <section>
     <ul>
-      <li>端午節活動(至2025-6-5 23:59)</li>
-      <li>童趣派對（至2025-6-16 23:59）</li>
-      
+      <li>端午節活動（至 2025-6-5 23:59）</li>
+      <li>童趣派對（至 2025-6-16 23:59）</li>
     </ul>
   </section>
 
   <h1>📦 代射價格表</h1>
   <section>
     <ul>
-      <li>100個寶寶抱抱700台幣(有機會爆29999的甜蜜熱戀</li>
-      <li>棒棒糖摩天輪 1800台幣</li>
+      <li>100 個寶寶抱抱：700 台幣（有機會爆 29999 的甜蜜熱戀）</li>
+      <li>棒棒糖摩天輪：1800 台幣</li>
     </ul>
-    <p>上述活動資訊請以<a href="https://www.weplayapp.com/" target="_blank">weplay</a>為主</p>
+    <p>📌 活動資訊請以 <a href="https://www.weplayapp.com/" target="_blank">WePlay 官方網站</a> 為準。</p>
   </section>
 
   <footer>
-    📩 有興趣請私訊 weplay ID：<span>xiaohao666789</span>
+    📩 有興趣請私訊 WePlay ID：<span>xiaohao666789</span>
   </footer>
 
 </body>
