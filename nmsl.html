@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>我的連結總覽</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #1e1e1e;
+      color: #f5f5f5;
+      padding: 30px;
+    }
+    .link-item {
+      background: #2c2c2c;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .link-item a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+    .preview {
+      margin-top: 10px;
+      display: none;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 360px;
+      border: none;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      background-color: #4fc3f7;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    h1 {
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>✨ 小皓的收藏天地 ✨</h1>
+
+  <div class="link-item">
+    <strong>471755</strong><br>
+    <a href="https://nhentai.net/g/471755/" target="_blank">https://nhentai.net/g/471755/</a><br>
+    <button onclick="togglePreview('preview1', 'https://nhentai.net/g/471755/')">預覽</button>
+    <div class="preview" id="preview1">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>574782</strong><br>
+    <a href="https://nhentai.net/g/574782/" target="_blank">https://nhentai.net/g/574782/</a><br>
+    <button onclick="togglePreview('preview2', 'https://nhentai.net/g/574782/')">預覽</button>
+    <div class="preview" id="preview2">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>573225</strong><br>
+    <a href="https://nhentai.net/g/573225/" target="_blank">https://nhentai.net/g/573225/</a><br>
+    <button onclick="togglePreview('preview3', 'https://nhentai.net/g/573225/')">預覽</button>
+    <div class="preview" id="preview3">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>572723</strong><br>
+    <a href="https://nhentai.net/g/572723/" target="_blank">https://nhentai.net/g/572723/</a><br>
+    <button onclick="togglePreview('preview4', 'https://nhentai.net/g/572723/')">預覽</button>
+    <div class="preview" id="preview4">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>412888</strong><br>
+    <a href="https://nhentai.net/g/412888/" target="_blank">https://nhentai.net/g/412888/</a><br>
+    <button onclick="togglePreview('preview5', 'https://nhentai.net/g/412888/')">預覽</button>
+    <div class="preview" id="preview5">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>471501</strong><br>
+    <a href="https://nhentai.net/g/471501/" target="_blank">https://nhentai.net/g/471501/</a><br>
+    <button onclick="togglePreview('preview6', 'https://nhentai.net/g/471501/')">預覽</button>
+    <div class="preview" id="preview6">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>WNACG 296337</strong><br>
+    <a href="https://www.wnacg.com/photos-index-aid-296337.html" target="_blank">https://www.wnacg.com/photos-index-aid-296337.html</a><br>
+    <button onclick="togglePreview('preview7', 'https://www.wnacg.com/photos-index-aid-296337.html')">預覽</button>
+    <div class="preview" id="preview7">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>578752</strong><br>
+    <a href="https://nhentai.net/g/578752/" target="_blank">https://nhentai.net/g/578752/</a><br>
+    <button onclick="togglePreview('preview8', 'https://nhentai.net/g/578752/')">預覽</button>
+    <div class="preview" id="preview8">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <div class="link-item">
+    <strong>578962</strong><br>
+    <a href="https://nhentai.net/g/578962/" target="_blank">https://nhentai.net/g/578962/</a><br>
+    <button onclick="togglePreview('preview9', 'https://nhentai.net/g/578962/')">預覽</button>
+    <div class="preview" id="preview9">
+      <iframe src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    function togglePreview(id, url) {
+      const container = document.getElementById(id);
+      const iframe = container.querySelector('iframe');
+      if (container.style.display === "none" || container.style.display === "") {
+        iframe.src = url;
+        container.style.display = "block";
+      } else {
+        iframe.src = "";
+        container.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
