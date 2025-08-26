@@ -3,464 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>紀念頁 · Memory Tribute</title>
-  <meta name="description" content="一個可離線使用、純前端的紀念頁模板（靜態網站）。" />
+  <title>我的回憶錄 · Memory Album</title>
+  <meta name="description" content="一個純前端、公開展示的個人回憶錄網站。" />
   <meta name="color-scheme" content="light dark" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ctext y='1em' font-size='96'%3E%F0%9F%8E%8A%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Noto+Sans+TC:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg: #f7f7fb;          /* 背景 */
-      --panel: #ffffff;       /* 卡片底色 */
-      --ink: #1f2328;         /* 文字主色 */
-      --muted: #6a7280;       /* 次要文字 */
-      --brand: #7c6cff;       /* 重點色 */
-      --soft: #efeaff;        /* 重點淡色 */
-      --ring: rgba(124,108,255,.35);
-      --shadow: 0 10px 30px rgba(21, 21, 55, .08);
+      --bg: #0a0a12;
+      --ink: #eaeaff;
+      --muted: #9a9aba;
+      --accent: #7c6cff;
+      --panel: #151522;
+      --ring: #a98fff;
+      --shadow: 0 0 40px rgba(124,108,255,.3);
     }
-    :root.dark{
-      --bg: #0b0d12;
-      --panel: #11141a;
-      --ink: #e8ecf1;
-      --muted: #9aa3b2;
-      --brand: #a98fff;
-      --soft: rgba(124,108,255,.15);
-      --ring: rgba(169,143,255,.45);
-      --shadow: 0 10px 34px rgba(0,0,0,.55);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Noto Sans TC, PingFang TC, "Helvetica Neue", Arial;
-      background: var(--bg); color: var(--ink);
-      letter-spacing:.2px;
-    }
-    .wrap{max-width:1024px;margin:0 auto;padding:28px 18px 80px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+    header{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#201535,#0a0a12);}
+    header h1{font-family:"Orbitron",sans-serif;font-size:clamp(28px,6vw,54px);color:var(--accent);margin-bottom:12px;text-shadow:0 0 20px var(--accent)}
+    header p{color:var(--muted);font-size:18px}
 
-    /* 頂部導覽 */
-    header{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      padding:10px 14px; background:var(--panel); border-radius:14px; box-shadow:var(--shadow);
-      border:1px solid color-mix(in oklab, var(--panel), var(--ink) 8%);
-    }
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--brand); box-shadow:0 0 0 6px var(--soft)}
-    .brand h1{font-size:18px; margin:0}
-    .brand small{display:block; color:var(--muted); font-weight:500}
+    main{max-width:900px;margin:40px auto;padding:0 20px;}
+    .timeline{position:relative;margin:40px 0;padding-left:20px}
+    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--accent);opacity:.5}
+    .memory{position:relative;margin-bottom:40px;padding-left:20px}
+    .memory::before{content:"";position:absolute;left:-1px;top:8px;width:14px;height:14px;background:var(--accent);border-radius:50%;box-shadow:0 0 20px var(--accent)}
+    .memory h3{font-size:22px;margin-bottom:6px;color:var(--accent);}
+    .memory .date{font-size:14px;color:var(--muted);margin-bottom:12px}
+    .memory p{font-size:16px;color:var(--ink);}
+    .memory img{margin-top:14px;max-width:100%;border-radius:14px;box-shadow:var(--shadow)}
 
-    .toolbar{display:flex; gap:8px; align-items:center}
-    .btn{cursor:pointer; border:none; padding:10px 14px; border-radius:12px; background:var(--panel); color:var(--ink); box-shadow:var(--shadow);
-         border:1px solid color-mix(in oklab, var(--panel), var(--ink) 8%); font-weight:600}
-    .btn:hover{outline:2px solid var(--ring)}
-    .btn.ghost{background:transparent; border:1px dashed color-mix(in oklab, var(--panel), var(--ink) 18%)}
-    .btn.icon{padding:10px; aspect-ratio:1/1; display:grid; place-items:center}
+    section{margin:60px 0;padding:40px;border-radius:20px;background:var(--panel);box-shadow:var(--shadow)}
+    section h2{font-family:"Orbitron",sans-serif;color:var(--accent);margin-bottom:20px;font-size:26px;text-align:center}
+    section p{color:var(--muted);font-size:16px;text-align:center}
 
-    /* Hero */
-    .hero{position:relative; margin:22px 0 16px; border-radius:20px; overflow:hidden; box-shadow:var(--shadow); border:1px solid color-mix(in oklab, var(--panel), var(--ink) 10%)}
-    .hero img{width:100%; height:340px; object-fit:cover; display:block; filter:saturate(1.05)}
-    .hero .overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));}
-    .hero .content{position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:22px; color:#fff}
-    .hero h2{margin:0 0 6px; font-size:clamp(22px, 4vw, 36px)}
-    .hero p{margin:0; opacity:.9}
-    .tag{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.18); color:#fff; padding:8px 12px; border-radius:999px; font-size:14px; backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,.2)}
-
-    /* Candle */
-    .candle{position:absolute; right:16px; bottom:16px; display:flex; align-items:flex-end; gap:10px}
-    .wick{width:10px;height:32px;background:#222;border-radius:5px 5px 2px 2px}
-    .flame{width:18px;height:28px; background: radial-gradient(ellipse at center, #ffd56a 0%, #ff9800 60%, rgba(0,0,0,0) 70%);
-      border-radius: 50% 50% 50% 50%; transform-origin:50% 90%; animation: flick 1.5s infinite ease-in-out}
-    @keyframes flick{ 0%{transform: translateY(0) rotate(-2deg) scale(1)} 50%{transform: translateY(-2px) rotate(2deg) scale(1.03)} 100%{transform: translateY(0) rotate(-2deg) scale(1)} }
-
-    /* 區塊 */
-    section{background:var(--panel); border-radius:18px; padding:18px; margin:14px 0; box-shadow:var(--shadow); border:1px solid color-mix(in oklab, var(--panel), var(--ink) 10%)}
-    section h3{margin:0 0 10px; font-size:18px}
-    .muted{color:var(--muted)}
-
-    /* 時間軸 */
-    .timeline{position:relative; padding-left:20px}
-    .timeline::before{content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background: color-mix(in oklab, var(--brand), var(--ink) 70%); opacity:.25}
-    .t-item{position:relative; margin:10px 0 16px; padding-left:8px}
-    .t-item::marker{content:""}
-    .t-dot{position:absolute; left:-2px; top:6px; width:10px; height:10px; background:var(--brand); border-radius:50%; box-shadow:0 0 0 6px var(--soft)}
-    .t-meta{font-size:12px; color:var(--muted)}
-
-    /* 相簿 */
-    .grid{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px}
-    @media(min-width:720px){ .grid{grid-template-columns: repeat(4, 1fr)} }
-    .photo{position:relative; overflow:hidden; border-radius:12px; border:1px solid color-mix(in oklab, var(--panel), var(--ink) 10%)}
-    .photo img{width:100%; height:140px; object-fit:cover; display:block}
-    .photo button{position:absolute; right:6px; top:6px}
-
-    /* 留言牆 */
-    .mem-form{display:grid; gap:8px; grid-template-columns:1fr 2fr auto}
-    .field{padding:10px 12px; border-radius:10px; border:1px solid color-mix(in oklab, var(--panel), var(--ink) 14%); background: color-mix(in oklab, var(--panel), var(--bg) 60%)}
-    .mem-list{margin-top:12px; display:grid; gap:10px}
-    .mem-card{padding:12px; border-radius:14px; background:var(--panel); border:1px solid color-mix(in oklab, var(--panel), var(--ink) 12%); box-shadow:var(--shadow)}
-    .mem-card .who{font-weight:700}
-    .mem-card .when{font-size:12px; color:var(--muted)}
-
-    /* 設定面板（簡易 modal） */
-    dialog{border:none; padding:0; border-radius:16px; background:var(--panel); color:var(--ink); box-shadow:var(--shadow); width:min(720px, 92vw)}
-    dialog::backdrop{background: rgba(0,0,0,.45)}
-    .dlg-hd{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid color-mix(in oklab, var(--panel), var(--ink) 12%)}
-    .dlg-bd{padding:14px 16px; display:grid; gap:12px}
-    .row{display:grid; gap:8px}
-    label{font-weight:600}
-    input[type="text"], textarea{width:100%; padding:10px 12px; border-radius:12px; border:1px solid color-mix(in oklab, var(--panel), var(--ink) 16%); background: color-mix(in oklab, var(--panel), var(--bg) 60%)}
-
-    footer{margin-top:18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between}
-    .tips{font-size:12px; color:var(--muted)}
+    footer{text-align:center;padding:30px;color:var(--muted);font-size:14px;margin-top:40px}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <span class="dot" aria-hidden="true"></span>
-        <div>
-          <h1 id="title">要紀念的人/事/物</h1>
-          <small id="subtitle">在這裡寫下一段簡短的緬懷文字</small>
-        </div>
-      </div>
-      <div class="toolbar">
-        <button class="btn icon" id="themeBtn" title="切換主題" aria-label="切換主題">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <button class="btn icon" id="settingsBtn" title="編輯內容" aria-label="編輯內容">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-        </button>
-      </div>
-    </header>
+  <header>
+    <h1>我的回憶錄</h1>
+    <p>那些重要的時光，被記錄下來，公開分享。</p>
+  </header>
 
-    <!-- Hero 視覺 -->
-    <div class="hero" role="img" aria-label="主視覺">
-      <img id="heroImg" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="主視覺圖片（可於設定更換）">
-      <div class="overlay" aria-hidden="true"></div>
-      <div class="content">
-        <span class="tag" id="dateRange">2000.01.01 — 2025.08.26</span>
-        <h2 id="heroTitle">永遠記得的那個名字</h2>
-        <p id="heroNote">把思念，化作溫柔的光。</p>
+  <main>
+    <div class="timeline">
+      <div class="memory">
+        <h3>第一次的冒險</h3>
+        <div class="date">2008 年 夏天</div>
+        <p>那年暑假，我和朋友一起踏上了第一場旅行。沿途的笑聲和青澀的勇氣，至今仍鮮明。</p>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600" alt="回憶照片1">
       </div>
-      <div class="candle" aria-hidden="true">
-        <div class="flame"></div>
-        <div class="wick"></div>
+      <div class="memory">
+        <h3>一段友情</h3>
+        <div class="date">2015 年 冬天</div>
+        <p>在最孤單的時候，遇見了真心的朋友。那份溫暖，讓我至今感恩。</p>
+        <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600" alt="回憶照片2">
+      </div>
+      <div class="memory">
+        <h3>跨越的瞬間</h3>
+        <div class="date">2020 年</div>
+        <p>經歷了挑戰，克服了挫折。那一刻我明白，成長就是勇敢地走過未知。</p>
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600" alt="回憶照片3">
       </div>
     </div>
 
-    <!-- 說明文字 -->
-    <section aria-labelledby="intro-h">
-      <h3 id="intro-h">關於這份紀念</h3>
-      <p id="aboutText" class="muted">在這裡寫下你想說的話：那些共同走過的日子、珍藏的細節、想傳達的感謝⋯⋯ 這個頁面是純前端、可離線使用的靜態網站；所有編輯都保存在你的瀏覽器（localStorage），也能匯出備份。</p>
+    <section>
+      <h2>關於這本回憶錄</h2>
+      <p>這不是秘密，而是屬於我的故事。希望每一段回憶，都能帶給看到的人一點溫度。</p>
     </section>
+  </main>
 
-    <!-- 時間軸 -->
-    <section aria-labelledby="tl-h">
-      <h3 id="tl-h">時間軸 Timeline</h3>
-      <ol class="timeline" id="timeline"></ol>
-      <div style="display:flex; gap:8px; margin-top:8px">
-        <input id="tlDate" class="field" type="text" placeholder="日期／時刻（例如：2019-06-12）" aria-label="日期">
-        <input id="tlText" class="field" type="text" placeholder="一段事件或回憶" aria-label="內容">
-        <button class="btn" id="addTl">＋ 加到時間軸</button>
-      </div>
-    </section>
-
-    <!-- 相簿 -->
-    <section aria-labelledby="gal-h">
-      <h3 id="gal-h">相簿 Gallery</h3>
-      <div class="grid" id="gallery"></div>
-      <div style="display:flex; gap:8px; align-items:center; margin-top:10px">
-        <input id="fileInput" type="file" accept="image/*" multiple>
-        <button class="btn ghost" id="clearPhotos">清空相簿（僅本機）</button>
-      </div>
-    </section>
-
-    <!-- 留言牆 -->
-    <section aria-labelledby="mem-h">
-      <h3 id="mem-h">留言牆 Memories</h3>
-      <form class="mem-form" id="memForm">
-        <input class="field" id="who" type="text" placeholder="你的名字">
-        <input class="field" id="msg" type="text" placeholder="想對TA說的話">
-        <button class="btn" type="submit">留言</button>
-      </form>
-      <div class="mem-list" id="memList" aria-live="polite"></div>
-    </section>
-
-    <footer>
-      <div style="display:flex; gap:8px; flex-wrap:wrap">
-        <button class="btn" id="exportBtn">匯出 .json 備份</button>
-        <label class="btn ghost" for="importFile" style="cursor:pointer">匯入 .json</label>
-        <input id="importFile" type="file" accept="application/json" hidden>
-        <button class="btn ghost" id="printBtn">列印 / 存成 PDF</button>
-        <button class="btn ghost" id="resetBtn">清除本機資料</button>
-      </div>
-      <div class="tips">完全離線、純前端。你的所有內容僅存於此瀏覽器（localStorage）。如需搬家，請使用「匯出/匯入」。</div>
-    </footer>
-  </div>
-
-  <!-- 設定對話框 -->
-  <dialog id="dlg">
-    <div class="dlg-hd">
-      <strong>頁面設定</strong>
-      <button class="btn icon" id="closeDlg" aria-label="關閉設定">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-      </button>
-    </div>
-    <div class="dlg-bd">
-      <div class="row">
-        <label for="inTitle">標題</label>
-        <input id="inTitle" type="text" placeholder="要紀念的人/事/物">
-      </div>
-      <div class="row">
-        <label for="inSubtitle">副標</label>
-        <input id="inSubtitle" type="text" placeholder="一段簡短的緬懷文字">
-      </div>
-      <div class="row">
-        <label for="inHeroTitle">主視覺標題</label>
-        <input id="inHeroTitle" type="text" placeholder="永遠記得的那個名字">
-      </div>
-      <div class="row">
-        <label for="inHeroNote">主視覺註記</label>
-        <input id="inHeroNote" type="text" placeholder="把思念，化作溫柔的光。">
-      </div>
-      <div class="row">
-        <label for="inDateRange">日期範圍</label>
-        <input id="inDateRange" type="text" placeholder="2000.01.01 — 2025.08.26">
-      </div>
-      <div class="row">
-        <label for="inAbout">關於這份紀念（段落）</label>
-        <textarea id="inAbout" rows="4" placeholder="在這裡寫下你想說的話⋯⋯"></textarea>
-      </div>
-      <div class="row">
-        <label for="inHeroImg">主視覺圖片 URL</label>
-        <input id="inHeroImg" type="text" placeholder="https://…">
-      </div>
-      <div style="display:flex; gap:8px; justify-content:flex-end">
-        <button class="btn" id="saveDlg">儲存設定</button>
-      </div>
-    </div>
-  </dialog>
-
-  <script>
-    // —— 簡單的狀態管理（全部只存在 localStorage）
-    const KEY = 'memorial.v1';
-    const el = (id)=>document.getElementById(id);
-
-    const state = {
-      theme: 'auto',
-      title: '要紀念的人/事/物',
-      subtitle: '在這裡寫下一段簡短的緬懷文字',
-      heroTitle: '永遠記得的那個名字',
-      heroNote: '把思念，化作溫柔的光。',
-      dateRange: '2000.01.01 — 2025.08.26',
-      heroImg: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-      about: '在這裡寫下你想說的話：那些共同走過的日子、珍藏的細節、想傳達的感謝⋯⋯ 這個頁面是純前端、可離線使用的靜態網站；所有編輯都保存在你的瀏覽器（localStorage），也能匯出備份。',
-      timeline: [
-        {date:'2000-01-01', text:'初見，從此有了故事。'},
-        {date:'2015-07-12', text:'一起的夏天，與笑聲。'}
-      ],
-      photos: [], // base64 data URLs
-      memories: [] // {who, msg, ts}
-    };
-
-    // 讀取舊資料
-    try{
-      const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-      if(saved && typeof saved === 'object') Object.assign(state, saved);
-    }catch{ /* ignore */ }
-
-    // 工具
-    const save = ()=>localStorage.setItem(KEY, JSON.stringify(state));
-    const escapeHTML = (s)=>String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
-    const fmtTime = (ts)=> new Date(ts).toLocaleString();
-
-    // 繫結 UI
-    function renderBasics(){
-      el('title').textContent = state.title;
-      el('subtitle').textContent = state.subtitle;
-      el('heroTitle').textContent = state.heroTitle;
-      el('heroNote').textContent = state.heroNote;
-      el('dateRange').textContent = state.dateRange;
-      el('aboutText').textContent = state.about;
-      el('heroImg').src = state.heroImg || '';
-    }
-
-    function renderTimeline(){
-      const box = el('timeline');
-      box.innerHTML = '';
-      const items = [...state.timeline].sort((a,b)=> String(a.date).localeCompare(String(b.date)) );
-      for(const it of items){
-        const li = document.createElement('li');
-        li.className = 't-item';
-        li.innerHTML = `<span class="t-dot" aria-hidden="true"></span>
-          <div class="t-meta">${escapeHTML(it.date||'')}</div>
-          <div>${escapeHTML(it.text||'')}</div>`;
-        box.appendChild(li);
-      }
-    }
-
-    function renderPhotos(){
-      const box = el('gallery');
-      box.innerHTML = '';
-      for(const [idx, src] of state.photos.entries()){
-        const wrap = document.createElement('div');
-        wrap.className = 'photo';
-        wrap.innerHTML = `<img src="${src}" alt="紀念照片 ${idx+1}">
-          <button class="btn icon" title="移除這張" aria-label="移除這張" data-i="${idx}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          </button>`;
-        box.appendChild(wrap);
-      }
-      // 刪除事件
-      box.querySelectorAll('button[data-i]').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          const i = +e.currentTarget.getAttribute('data-i');
-          state.photos.splice(i,1); save(); renderPhotos();
-        });
-      });
-    }
-
-    function renderMemories(){
-      const box = el('memList');
-      box.innerHTML = '';
-      const items = [...state.memories].sort((a,b)=> b.ts - a.ts);
-      for(const it of items){
-        const card = document.createElement('div');
-        card.className = 'mem-card';
-        card.innerHTML = `<div class="who">${escapeHTML(it.who||'匿名')}</div>
-          <div class="when">${fmtTime(it.ts)}</div>
-          <div>${escapeHTML(it.msg||'')}</div>`;
-        box.appendChild(card);
-      }
-    }
-
-    function applyTheme(){
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = state.theme === 'dark' || (state.theme === 'auto' && prefersDark);
-      document.documentElement.classList.toggle('dark', isDark);
-    }
-
-    // 初始渲染
-    renderBasics();
-    renderTimeline();
-    renderPhotos();
-    renderMemories();
-    applyTheme();
-
-    // —— 互動：主題切換
-    el('themeBtn').addEventListener('click', ()=>{
-      state.theme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-      save(); applyTheme();
-    });
-
-    // —— 互動：時間軸新增
-    el('addTl').addEventListener('click', ()=>{
-      const d = el('tlDate').value.trim();
-      const t = el('tlText').value.trim();
-      if(!t) return;
-      state.timeline.push({date:d||'', text:t});
-      el('tlText').value=''; save(); renderTimeline();
-    });
-
-    // —— 互動：相簿上傳
-    el('fileInput').addEventListener('change', async (e)=>{
-      const files = Array.from(e.target.files || []);
-      for(const f of files){
-        if(!f.type.startsWith('image/')) continue;
-        const b64 = await new Promise(res=>{ const r = new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(f); });
-        state.photos.push(b64);
-      }
-      save(); renderPhotos(); e.target.value='';
-    });
-    el('clearPhotos').addEventListener('click', ()=>{
-      if(confirm('確定要清空相簿嗎？（僅刪除本機儲存）')){ state.photos = []; save(); renderPhotos(); }
-    });
-
-    // —— 互動：留言牆
-    el('memForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const who = el('who').value.trim() || '匿名';
-      const msg = el('msg').value.trim();
-      if(!msg) return;
-      state.memories.push({who, msg, ts: Date.now()});
-      el('msg').value=''; save(); renderMemories();
-      // 小小 confetti（emoji 版）
-      burst();
-    });
-
-    function burst(){
-      const n = 16; const ems = ['\u2764\ufe0f','\u2728','\u2600\ufe0f','\uD83D\uDD25'];
-      for(let i=0;i<n;i++){
-        const s = document.createElement('div');
-        s.textContent = ems[Math.floor(Math.random()*ems.length)];
-        s.style.position='fixed'; s.style.left=Math.random()*100+'vw'; s.style.top='-10px';
-        s.style.fontSize=(16+Math.random()*20)+'px'; s.style.pointerEvents='none';
-        s.style.transition='transform 2s ease, opacity 2s ease';
-        document.body.appendChild(s);
-        requestAnimationFrame(()=>{
-          s.style.transform = `translateY(${80+Math.random()*120}vh) translateX(${(Math.random()*2-1)*20}vw) rotate(${(Math.random()*2-1)*120}deg)`;
-          s.style.opacity = '0';
-        });
-        setTimeout(()=>s.remove(),2200);
-      }
-    }
-
-    // —— 匯出／匯入／列印／重置
-    el('exportBtn').addEventListener('click', ()=>{
-      const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
-      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'memorial-backup.json' });
-      a.click(); URL.revokeObjectURL(a.href);
-    });
-    el('importFile').addEventListener('change', async (e)=>{
-      const f = e.target.files?.[0]; if(!f) return;
-      const text = await f.text();
-      try{
-        const obj = JSON.parse(text);
-        const allowed = ['theme','title','subtitle','heroTitle','heroNote','dateRange','heroImg','about','timeline','photos','memories'];
-        for(const k of allowed){ if(k in obj) state[k] = obj[k]; }
-        save(); renderBasics(); renderTimeline(); renderPhotos(); renderMemories(); applyTheme();
-        alert('已匯入備份。');
-      }catch(err){ alert('匯入失敗：檔案格式不正確'); }
-      e.target.value='';
-    });
-    el('printBtn').addEventListener('click', ()=> window.print());
-    el('resetBtn').addEventListener('click', ()=>{
-      if(confirm('清除本機資料？（無法復原，請先匯出備份）')){
-        localStorage.removeItem(KEY); location.reload();
-      }
-    });
-
-    // —— 設定面板
-    const dlg = el('dlg');
-    el('settingsBtn').addEventListener('click', ()=>{
-      el('inTitle').value = state.title;  el('inSubtitle').value = state.subtitle;
-      el('inHeroTitle').value = state.heroTitle; el('inHeroNote').value = state.heroNote;
-      el('inDateRange').value = state.dateRange; el('inAbout').value = state.about;
-      el('inHeroImg').value = state.heroImg;
-      dlg.showModal();
-    });
-    el('closeDlg').addEventListener('click', ()=> dlg.close());
-    el('saveDlg').addEventListener('click', ()=>{
-      state.title = el('inTitle').value.trim() || state.title;
-      state.subtitle = el('inSubtitle').value.trim() || '';
-      state.heroTitle = el('inHeroTitle').value.trim() || state.heroTitle;
-      state.heroNote = el('inHeroNote').value.trim() || '';
-      state.dateRange = el('inDateRange').value.trim() || '';
-      state.about = el('inAbout').value.trim() || '';
-      state.heroImg = el('inHeroImg').value.trim() || state.heroImg;
-      save(); renderBasics(); dlg.close();
-    });
-
-    // —— PWA（可選）：暫時用最小註冊讓裝置能「加入主畫面」＆離線瀏覽（同頁範本）
-    // 為了保持單檔，這裡用 Blob 註冊一個最簡 Service Worker，僅快取當前頁。
-    if('serviceWorker' in navigator){
-      const swCode = `self.addEventListener('install',e=>{e.waitUntil(caches.open('memorial-v1').then(c=>c.addAll(['./'])))});
-                       self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))})`;
-      const blob = new Blob([swCode], {type:'text/javascript'});
-      const swURL = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swURL).catch(()=>{});
-    }
-  </script>
+  <footer>
+    © 2025 我的回憶錄 · 靜態網站公開展示
+  </footer>
 </body>
 </html>
