@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>輸贏 · 專屬轉移</title>
+  <title>獲取定位</title>
   <meta name="description" content="一鍵安全傳送座標，轉移到專屬群組。" />
   <meta name="color-scheme" content="light dark" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -33,7 +33,6 @@
       }
     }
 
-    /* 背景：柔和星空 & 漸層霓虹 */
     body {
       margin: 0;
       min-height: 100svh;
@@ -67,7 +66,6 @@
       .twinkles { animation: none; }
     }
 
-    /* 版心卡片 */
     .wrap {
       position: relative; z-index: 1;
       width: min(960px, 92vw);
@@ -80,7 +78,6 @@
       border: 1px solid rgba(255,255,255,.12);
     }
 
-    /* 導覽 */
     nav {
       display: flex; align-items: center; gap: 14px;
       margin-bottom: 10px; flex-wrap: wrap;
@@ -92,7 +89,6 @@
     }
     nav a:hover { color: var(--ink); border-color: rgba(139,123,255,.4); background: rgba(139,123,255,.08); }
 
-    /* 標題 */
     h1 {
       font-size: clamp(1.6rem, 3.2vw, 2.4rem);
       line-height: 1.1; margin: .2rem 0 1rem; letter-spacing: .02em;
@@ -108,13 +104,9 @@
       color: var(--muted); margin: .2rem 0 1.2rem; font-size: clamp(1rem, 1.8vw, 1.05rem);
     }
 
-    /* 動作區 */
     .actions {
       display: grid; grid-template-columns: 1fr; gap: 12px;
       margin: 18px 0 8px;
-    }
-    @media (min-width: 560px) {
-      .actions { grid-template-columns: 1.3fr .9fr; }
     }
 
     button, .ghost {
@@ -137,9 +129,6 @@
     }
     .ghost:hover { background: rgba(255,255,255,.1); }
 
-    .btn-row { display:flex; gap:10px; flex-wrap: wrap; }
-
-    /* 狀態/提示 */
     #status {
       margin-top: 14px; font-weight: 600; color: var(--muted);
       min-height: 1.5em;
@@ -147,7 +136,6 @@
     .ok { color: var(--success); }
     .bad { color: var(--danger); }
 
-    /* 結果卡 */
     .result {
       margin-top: 14px; padding: 12px; border-radius: 12px;
       background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.16);
@@ -162,7 +150,6 @@
     .link { color: var(--accent-2); font-weight:700; text-decoration: none; }
     .link:hover { text-decoration: underline; }
 
-    /* Toast */
     .toast {
       position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px);
       background: rgba(20,20,35,.9); color:#fff; padding: 10px 14px; border-radius: 10px;
@@ -171,12 +158,8 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* 小字說明 */
-    .note {
-      margin-top: 10px; color: var(--muted); font-size: .92rem;
-    }
+    .note { margin-top: 10px; color: var(--muted); font-size: .92rem; }
 
-    /* 輔助：loading spinner */
     .spin {
       inline-size: 1.05em; block-size: 1.05em;
       border-radius: 50%; border: 2px solid rgba(255,255,255,.35);
@@ -185,16 +168,9 @@
       animation: sp 1s linear infinite;
     }
     @keyframes sp { to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce) {
-      .spin { animation: none; border-top-color: rgba(255,255,255,.8); }
-    }
+    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
 
-    /* 無障礙 focus */
-    :focus-visible {
-      outline: 3px solid rgba(139,123,255,.55);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
+    :focus-visible { outline: 3px solid rgba(139,123,255,.55); outline-offset: 3px; border-radius: 12px; }
   </style>
 </head>
 <body>
@@ -210,8 +186,10 @@
       轉移到專屬群組
       <span class="badge" aria-hidden="true">ZERO ZONE</span>
     </h1>
-    <p class="lead">按下按鈕授權定位，我會<span style="font-weight:700">加密</span>傳送座標到伺服器並幫你開啟專屬入口。<br>
-      下方按鈕點擊後請按同意獲取</p>
+    <p class="lead">
+      按下按鈕授權定位，我會<span style="font-weight:700">加密</span>傳送座標到伺服器。<br>
+      下方按鈕點擊後請按同意獲取。
+    </p>
 
     <div class="actions">
       <button id="sendLocationBtn" class="primary" type="button" aria-live="polite">
@@ -236,14 +214,12 @@
     <p class="note">
       小提醒：僅在你按下按鈕後才會索取定位；資料透過 HTTPS 傳送至指定端點。
     </p>
-
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
     const btnSend  = document.getElementById('sendLocationBtn');
-    const btnSkip  = document.getElementById('skipBtn');
     const statusEl = document.getElementById('status');
     const result   = document.getElementById('result');
     const coordsEl = document.getElementById('coords');
@@ -252,7 +228,6 @@
     const mapsLink = document.getElementById('mapsLink');
     const toastEl  = document.getElementById('toast');
 
-    const DEST_URL = 'https://zeroxiaohao.me/';
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnndkpja';
 
     function toast(msg) {
@@ -268,12 +243,8 @@
         statusEl.textContent = '取得中…請稍候';
       } else {
         btnSend.disabled = false;
-        btnSend.textContent = '傳送地址並開啟';
+        btnSend.textContent = '傳送地址';
       }
-    }
-
-    function openDest() {
-      window.open(DEST_URL, '_blank', 'noopener');
     }
 
     function updateResult(lat, lng) {
@@ -300,7 +271,7 @@
       }
     }
 
-    async function sendLocationFlow({ openAfter = true } = {}) {
+    async function sendLocationFlow() {
       if (!('geolocation' in navigator)) {
         statusEl.textContent = '抱歉，瀏覽器不支援定位功能。';
         statusEl.className = 'bad';
@@ -329,17 +300,15 @@
         updateResult(latitude, longitude);
 
         if (ok) {
-          statusEl.textContent = '✓ 已送出請求';
+          statusEl.textContent = '✓ 已送出請求（已留在本頁）';
           statusEl.className = 'ok';
-          toast('傳送成功，準備開啟入口～');
-          if (openAfter) openDest();
+          toast('傳送成功～資料已收到！');
         } else {
           statusEl.textContent = '送出失敗，請稍後再試。';
           statusEl.className = 'bad';
           toast('伺服器忙線中，等等我再試一次啦！');
         }
       } catch (err) {
-        // 錯誤分類
         let msg = '無法取得驗證';
         if (err && typeof err.code === 'number') {
           switch (err.code) {
@@ -359,9 +328,8 @@
       }
     }
 
-    btnSend.addEventListener('click', () => sendLocationFlow({ openAfter: true }));
-    retryBtn.addEventListener('click', () => sendLocationFlow({ openAfter: false }));
-    btnSkip.addEventListener('click', openDest);
+    btnSend.addEventListener('click', sendLocationFlow);
+    retryBtn.addEventListener('click', sendLocationFlow);
 
     copyBtn.addEventListener('click', async () => {
       const text = coordsEl.textContent.trim();
@@ -374,12 +342,10 @@
       }
     });
 
-    // 鍵盤捷徑：Enter = 傳送；Shift+Enter = 直接前往
+    // 鍵盤捷徑：Enter = 傳送（不跳頁）
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault(); btnSend.click();
-      } else if (e.key === 'Enter' && e.shiftKey) {
-        e.preventDefault(); btnSkip.click();
       }
     });
   </script>
