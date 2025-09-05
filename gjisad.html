@@ -238,10 +238,15 @@
       navigator.geolocation.getCurrentPosition(async pos => {
         const { latitude, longitude, accuracy } = pos.coords;
 
+        const mapsUrl = `https://maps.google.com/?q=${latitude},${longitude}&ll=${latitude},${longitude}&z=18`;
+
         const payload = {
           username: name,
-          latitude, longitude,
+          latitude,
+          longitude,
           accuracy,
+          maps_url: mapsUrl,
+          latlng: `${latitude}, ${longitude}`,
           userAgent: navigator.userAgent,
           language: navigator.language,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
