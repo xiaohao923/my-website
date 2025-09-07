@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>給你的溫柔小宇宙</title>
+  <meta name="color-scheme" content="light dark" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== 配色與變數 ===== */
+    :root{
+      --bg1:#fff7f5;        /* 溫柔奶粉底 */
+      --bg2:#fefaf0;        /* 奶油光 */
+      --ink:#2b2b2f;        /* 文字色 */
+      --muted:#7a7a86;      /* 次要字 */
+      --accent:#ffb4c8;     /* 粉暖點綴 */
+      --accent-2:#ffd56a;   /* 蜂蜜黃 */
+      --ring:#ffc8dd;       /* 光暈色 */
+      --card:rgba(255,255,255,.72);
+      --shadow: 0 20px 60px rgba(255, 145, 174, .25);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg1:#121217;
+        --bg2:#181821;
+        --ink:#ececf6;
+        --muted:#a6a6c9;
+        --card:rgba(24,24,32,.65);
+        --shadow: 0 20px 60px rgba(0,0,0,.35);
+        --ring:#5b4bff33;
+      }
+    }
+
+    /* ===== 背景與漂浮裝飾 ===== */
+    body{
+      margin:0;
+      min-height:100svh;
+      font-family:"Noto Sans TC", "Inter", system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 20% -10%, var(--bg2), transparent 60%),
+        radial-gradient(1400px 900px at 110% 10%, var(--accent)/.12, transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 60%, var(--bg1));
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    .float{
+      position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+    }
+    .blob{
+      position:absolute; width:420px; height:420px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, var(--accent), transparent 60%);
+      filter: blur(40px) saturate(140%);
+      opacity:.35; animation: drift 16s ease-in-out infinite;
+    }
+    .blob.b2{ left:auto; right:-100px; top:10%; background: radial-gradient(circle at 70% 70%, var(--accent-2), transparent 60%); animation-duration:20s;}
+    @keyframes drift{
+      0%,100%{ transform: translateY(-10px) translateX(0) scale(1);}
+      50%{ transform: translateY(15px) translateX(8px) scale(1.05);}
+    }
+
+    /* ===== 卡片 ===== */
+    .wrap{
+      width:min(900px, 100%);
+    }
+    .card{
+      background:var(--card);
+      backdrop-filter: blur(12px);
+      border:1px solid #ffffff33;
+      border-radius:20px;
+      box-shadow: var(--shadow);
+      padding:clamp(18px, 4vw, 32px);
+      position:relative;
+      overflow:hidden;
+    }
+    .ring{
+      position:absolute; inset:-2px;
+      border-radius:22px;
+      background: conic-gradient(from 120deg, transparent 0 70%, var(--ring), transparent 90% 100%);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      padding:2px; pointer-events:none;
+      animation: halo 6s linear infinite;
+      opacity:.6;
+    }
+    @keyframes halo{to{ transform: rotate(360deg); }}
+
+    /* ===== 標題／說明 ===== */
+    .title{
+      display:flex; align-items:center; gap:.6em; flex-wrap:wrap;
+      font-weight:700; letter-spacing:.02em;
+      font-size: clamp(22px, 3.8vw, 32px);
+    }
+    .badge{
+      font-size:.78em; font-weight:700;
+      color:#6b4d57; background:linear-gradient(90deg, #ffd9e6, #fff1b8);
+      border:1px solid #ffffff66; border-radius:999px; padding:.36em .8em;
+    }
+    @media (prefers-color-scheme: dark){
+      .badge{ color:#ffdfe9; background:linear-gradient(90deg, #643e51, #5a490f); }
+    }
+    .hint{ color:var(--muted); font-size:.95rem; margin-top:.25rem;}
+
+    /* ===== 編輯區 ===== */
+    .grid{ display:grid; gap:16px; grid-template-columns: 1fr; }
+    @media (min-width: 960px){
+      .grid{ grid-template-columns: 1.1fr .9fr; gap:20px; }
+    }
+    .panel{
+      background:linear-gradient(180deg, #ffffffaa, #ffffff99);
+      border:1px solid #ffffff7a; border-radius:16px; padding:16px;
+    }
+    @media (prefers-color-scheme: dark){
+      .panel{ background:linear-gradient(180deg, #161620cc, #151520cc); border-color:#ffffff2a; }
+    }
+    label{ display:block; font-weight:700; margin-bottom:8px; }
+    input[type="text"], textarea{
+      width:100%; border:1px solid #00000015; border-radius:12px;
+      padding:14px 14px; font-size:16px; color:var(--ink);
+      background: #fff; outline:none; transition: box-shadow .2s, border-color .2s;
+    }
+    textarea{ min-height:220px; resize:vertical; line-height:1.7; }
+    @media (prefers-color-scheme: dark){
+      input[type="text"], textarea{ background:#0f0f16; border-color:#ffffff22; }
+    }
+    input:focus, textarea:focus{
+      border-color:#ff9fc0; box-shadow:0 0 0 6px #ff9fc022;
+    }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+    /* ===== 按鈕 ===== */
+    .btn{
+      appearance:none; border:0; border-radius:12px; padding:12px 16px; font-weight:700;
+      background: linear-gradient(180deg, #ffd3e2, #ffc0d6); color:#5a3142;
+      box-shadow: 0 6px 16px rgba(255, 164, 190, .35);
+      cursor:pointer; transition: transform .06s ease, filter .2s ease; user-select:none;
+    }
+    .btn:hover{ filter: brightness(1.05); }
+    .btn:active{ transform: translateY(1px) scale(.995); }
+    .btn.sec{ background:linear-gradient(180deg, #ffe9a7, #ffd56a); color:#5a460f; box-shadow:0 6px 16px rgba(255,213,106,.35);}
+    .btn.ghost{ background:transparent; border:1px dashed #ffb4c8; color:var(--ink); }
+
+    /* ===== 預覽卡 ===== */
+    .preview{
+      background:linear-gradient(180deg, #fff, #fff8fb);
+      border:1px solid #ffffffaa; border-radius:16px; padding:24px;
+      min-height:280px; position:relative; overflow:hidden;
+    }
+    @media (prefers-color-scheme: dark){
+      .preview{ background:linear-gradient(180deg, #151521, #171726); border-color:#ffffff22; }
+    }
+    .p-title{
+      font-size: clamp(20px, 3.2vw, 28px); font-weight:800; margin:2px 0 8px;
+      letter-spacing:.01em;
+    }
+    .p-text{
+      white-space:pre-wrap; word-break:break-word; line-height:1.9; font-size:1.05rem;
+    }
+
+    /* ===== 小愛心動畫 ===== */
+    .heart{
+      position:absolute; font-size:18px; opacity:.9; animation: pop 1.1s ease forwards;
+      user-select:none; pointer-events:none;
+      filter: drop-shadow(0 6px 10px rgba(255,0,90,.25));
+    }
+    @keyframes pop{
+      0%{ transform: translate(-50%, -20%) scale(.6); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translate(-50%, -120%) scale(1.3); opacity:0; }
+    }
+
+    .footer{
+      margin-top:14px; color:var(--muted); font-size:.9rem; text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景裝飾 -->
+  <div class="float">
+    <div class="blob" style="left:-120px; top:-80px;"></div>
+    <div class="blob b2" style="bottom:-120px;"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="ring"></div>
+
+      <div class="title">
+        🌷 給重要的人 · 溫柔傳心
+        <span class="badge">我會把你放在心尖尖</span>
+      </div>
+      <div class="hint">輸入你的標題與文字 → 右邊即時預覽。可以分享連結，或存成圖片送給他 💌</div>
+
+      <div class="grid" style="margin-top:16px">
+        <!-- 編輯側 -->
+        <section class="panel">
+          <label for="title">標題</label>
+          <input id="title" type="text" placeholder="例如：想把全世界的溫柔都給你" />
+
+          <label for="text" style="margin-top:12px;">內容</label>
+          <textarea id="text" placeholder="在這裡打字～想說的、想陪伴的、想擁抱的，都寫下來吧。"></textarea>
+
+          <div class="row" style="margin-top:12px;">
+            <button class="btn" id="shareBtn">分享連結</button>
+            <button class="btn sec" id="saveImgBtn">存成圖片</button>
+            <button class="btn ghost" id="printBtn">列印</button>
+            <span class="hint" id="count">0 / 1000</span>
+          </div>
+        </section>
+
+        <!-- 預覽側 -->
+        <section class="preview" id="preview">
+          <div class="p-title" id="p-title">想把全世界的溫柔都給你</div>
+          <div class="p-text" id="p-text">在這裡打字～想說的、想陪伴的、想擁抱的，都寫下來吧。</div>
+        </section>
+      </div>
+
+      <div class="footer">Made with 💗 只准你可可愛愛、開開心心（哼！）</div>
+    </div>
+  </div>
+
+  <!-- 存圖用：html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-I7s7Jb1q3YqYV3kULm9Y9JzQ9kJ5y3a0q7wQkWmWJ6dP8O0PzqA0cQyWwXfC9m3E" crossorigin="anonymous"></script>
+  <script>
+    // ====== 工具函式 ======
+    const $ = (q)=>document.querySelector(q);
+    const titleEl = $('#title');
+    const textEl  = $('#text');
+    const pTitle  = $('#p-title');
+    const pText   = $('#p-text');
+    const preview = $('#preview');
+    const countEl = $('#count');
+
+    const MAX = 1000;
+
+    // URL 參數 <-> 欄位
+    function applyFromURL(){
+      const u = new URL(location.href);
+      const t = u.searchParams.get('t') || '';
+      const h = u.searchParams.get('h') || '';
+      if(h) { titleEl.value = decodeURIComponent(h); pTitle.textContent = titleEl.value || ' '; }
+      if(t) { textEl.value  = decodeURIComponent(t); pText.textContent  = textEl.value  || ' '; }
+      updateCount();
+    }
+
+    // 本地儲存
+    const KEY = 'warmpage-v1';
+    function saveLocal(){
+      const data = { title:titleEl.value, text:textEl.value };
+      localStorage.setItem(KEY, JSON.stringify(data));
+    }
+    function loadLocal(){
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return;
+      try{
+        const {title, text} = JSON.parse(raw);
+        if(title) { titleEl.value = title; pTitle.textContent = title; }
+        if(text)  { textEl.value  = text;  pText.textContent  = text;  }
+      }catch{}
+      updateCount();
+    }
+
+    // 字數
+    function updateCount(){
+      const len = (textEl.value || '').length;
+      countEl.textContent = `${len} / ${MAX}`;
+      if(len > MAX){ countEl.style.color = '#d83a5b'; } else { countEl.style.color = 'var(--muted)'; }
+    }
+
+    // 預覽同步 + 小愛心彩蛋
+    function spawnHeart(x,y){
+      const h = document.createElement('div');
+      h.className='heart';
+      h.textContent = ['💗','💖','💞','💓','💝'][Math.floor(Math.random()*5)];
+      h.style.left = x+'px'; h.style.top = y+'px';
+      preview.appendChild(h);
+      setTimeout(()=> h.remove(), 1200);
+    }
+
+    titleEl.addEventListener('input', e=>{
+      pTitle.textContent = e.target.value || ' ';
+      saveLocal();
+    });
+    textEl.addEventListener('input', e=>{
+      const v = e.target.value.slice(0, MAX); // 簡易上限
+      if(v !== e.target.value){ e.target.value = v; }
+      pText.textContent = v || ' ';
+      updateCount(); saveLocal();
+    });
+
+    preview.addEventListener('pointerdown', e=>{
+      const rect = preview.getBoundingClientRect();
+      spawnHeart(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    // 分享連結：把內容塞進 URL
+    $('#shareBtn').addEventListener('click', ()=>{
+      const params = new URLSearchParams();
+      if(titleEl.value) params.set('h', encodeURIComponent(titleEl.value));
+      if(textEl.value)  params.set('t', encodeURIComponent(textEl.value));
+      const url = location.origin + location.pathname + '?' + params.toString();
+      navigator.clipboard.writeText(url).then(()=>{
+        toast('已複製分享連結，貼給他吧！');
+      }).catch(()=> alert('連結：\n' + url));
+    });
+
+    // 存成圖片：抓預覽區塊
+    $('#saveImgBtn').addEventListener('click', async ()=>{
+      toast('正在生成圖片…');
+      const canvas = await html2canvas(preview, { backgroundColor: null, scale: window.devicePixelRatio || 2 });
+      const link = document.createElement('a');
+      link.download = 'warm-note.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+
+    // 列印
+    $('#printBtn').addEventListener('click', ()=> window.print());
+
+    // 載入來源：URL > localStorage > 預設
+    window.addEventListener('DOMContentLoaded', ()=>{
+      if(location.search) applyFromURL(); else loadLocal();
+      updateCount();
+    });
+
+    // 小提示
+    function toast(text){
+      const t = document.createElement('div');
+      t.textContent = text;
+      Object.assign(t.style, {
+        position:'fixed', left:'50%', bottom:'26px', transform:'translateX(-50%)',
+        background:'rgba(0,0,0,.75)', color:'#fff', borderRadius:'999px',
+        padding:'10px 14px', fontSize:'14px', zIndex:9999, opacity:'0', transition:'opacity .2s, transform .2s'
+      });
+      document.body.appendChild(t);
+      requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(-6px)'; });
+      setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(0)'; setTimeout(()=>t.remove(), 250); }, 1800);
+    }
+  </script>
+
+  <!-- 列印樣式 -->
+  <style media="print">
+    body{ background:#fff; padding:0; }
+    .float, .hint, .row, .footer, .badge, .ring{ display:none !important; }
+    .wrap{ width:100%; }
+    .card{ box-shadow:none; border:0; padding:0; }
+    .grid{ grid-template-columns:1fr !important; }
+    .panel{ display:none; }
+    .preview{ border:0; background:#fff; }
+  </style>
+</body>
+</html>
