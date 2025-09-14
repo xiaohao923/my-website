@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>一鍵定位 & 寄送座標</title>
+  <meta name="color-scheme" content="light dark" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg1:#0b0b12; --bg2:#121326; --card:rgba(255,255,255,.06);
+      --ink:#eaeaff; --muted:#a6a6c9; --accent:#8b7bff; --accent2:#ffe94d; --ok:#42d392; --warn:#ffb74d; --err:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:"Inter","Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color:var(--ink); background: radial-gradient(1200px 800px at 20% -20%, #1b1c3a 0%, transparent 60%), linear-gradient(160deg, var(--bg1), var(--bg2));
+      display:grid; place-items:center; padding:24px;
+    }
+    .wrap{width:min(920px,100%);}
+    .card{
+      background:var(--card); backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.08); box-shadow:0 20px 60px rgba(0,0,0,.35);
+      border-radius:24px; padding:24px; overflow:hidden;
+    }
+    h1{font-size:clamp(24px,3.6vw,36px); letter-spacing:.3px; margin:0 0 6px 0}
+    p.lead{color:var(--muted); margin:0 0 16px 0}
+    .grid{display:grid; gap:16px}
+    .actions{display:flex; gap:12px; flex-wrap:wrap}
+    button, a.button{
+      appearance:none; border:none; cursor:pointer; text-decoration:none;
+      padding:12px 16px; border-radius:14px; font-weight:600; font-size:15px;
+      background:linear-gradient(180deg, var(--accent), #6c5cff);
+      color:white; box-shadow:0 10px 24px rgba(124,108,255,.35);
+      transition:.2s transform ease, .2s filter ease, .2s box-shadow ease;
+    }
+    button.secondary, a.button.secondary{background:#2a2b49; color:#e8e8ff; box-shadow:none; border:1px solid rgba(255,255,255,.06)}
+    button:disabled{filter:saturate(.4) brightness(.8); cursor:not-allowed}
+    button:hover, a.button:hover{transform:translateY(-1px); box-shadow:0 14px 28px rgba(124,108,255,.45)}
+    .kv{display:grid; grid-template-columns:140px 1fr; gap:8px 12px; align-items:center}
+    .kv .k{color:var(--muted)} .kv .v{word-break:break-all}
+    .status{margin-top:6px; font-size:14px}
+    .status.ok{color:var(--ok)} .status.warn{color:var(--warn)} .status.err{color:var(--err)}
+    .note{color:var(--muted); font-size:13px}
+    .mapbox{background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px;}
+    input, textarea{width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.2); color:var(--ink)}
+    label{font-size:14px; color:var(--muted)}
+    .row{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+    @media (max-width:620px){.row{grid-template-columns:1fr} .kv{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>一鍵定位 & 用 Gmail 傳給對方 📡✉️</h1>
+      <p class="lead">點一下就取得你現在的經緯度與精確度，並自動產生 Gmail 草稿（含 Google 地圖連結）。</p>
+      <div class="grid">
+        <div class="actions">
+          <button id="btnGet">📍 取得我的位置</button>
+          <button id="btnCopy" class="secondary" disabled>📋 複製座標</button>
+          <a id="btnGmail" class="button" target="_blank" rel="noopener" style="display:none">✉️ 用 Gmail 傳送</a>
+          <a id="btnMailto" class="button secondary" target="_blank" rel="noopener" style="display:none">✉️（備用）用預設信箱</a>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="to">收件者 Email（必填）</label>
+            <input id="to" type="email" placeholder="someone@example.com" />
+          </div>
+          <div>
+            <label for="subj">主旨</label>
+            <input id="subj" type="text" placeholder="我的即時座標" />
+          </div>
+        </div>
+
+        <div>
+          <label for="msg">自訂訊息（選填）</label>
+          <textarea id="msg" rows="3" placeholder="這是我的位置，麻煩留意～"></textarea>
+        </div>
+
+        <div class="mapbox">
+          <div class="kv">
+            <div class="k">緯度 (lat)</div>
+            <div class="v" id="lat">—</div>
+            <div class="k">經度 (lng)</div>
+            <div class="v" id="lng">—</div>
+            <div class="k">精確度</div>
+            <div class="v" id="acc">—</div>
+            <div class="k">Google 地圖</div>
+            <div class="v"><a id="mapLink" href="#" target="_blank" rel="noopener">—</a></div>
+          </div>
+          <div id="status" class="status">尚未取得定位</div>
+          <div class="note">提示：定位需要 HTTPS 網站或本機 <code>localhost</code>。若你關閉權限，請到瀏覽器設定重新開啟定位權限。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnGet = document.getElementById('btnGet');
+    const btnCopy = document.getElementById('btnCopy');
+    const btnGmail = document.getElementById('btnGmail');
+    const btnMailto = document.getElementById('btnMailto');
+    const latEl = document.getElementById('lat');
+    const lngEl = document.getElementById('lng');
+    const accEl = document.getElementById('acc');
+    const statusEl = document.getElementById('status');
+    const mapLink = document.getElementById('mapLink');
+
+    const toEl = document.getElementById('to');
+    const subjEl = document.getElementById('subj');
+    const msgEl = document.getElementById('msg');
+
+    let lastPos = null;
+
+    function setStatus(text, cls){
+      statusEl.className = 'status ' + (cls||'');
+      statusEl.textContent = text;
+    }
+
+    function buildMapUrl(lat, lng){
+      return `https://maps.google.com/?q=${lat},${lng}`;
+    }
+
+    function buildBody(lat, lng, acc){
+      const lines = [
+        `座標：${lat}, ${lng}`,
+        acc? `精確度：約 ${acc} 公尺` : null,
+        `地圖：${buildMapUrl(lat,lng)}`,
+        '',
+        msgEl.value?.trim()? msgEl.value.trim() : ''
+      ].filter(Boolean);
+      return lines.join('\n');
+    }
+
+    function encode(v){ return encodeURIComponent(v || ''); }
+
+    function updateLinks(){
+      if(!lastPos) return;
+      const to = toEl.value.trim();
+      const subj = subjEl.value.trim() || '我的即時座標';
+      const body = buildBody(lastPos.lat, lastPos.lng, lastPos.acc);
+
+      // Gmail 網頁版
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encode(to)}&su=${encode(subj)}&body=${encode(body)}`;
+      btnGmail.href = gmailUrl;
+
+      // 備用：mailto（行動裝置可直接喚起 Gmail/預設信箱）
+      const mailtoUrl = `mailto:${encode(to)}?subject=${encode(subj)}&body=${encode(body)}`;
+      btnMailto.href = mailtoUrl;
+
+      // 若填了收件者就顯示按鈕
+      const show = !!to;
+      btnGmail.style.display = show ? 'inline-block' : 'none';
+      btnMailto.style.display = show ? 'inline-block' : 'none';
+    }
+
+    function onSuccess(pos){
+      const { latitude, longitude, accuracy } = pos.coords;
+      lastPos = { lat: latitude.toFixed(8), lng: longitude.toFixed(8), acc: Math.round(accuracy) };
+      latEl.textContent = lastPos.lat;
+      lngEl.textContent = lastPos.lng;
+      accEl.textContent = isFinite(lastPos.acc)? `${lastPos.acc} m` : '—';
+      const url = buildMapUrl(lastPos.lat, lastPos.lng);
+      mapLink.textContent = url; mapLink.href = url;
+      btnCopy.disabled = false;
+      setStatus('定位成功 ✓', 'ok');
+      updateLinks();
+    }
+
+    function onError(err){
+      console.error(err);
+      let msg = '定位失敗';
+      if(err.code === 1) msg += '：權限被拒絕（請到瀏覽器設定開啟定位）';
+      else if(err.code === 2) msg += '：位置不可用（檢查網路 / GPS）';
+      else if(err.code === 3) msg += '：逾時（請再試一次）';
+      setStatus(msg, 'err');
+    }
+
+    btnGet.addEventListener('click', () => {
+      if(!('geolocation' in navigator)){
+        setStatus('此裝置不支援 Geolocation API', 'err');
+        return;
+      }
+      setStatus('定位中…', 'warn');
+      navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        enableHighAccuracy: true, timeout: 15000, maximumAge: 0
+      });
+    });
+
+    btnCopy.addEventListener('click', async () => {
+      if(!lastPos) return;
+      const text = `${lastPos.lat}, ${lastPos.lng}`;
+      try{ await navigator.clipboard.writeText(text); setStatus('已複製座標到剪貼簿', 'ok'); }
+      catch{ setStatus('無法複製，請手動選取複製', 'warn'); }
+    });
+
+    toEl.addEventListener('input', updateLinks);
+    subjEl.addEventListener('input', updateLinks);
+    msgEl.addEventListener('input', updateLinks);
+  </script>
+</body>
+</html>
