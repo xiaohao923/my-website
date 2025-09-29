@@ -5,42 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VIP 禮物價目表</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="weplay.png" />
   <style>
-    /* 全局樣式 */
     html, body {
       margin: 0; padding: 0;
-      font-family: 'Noto Sans TC', sans-serif;
-      background: radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%);
-      color: #fff8e1;
-      min-height: 100vh;
+      height: 100%; width: 100%;
+      background: #000;
       overflow-x: hidden;
-      transition: background 0.8s ease, color 0.8s ease;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: #fff8e1;
     }
 
-    /* 背景金色粒子 */
-    body::before {
-      content: '';
+    /* Canvas 全螢幕背景 */
+    #bgCanvas {
       position: fixed;
       top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: url('https://www.transparenttextures.com/patterns/stardust.png');
-      opacity: 0.25;
-      animation: shimmer 40s linear infinite;
-      z-index: -2;
-    }
-    @keyframes shimmer {
-      from { background-position: 0 0; }
-      to { background-position: 2000px 2000px; }
+      width: 100%; height: 100%;
+      z-index: -3;
+      background: radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%);
     }
 
-    /* 導覽列 */
     nav {
       text-align: center;
       margin: 25px 0;
       display: flex;
       justify-content: center;
       gap: 25px;
+      position: relative;
+      z-index: 1;
     }
     nav a, nav button {
       font-family: 'Orbitron', sans-serif;
@@ -60,7 +51,6 @@
       transform: scale(1.12);
     }
 
-    /* 標題 */
     h1 {
       text-align: center;
       font-family: 'Orbitron', sans-serif;
@@ -72,6 +62,8 @@
       color: transparent;
       text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,170,0,0.8);
       animation: goldFlow 5s linear infinite, flicker 3s infinite;
+      position: relative;
+      z-index: 1;
     }
     @keyframes goldFlow {
       0% { background-position: 0% 50%; }
@@ -82,21 +74,7 @@
       0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
       20%, 24%, 55% { opacity: 0.7; }
     }
-    h1 a {
-      font-size: 0.6em;
-      margin-left: 12px;
-      text-decoration: none;
-      font-weight: 400;
-      color: #FFD700;
-      text-shadow: 0 0 8px #ffaa00;
-      transition: all 0.3s ease;
-    }
-    h1 a:hover {
-      color: #fff3b0;
-      text-shadow: 0 0 15px #ffdd55;
-    }
 
-    /* 卡片 */
     section {
       max-width: 750px;
       margin: 0 auto 55px;
@@ -106,9 +84,8 @@
       border-radius: 20px;
       border: 2px solid transparent;
       position: relative;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1s ease, transform 1s ease;
+      z-index: 1;
+      overflow: hidden;
     }
     section::before {
       content: '';
@@ -128,12 +105,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
 
-    /* 列表 */
     ul {
       padding-left: 1.2em;
       font-size: 1.15rem;
@@ -156,28 +128,6 @@
       text-shadow: 0 0 15px #FFD700, 0 0 25px #FFAA00;
     }
 
-    /* 圖片 */
-    section img {
-      display: block;
-      margin: 30px auto 0;
-      border-radius: 14px;
-      box-shadow: 0 0 18px #FFD700;
-      max-width: 100%;
-      height: auto;
-      filter: drop-shadow(0 0 4px #FFAA00);
-      animation: floatUpDown 6s ease-in-out infinite;
-      transition: transform 0.4s ease, filter 0.4s ease;
-    }
-    section img:hover {
-      transform: scale(1.07) rotate(2deg);
-      filter: drop-shadow(0 0 20px #FFD700);
-    }
-    @keyframes floatUpDown {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    /* 頁尾 */
     footer {
       text-align: center;
       margin: 50px 0 70px;
@@ -185,41 +135,14 @@
       font-size: 1.1rem;
       color: #FFD700;
       text-shadow: 0 0 12px #FFAA00, 0 0 25px #FFD700;
-    }
-    footer span {
-      color: #fff3b0;
-      text-shadow: 0 0 18px #FFD700;
-    }
-
-    /* 白金日間模式 */
-    body.light {
-      background: linear-gradient(to top, #fffdf3, #eae4d3);
-      color: #222;
-    }
-    body.light h1 {
-      background: linear-gradient(90deg, #b8860b, #daa520, #ffd700, #ffcc66);
-      -webkit-background-clip: text;
-      color: transparent;
-      text-shadow: none;
-    }
-    body.light nav a, body.light nav button {
-      color: #b8860b;
-      text-shadow: none;
-    }
-    body.light section {
-      background: rgba(255,255,255,0.75);
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    body.light ul li::before {
-      color: #daa520;
-    }
-    body.light footer {
-      color: #b8860b;
-      text-shadow: none;
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
+  <canvas id="bgCanvas"></canvas>
+
   <nav>
     <a href="index.html">首頁</a>
     <button id="toggleTheme">切換日/夜模式</button>
@@ -228,25 +151,21 @@
   <h1>價格表（沒有活動）</h1>
   <section>
     <ul>
-      <li>V10 訂製永浴愛河 5500 台幣 / 入兩單加三萬 /、兩個五萬🧧三個一萬🧧</li>
-      <li>音樂盒 250 台幣 / 2X3000 紅包</li>
-      <li>神燈 150 台幣 / 3000 紅包</li>
-      <li>精靈球 33 台幣 / 600 紅包</li>
-      <li>VR 眼鏡 可拿 200 禮物換</li>
+      <li>V10 訂製永浴愛河 5500 台幣 / 入兩單加三萬</li>
+      <li>音樂盒 250 台幣</li>
+      <li>神燈 150 台幣</li>
+      <li>精靈球 33 台幣</li>
     </ul>
-    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖" />
   </section>
 
-  <h1>價格表（活動期間）<a href="https://zeroxiaohao.me/weplay2" target="_blank" rel="noopener noreferrer">目前活動</a></h1>
+  <h1>價格表（活動期間）</h1>
   <section>
     <ul>
-      <li>V10 訂製永浴愛河 4500 台幣 / 入兩單加一萬 / 兩個五萬🧧三個一萬🧧</li>
-      <li>音樂盒 200 台幣 / 2X3000 紅包</li>
-      <li>神燈 140 台幣 / 3000 紅包</li>
-      <li>精靈球 33 台幣 / 600 紅包</li>
-      <li>VR 眼鏡 可拿 200 禮物換</li>
+      <li>V10 訂製永浴愛河 4500 台幣 / 入兩單加一萬</li>
+      <li>音樂盒 200 台幣</li>
+      <li>神燈 140 台幣</li>
+      <li>精靈球 33 台幣</li>
     </ul>
-    <img src="永浴愛河.gif" alt="永浴愛河動畫示意圖" />
   </section>
 
   <footer>
@@ -254,24 +173,96 @@
   </footer>
 
   <script>
-    // 區塊滾動出場動畫
-    const sections = document.querySelectorAll('section');
-    function checkSections() {
-      const triggerBottom = window.innerHeight * 0.85;
-      sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        if (sectionTop < triggerBottom) {
-          section.classList.add('visible');
+    const canvas = document.getElementById("bgCanvas");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    let meteors = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2;
+        this.alpha = Math.random();
+        this.speed = Math.random() * 0.5 + 0.2;
+      }
+      update() {
+        this.y += this.speed;
+        if (this.y > canvas.height) {
+          this.reset();
+          this.y = 0;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 215, 0, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    class Meteor {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height * 0.3;
+        this.len = Math.random() * 80 + 100;
+        this.speed = Math.random() * 8 + 4;
+        this.angle = Math.PI / 4;
+      }
+      update() {
+        this.x += this.speed * Math.cos(this.angle);
+        this.y += this.speed * Math.sin(this.angle);
+      }
+      draw() {
+        let gradient = ctx.createLinearGradient(this.x, this.y, this.x - this.len, this.y - this.len);
+        gradient.addColorStop(0, "rgba(255,215,0,1)");
+        gradient.addColorStop(1, "rgba(255,215,0,0)");
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x - this.len, this.y - this.len);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < 150; i++) {
+      stars.push(new Star());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      stars.forEach(s => {
+        s.update();
+        s.draw();
+      });
+
+      if (Math.random() < 0.005) {
+        meteors.push(new Meteor());
+      }
+
+      meteors.forEach((m, i) => {
+        m.update();
+        m.draw();
+        if (m.x > canvas.width || m.y > canvas.height) {
+          meteors.splice(i, 1);
         }
       });
-    }
-    window.addEventListener('scroll', checkSections);
-    window.addEventListener('load', checkSections);
 
-    // 日夜模式切換
-    document.getElementById('toggleTheme').addEventListener('click', () => {
-      document.body.classList.toggle('light');
-    });
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>
