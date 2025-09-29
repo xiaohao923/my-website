@@ -4,139 +4,225 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VIP 禮物價目表</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="weplay.png" />
   <style>
+    /* 全局樣式 */
     html, body {
       margin: 0; padding: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
-      color: #00ffee;
+      font-family: 'Noto Sans TC', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0a0a0a 0%, #000 100%);
+      color: #fff8e1;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 0.8s ease, color 0.8s ease;
     }
+
+    /* 背景金色粒子 */
     body::before {
       content: '';
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: url('https://assets.codepen.io/1462889/stars.svg');
-      animation: moveStars 100s linear infinite;
-      z-index: -1;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.25;
+      animation: shimmer 40s linear infinite;
+      z-index: -2;
     }
-    @keyframes moveStars {
-      from {transform: translateY(0);}
-      to {transform: translateY(-2000px);}
+    @keyframes shimmer {
+      from { background-position: 0 0; }
+      to { background-position: 2000px 2000px; }
     }
 
+    /* 導覽列 */
     nav {
       text-align: center;
-      margin: 30px 0;
+      margin: 25px 0;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
     }
-    nav a {
-      color: #00ffee;
-      margin: 0 15px;
+    nav a, nav button {
+      font-family: 'Orbitron', sans-serif;
+      color: #FFD700;
       font-weight: 700;
       text-decoration: none;
-      text-shadow: 0 0 8px #00ffee;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      text-shadow: 0 0 6px #ffcc33, 0 0 12px #ff9900;
+      transition: all 0.3s ease;
     }
-    nav a:hover {
-      color: #0ff;
-      text-shadow: 0 0 15px #0ff, 0 0 20px #0ff;
+    nav a:hover, nav button:hover {
+      color: #fff3b0;
+      text-shadow: 0 0 15px #ffdd55, 0 0 35px #ffaa00;
+      transform: scale(1.12);
     }
 
+    /* 標題 */
     h1 {
       text-align: center;
+      font-family: 'Orbitron', sans-serif;
       font-size: 2.8rem;
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-      animation: glow 2.5s ease-in-out infinite alternate;
+      margin: 35px 0 25px;
+      background: linear-gradient(90deg, #FFD700, #FFAA00, #FF6600, #FFD700);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,170,0,0.8);
+      animation: goldFlow 5s linear infinite, flicker 3s infinite;
+    }
+    @keyframes goldFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 24%, 55% { opacity: 0.7; }
     }
     h1 a {
-      color: #0ff;
       font-size: 0.6em;
-      margin-left: 10px;
+      margin-left: 12px;
       text-decoration: none;
-      vertical-align: middle;
       font-weight: 400;
-      text-shadow: 0 0 6px #0ff;
-      transition: color 0.3s ease;
+      color: #FFD700;
+      text-shadow: 0 0 8px #ffaa00;
+      transition: all 0.3s ease;
     }
     h1 a:hover {
-      color: #aaffff;
-      text-shadow: 0 0 12px #aaffff;
-    }
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-      }
-      to {
-        text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
-      }
+      color: #fff3b0;
+      text-shadow: 0 0 15px #ffdd55;
     }
 
+    /* 卡片 */
     section {
-      max-width: 700px;
-      margin: 0 auto 50px;
-      background: rgba(0, 17, 25, 0.85);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px #00ffee;
-      color: #00ffee;
-      box-sizing: border-box;
+      max-width: 750px;
+      margin: 0 auto 55px;
+      background: rgba(30, 20, 0, 0.7);
+      backdrop-filter: blur(12px);
+      padding: 28px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      position: relative;
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
       transition: opacity 1s ease, transform 1s ease;
+    }
+    section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(120deg, #FFD700, #FFAA00, #FF6600, #FFD700);
+      background-size: 300% 300%;
+      animation: borderFlow 8s linear infinite;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    @keyframes borderFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
+    /* 列表 */
     ul {
-      padding-left: 1.4em;
+      padding-left: 1.2em;
       font-size: 1.15rem;
       line-height: 1.8;
-      list-style-type: disc;
-      text-shadow: 0 0 5px #00ffee;
+      list-style-type: none;
+    }
+    ul li::before {
+      content: "✦";
+      margin-right: 10px;
+      color: #FFD700;
+      text-shadow: 0 0 8px #FFAA00;
     }
     ul li {
       margin-bottom: 1em;
+      text-shadow: 0 0 6px rgba(255,215,0,0.6);
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
+    ul li:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 15px #FFD700, 0 0 25px #FFAA00;
     }
 
+    /* 圖片 */
     section img {
       display: block;
-      margin: 25px auto 0;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #00ffee;
+      margin: 30px auto 0;
+      border-radius: 14px;
+      box-shadow: 0 0 18px #FFD700;
       max-width: 100%;
       height: auto;
-      filter: drop-shadow(0 0 4px #00ffee);
+      filter: drop-shadow(0 0 4px #FFAA00);
       animation: floatUpDown 6s ease-in-out infinite;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    section img:hover {
+      transform: scale(1.07) rotate(2deg);
+      filter: drop-shadow(0 0 20px #FFD700);
     }
     @keyframes floatUpDown {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-12px); }
     }
 
+    /* 頁尾 */
     footer {
       text-align: center;
-      margin: 40px 0 60px;
+      margin: 50px 0 70px;
       font-weight: 700;
-      font-size: 1.2rem;
-      color: #00ffee;
-      text-shadow: 0 0 10px #00ffee;
+      font-size: 1.1rem;
+      color: #FFD700;
+      text-shadow: 0 0 12px #FFAA00, 0 0 25px #FFD700;
     }
     footer span {
-      color: #0ff;
-      text-shadow: 0 0 15px #0ff;
+      color: #fff3b0;
+      text-shadow: 0 0 18px #FFD700;
+    }
+
+    /* 白金日間模式 */
+    body.light {
+      background: linear-gradient(to top, #fffdf3, #eae4d3);
+      color: #222;
+    }
+    body.light h1 {
+      background: linear-gradient(90deg, #b8860b, #daa520, #ffd700, #ffcc66);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: none;
+    }
+    body.light nav a, body.light nav button {
+      color: #b8860b;
+      text-shadow: none;
+    }
+    body.light section {
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    body.light ul li::before {
+      color: #daa520;
+    }
+    body.light footer {
+      color: #b8860b;
+      text-shadow: none;
     }
   </style>
 </head>
 <body>
   <nav>
     <a href="index.html">首頁</a>
+    <button id="toggleTheme">切換日/夜模式</button>
   </nav>
 
   <h1>價格表（沒有活動）</h1>
@@ -181,6 +267,11 @@
     }
     window.addEventListener('scroll', checkSections);
     window.addEventListener('load', checkSections);
+
+    // 日夜模式切換
+    document.getElementById('toggleTheme').addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
   </script>
 </body>
 </html>
