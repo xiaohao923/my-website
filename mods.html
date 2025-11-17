@@ -1,5 +1,47 @@
-<a href="https://github.com/xiaohao923/my-website/releases/download/v1.0/mods.rar"
-   style="
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MODS 下載區</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ffe1;
+      font-family: "Microsoft JhengHei", sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 700px;
+      background: rgba(0, 255, 225, 0.05);
+      border: 1px solid #00ffe1;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 0 20px #00ffe155;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 32px;
+      text-shadow: 0 0 15px #00ffe1;
+    }
+
+    .info {
+      margin: 15px 0;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .download-btn {
       display: inline-block;
       padding: 14px 28px;
       background: #00ffe1;
@@ -10,9 +52,43 @@
       text-decoration: none;
       box-shadow: 0 0 18px #00ffe1aa;
       transition: 0.2s;
-   "
-   onmouseover="this.style.boxShadow='0 0 28px #00ffe1ff'; this.style.transform='scale(1.05)'"
-   onmouseout="this.style.boxShadow='0 0 18px #00ffe1aa'; this.style.transform='scale(1)'"
->
-  下載 mods.rar
-</a>
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .download-btn:hover {
+      box-shadow: 0 0 28px #00ffe1ff;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #009f9f;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>MODS 下載區</h1>
+
+    <div class="info">
+      <p><strong>檔案名稱：</strong>mods.rar</p>
+      <p><strong>版本：</strong>v1.0</p>
+      <p><strong>檔案大小：</strong>49.6 MB</p>
+      <p><strong>發布時間：</strong>2025/11/17</p>
+    </div>
+
+    <a href="https://github.com/xiaohao923/my-website/releases/download/v1.0/mods.rar"
+       class="download-btn">
+       立即下載 mods.rar
+    </a>
+  </div>
+
+  <div class="footer">
+    © 2025 Xiaohao Mods Center
+  </div>
+
+</body>
+</html>
