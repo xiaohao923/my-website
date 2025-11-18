@@ -6,23 +6,6 @@
   <title>教學中心</title>
 
   <style>
-    <a href="mods.html"
-   style="
-      display:inline-block;
-      margin:20px auto;
-      padding:12px 26px;
-      background:#00ffe1;
-      color:#000;
-      font-size:20px;
-      font-weight:bold;
-      border-radius:10px;
-      text-decoration:none;
-      box-shadow:0 0 16px #00ffe1aa;
-      transition:0.2s;
-      text-align:center;
-      ">
-   前往模組下載區（mods.html）
-    </a>
     body {
       background-color: #000;
       color: #00ffe1;
@@ -36,6 +19,26 @@
       font-size: 36px;
       text-shadow: 0 0 15px #00ffe1;
       margin-bottom: 30px;
+    }
+
+    .top-btn {
+      display:inline-block;
+      margin:20px auto;
+      padding:12px 26px;
+      background:#00ffe1;
+      color:#000;
+      font-size:20px;
+      font-weight:bold;
+      border-radius:10px;
+      text-decoration:none;
+      box-shadow:0 0 16px #00ffe1aa;
+      transition:0.2s;
+      text-align:center;
+    }
+
+    .top-btn:hover {
+      box-shadow:0 0 22px #00ffe1ff;
+      transform:scale(1.05);
     }
 
     .step-card {
@@ -72,14 +75,19 @@
 </head>
 <body>
 
+  <!-- 置頂模組下載按鈕 -->
+  <div style="text-align:center;">
+    <a href="mods.html" class="top-btn">前往模組下載區（mods.html）</a>
+  </div>
+
   <h1>教學中心（模板）</h1>
 
   <!-- Step 1 -->
   <div class="step-card">
-    <div class="step-title">步驟 1：這裡放標題</div>
-    <img src="這裡填你的圖片網址" class="step-img" alt="Step Image">
+    <div class="step-title">步驟 1：下載forge</div>
+    <img src="螢幕擷取畫面 2025-11-18 182645.png" class="step-img" alt="Step Image">
     <div class="step-text">
-      這裡填你要寫的文字（教學說明、步驟內容、注意事項等等）。
+      點擊下載按鈕後到檔案(下載)處
     </div>
   </div>
 
