@@ -11,67 +11,73 @@
 <style>
     body {
         margin: 0;
-        background: #111;
+        background: #0d0d0d;
         font-family: -apple-system, "PingFang TC", sans-serif;
         overflow: hidden;
-        touch-action: manipulation;
     }
 
-    /* 工具列 */
+    /* ===== 最帥玻璃模糊工具列 ===== */
     #toolbar {
-        height: 58px;
-        background: rgba(0,0,0,0.88);
+        height: 60px;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        background: rgba(20,20,20,0.55);
         display: flex;
         align-items: center;
+        padding: 0 16px;
         gap: 12px;
-        padding: 0 14px;
         color: white;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 20;
-        transition: opacity 0.25s;
+        z-index: 50;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        transition: opacity 0.3s ease;
     }
 
     button {
-        padding: 8px 14px;
-        border-radius: 8px;
-        background: #222;
+        padding: 8px 16px;
+        background: rgba(255,255,255,0.09);
+        border: 1px solid rgba(255,255,255,0.13);
         color: #fff;
-        border: none;
+        border-radius: 10px;
         font-size: 15px;
         transition: 0.2s;
     }
 
-    button:active { transform: scale(0.92); }
-
-    #pageInfo {
-        margin-left: auto;
-        opacity: 0.85;
-        font-size: 15px;
+    button:active {
+        transform: scale(0.92);
+        background: rgba(255,255,255,0.18);
     }
 
-    /* PDF 區域 */
+    /* ⭐ 頁碼永遠不會被擋住（置中靠右） */
+    #pageInfo {
+        margin-left: auto;
+        font-size: 15px;
+        opacity: 0.9;
+        padding-right: 6px;
+        font-weight: 500;
+    }
+
+    /* ===== PDF 區 ===== */
     #viewerContainer {
         height: 100vh;
-        background: #1a1a1a;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        background: #141414;
         text-align: center;
     }
 
     canvas {
         width: 100% !important;
-        height: auto !important;
-        margin-top: 70px;
+        max-width: 880px !important; /* 避免太大、超好看 */
+        margin: 80px auto 20px auto;
         background: white;
         border-radius: 6px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.4);
-        transition: opacity 0.25s;
+        box-shadow: 0 0 26px rgba(0,0,0,0.45);
+        transition: opacity 0.28s ease;
     }
 
-    /* 動畫淡入 */
     .fade {
         opacity: 0;
     }
@@ -80,10 +86,9 @@
 <body>
 
 <div id="toolbar">
-    <button onclick="prevPage()">⬅</button>
-    <button onclick="nextPage()">➡</button>
-
-    <button onclick="jumpPage()">輸入頁碼</button>
+    <button onclick="prevPage()">⬅ 上一頁</button>
+    <button onclick="nextPage()">下一頁 ➡</button>
+    <button onclick="jumpPage()">跳到頁碼</button>
 
     <span id="pageInfo">1 / ?</span>
 </div>
@@ -97,38 +102,44 @@ const url = "114福誠高中學生手冊.pdf";
 
 let pdfDoc = null;
 let pageNum = 1;
-let scale = 1.6;
+let scale = 1.15; // 不會太大、也不會糊
 const canvas = document.getElementById("pdfCanvas");
 const ctx = canvas.getContext("2d");
 let toolbarVisible = true;
 
-/* ===================== 載入 PDF ===================== */
+/* 載入 PDF */
 pdfjsLib.getDocument(url).promise.then(pdf => {
     pdfDoc = pdf;
     renderPage(pageNum);
 });
 
-/* ===================== 渲染頁面（含淡入動畫） ===================== */
+/* 渲染頁面（含淡入動畫） */
 function renderPage(num) {
     canvas.classList.add("fade");
 
     pdfDoc.getPage(num).then(page => {
         const dpi = window.devicePixelRatio || 2;
-        const viewport = page.getViewport({ scale: scale * dpi });
+
+        const viewport = page.getViewport({
+            scale: scale * dpi
+        });
 
         canvas.width = viewport.width;
         canvas.height = viewport.height;
 
-        page.render({ canvasContext: ctx, viewport });
+        page.render({
+            canvasContext: ctx,
+            viewport
+        });
 
         document.getElementById("pageInfo").innerText =
             `${num} / ${pdfDoc.numPages}`;
 
-        setTimeout(() => canvas.classList.remove("fade"), 50);
+        setTimeout(() => canvas.classList.remove("fade"), 40);
     });
 }
 
-/* ===================== 基本功能 ===================== */
+/* 基本功能 */
 function prevPage() {
     if (pageNum <= 1) return;
     pageNum--;
@@ -142,7 +153,7 @@ function nextPage() {
 }
 
 function jumpPage() {
-    const page = prompt("輸入頁碼 (1 - " + pdfDoc.numPages + "):");
+    const page = prompt("請輸入頁碼（1 - " + pdfDoc.numPages + "）");
     const num = parseInt(page);
 
     if (!isNaN(num) && num >= 1 && num <= pdfDoc.numPages) {
@@ -151,7 +162,7 @@ function jumpPage() {
     }
 }
 
-/* ===================== 手勢：左右滑動換頁 ===================== */
+/* ====== 左右滑動換頁（更靈敏） ====== */
 let touchX = 0;
 
 canvas.addEventListener("touchstart", e => {
@@ -161,23 +172,22 @@ canvas.addEventListener("touchstart", e => {
 canvas.addEventListener("touchend", e => {
     let diff = e.changedTouches[0].clientX - touchX;
 
-    if (diff > 80) prevPage();
-    else if (diff < -80) nextPage();
+    if (diff > 40) prevPage();
+    else if (diff < -40) nextPage();
 });
 
-/* ===================== 輕點 PDF → 顯示/隱藏工具列 ===================== */
+/* 點擊隱藏/顯示工具列 */
 canvas.addEventListener("click", () => {
     toolbarVisible = !toolbarVisible;
     document.getElementById("toolbar").style.opacity = toolbarVisible ? 1 : 0;
 });
 
-/* ===================== 阻止 iPhone Safari 自動放大 ===================== */
+/* 禁止 iPhone 自動放大 */
 document.addEventListener('touchstart', e => {
     if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
 
 document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
-
 </script>
 
 </body>
