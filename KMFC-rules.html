@@ -2,13 +2,31 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!--
+  This viewer is designed to adapt seamlessly to any mobile device.  It uses
+  CSS safe‑area variables to account for the iPhone status bar and bottom
+  home indicator so that the PDF is never hidden behind the browser UI.
+  The canvas automatically scales to the available width while preserving
+  the page’s aspect ratio and rendering at a high DPI for crisp text.  When
+  the device orientation or viewport size changes, the page is re‑rendered
+  to fit the new width.  Tap the page to hide or show the toolbar.  Swipe
+  left or right to move between pages.  A jump‑to‑page prompt is also
+  provided.  Make sure the PDF file (114福誠高中學生手冊.pdf) is stored
+  alongside this HTML file.
+-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>福誠高中學生手冊</title>
 
+<!-- PDF.js library from CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
+    :root {
+        /* Respect iOS notch and home‑indicator safe area insets. */
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: env(safe-area-inset-bottom);
+    }
+
     body {
         margin: 0;
         background: #0d0d0d;
@@ -16,29 +34,34 @@
         overflow: hidden;
     }
 
-    /* ===== 最帥玻璃模糊工具列 ===== */
+    /* Floating toolbar with a subtle glass blur.  Its height includes the
+       safe area so the content below never overlaps it. */
     #toolbar {
-        height: 60px;
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        background: rgba(20,20,20,0.55);
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-        gap: 12px;
-        color: white;
         position: fixed;
         top: 0;
-        width: 100%;
+        left: 0;
+        right: 0;
+        height: calc(60px + var(--safe-top));
+        padding-top: var(--safe-top);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-left: 16px;
+        padding-right: 16px;
+        color: #fff;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        background: rgba(20, 20, 20, 0.55);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         z-index: 50;
-        border-bottom: 1px solid rgba(255,255,255,0.07);
         transition: opacity 0.3s ease;
+        box-sizing: border-box;
     }
 
     button {
         padding: 8px 16px;
-        background: rgba(255,255,255,0.09);
-        border: 1px solid rgba(255,255,255,0.13);
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(255, 255, 255, 0.13);
         color: #fff;
         border-radius: 10px;
         font-size: 15px;
@@ -47,34 +70,46 @@
 
     button:active {
         transform: scale(0.92);
-        background: rgba(255,255,255,0.18);
+        background: rgba(255, 255, 255, 0.18);
     }
 
-    /* ⭐ 頁碼永遠不會被擋住（置中靠右） */
+    /* Page count sits at the far right of the toolbar and never overlaps
+       content. */
     #pageInfo {
         margin-left: auto;
         font-size: 15px;
         opacity: 0.9;
-        padding-right: 6px;
         font-weight: 500;
     }
 
-    /* ===== PDF 區 ===== */
+    /* The container below the toolbar fills the rest of the viewport.  It
+       respects the bottom safe area so the iOS home indicator never covers
+       the page.  Flexbox centers the canvas horizontally. */
     #viewerContainer {
-        height: 100vh;
+        position: absolute;
+        top: calc(60px + var(--safe-top));
+        bottom: var(--safe-bottom);
+        left: 0;
+        right: 0;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         background: #141414;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 10px;
+        box-sizing: border-box;
     }
 
+    /* The canvas naturally adapts to the available width.  It has no
+       hardcoded maximum size and will shrink or grow with the viewport. */
     canvas {
-        width: 100% !important;
-        max-width: 880px !important; /* 避免太大、超好看 */
-        margin: 80px auto 20px auto;
-        background: white;
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #fff;
         border-radius: 6px;
-        box-shadow: 0 0 26px rgba(0,0,0,0.45);
+        box-shadow: 0 0 26px rgba(0, 0, 0, 0.45);
         transition: opacity 0.28s ease;
     }
 
@@ -85,61 +120,73 @@
 </head>
 <body>
 
+<!-- Toolbar with navigation and page count -->
 <div id="toolbar">
     <button onclick="prevPage()">⬅ 上一頁</button>
     <button onclick="nextPage()">下一頁 ➡</button>
     <button onclick="jumpPage()">跳到頁碼</button>
-
     <span id="pageInfo">1 / ?</span>
 </div>
 
+<!-- Container for the PDF canvas -->
 <div id="viewerContainer">
     <canvas id="pdfCanvas"></canvas>
 </div>
 
 <script>
-const url = "114福誠高中學生手冊.pdf";
+/*
+ * This script renders a PDF using PDF.js.  It automatically sizes the
+ * canvas to fit the width of the viewerContainer and scales the PDF
+ * proportionally.  High‑resolution rendering is achieved by multiplying
+ * the scale by the device pixel ratio.  The page is re-rendered whenever
+ * the window resizes.  Swipe left/right to change pages; tap to toggle
+ * toolbar visibility.
+ */
 
+const url = "114福誠高中學生手冊.pdf";
 let pdfDoc = null;
 let pageNum = 1;
-let scale = 1.15; // 不會太大、也不會糊
 const canvas = document.getElementById("pdfCanvas");
 const ctx = canvas.getContext("2d");
-let toolbarVisible = true;
+const pageInfo = document.getElementById("pageInfo");
 
-/* 載入 PDF */
+// Load the PDF document
 pdfjsLib.getDocument(url).promise.then(pdf => {
     pdfDoc = pdf;
     renderPage(pageNum);
 });
 
-/* 渲染頁面（含淡入動畫） */
+/**
+ * Render a specific page, scaling it to the width of the viewer container.
+ * @param {number} num - The page number to render.
+ */
 function renderPage(num) {
     canvas.classList.add("fade");
-
     pdfDoc.getPage(num).then(page => {
-        const dpi = window.devicePixelRatio || 2;
-
-        const viewport = page.getViewport({
-            scale: scale * dpi
-        });
-
+        const container = document.getElementById("viewerContainer");
+        // Desired CSS pixel width is the container’s inner width minus padding.
+        const desiredWidth = container.clientWidth - 20; // subtract small padding to avoid edge clipping
+        const deviceRatio = window.devicePixelRatio || 1;
+        // Get the natural page size at scale 1
+        const unscaledViewport = page.getViewport({ scale: 1 });
+        // Determine scale so the rendered page width matches the desired width
+        const scale = desiredWidth / unscaledViewport.width;
+        const viewport = page.getViewport({ scale: scale * deviceRatio });
+        // Set the canvas dimensions for high DPI rendering
         canvas.width = viewport.width;
         canvas.height = viewport.height;
-
-        page.render({
-            canvasContext: ctx,
-            viewport
-        });
-
-        document.getElementById("pageInfo").innerText =
-            `${num} / ${pdfDoc.numPages}`;
-
+        // Set the CSS dimensions for display; divide by device ratio to maintain correct size
+        canvas.style.width = desiredWidth + "px";
+        canvas.style.height = (viewport.height / deviceRatio) + "px";
+        // Render the page into the canvas context
+        page.render({ canvasContext: ctx, viewport: viewport });
+        // Update page count
+        pageInfo.textContent = `${num} / ${pdfDoc.numPages}`;
+        // Fade in once rendering is complete
         setTimeout(() => canvas.classList.remove("fade"), 40);
     });
 }
 
-/* 基本功能 */
 function prevPage() {
     if (pageNum <= 1) return;
     pageNum--;
@@ -153,41 +200,45 @@ function nextPage() {
 }
 
 function jumpPage() {
-    const page = prompt("請輸入頁碼（1 - " + pdfDoc.numPages + "）");
-    const num = parseInt(page);
-
+    const input = prompt(`請輸入頁碼 (1 - ${pdfDoc.numPages})`);
+    const num = parseInt(input);
     if (!isNaN(num) && num >= 1 && num <= pdfDoc.numPages) {
         pageNum = num;
         renderPage(pageNum);
     }
 }
 
-/* ====== 左右滑動換頁（更靈敏） ====== */
-let touchX = 0;
-
+// Swipe to change pages
+let touchStartX = 0;
 canvas.addEventListener("touchstart", e => {
-    touchX = e.touches[0].clientX;
+    touchStartX = e.touches[0].clientX;
 });
-
 canvas.addEventListener("touchend", e => {
-    let diff = e.changedTouches[0].clientX - touchX;
-
-    if (diff > 40) prevPage();
-    else if (diff < -40) nextPage();
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (diff > 40) {
+        prevPage();
+    } else if (diff < -40) {
+        nextPage();
+    }
 });
 
-/* 點擊隱藏/顯示工具列 */
+// Tap to toggle toolbar visibility
 canvas.addEventListener("click", () => {
-    toolbarVisible = !toolbarVisible;
-    document.getElementById("toolbar").style.opacity = toolbarVisible ? 1 : 0;
+    const toolbar = document.getElementById("toolbar");
+    const isVisible = toolbar.style.opacity !== '0' && toolbar.style.opacity !== 0;
+    toolbar.style.opacity = isVisible ? 0 : 1;
 });
 
-/* 禁止 iPhone 自動放大 */
+// Prevent iOS double‑tap zoom
 document.addEventListener('touchstart', e => {
     if (e.touches.length > 1) e.preventDefault();
 }, { passive: false });
-
 document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+
+// Re-render when the window size changes (orientation change, etc.)
+window.addEventListener('resize', () => {
+    renderPage(pageNum);
+});
 </script>
 
 </body>
