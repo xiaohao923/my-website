@@ -11,73 +11,90 @@
     <style>
         body {
             margin: 0;
-            background: #f0f0f0;
-            font-family: sans-serif;
+            background: #e5e5e5;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
             overflow: hidden;
         }
 
-        #viewerContainer {
-            height: calc(100vh - 60px);
-            overflow-y: auto;
-            background: #ccc;
-        }
-
+        /* 工具列 */
         #toolbar {
             height: 60px;
-            background: #222;
+            background: #1e1e1e;
             color: white;
             display: flex;
             align-items: center;
-            padding: 0 10px;
-            gap: 10px;
+            padding: 0 14px;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         button {
-            background: #444;
+            background: #333;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: 0.15s;
+            font-size: 15px;
         }
 
         button:hover {
-            background: #666;
+            background: #555;
         }
 
         #pageInfo {
             font-size: 16px;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: 10px;
         }
 
+        /* PDF 容器 */
+        #viewerContainer {
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            background: #d0d0d0;
+            padding: 24px 0;
+        }
+
+        /* PDF 畫布樣式 */
         canvas {
             display: block;
-            margin: 10px auto;
+            margin: 0 auto;
             background: white;
-            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.25);
         }
     </style>
 </head>
 <body>
 
+    <!-- 工具列 -->
     <div id="toolbar">
         <button onclick="prevPage()">⬅ 上一頁</button>
         <button onclick="nextPage()">下一頁 ➡</button>
-        <span id="pageInfo">第 1 / ? 頁</span>
 
         <button onclick="zoomOut()">－ 縮小</button>
         <button onclick="zoomIn()">＋ 放大</button>
+
+        <span id="pageInfo">第 1 / ? 頁</span>
     </div>
 
+    <!-- PDF 顯示區 -->
     <div id="viewerContainer">
         <canvas id="pdfCanvas"></canvas>
     </div>
 
     <script>
-        const url = "114福誠高中學生手冊.pdf"; // ← 放你的 PDF 檔名
+        const url = "114福誠高中學生手冊.pdf";  // 放你的 PDF 檔名
 
         let pdfDoc = null;
         let pageNum = 1;
-        let scale = 1.2;
+        let scale = 1.1;
         const canvas = document.getElementById("pdfCanvas");
         const ctx = canvas.getContext("2d");
 
@@ -88,15 +105,25 @@
 
         function renderPage(num) {
             pdfDoc.getPage(num).then(function(page) {
-                const viewport = page.getViewport({ scale: scale });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
 
-                const renderContext = {
+                // 高清渲染：自動使用 iPhone Retina / 高 DPI
+                const dpiScale = window.devicePixelRatio || 2;
+
+                const viewport = page.getViewport({
+                    scale: scale * dpiScale
+                });
+
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // 視覺上等比例縮回正常大小 → 超清晰又不糊
+                canvas.style.width = (viewport.width / dpiScale) + "px";
+                canvas.style.height = (viewport.height / dpiScale) + "px";
+
+                page.render({
                     canvasContext: ctx,
                     viewport: viewport
-                };
-                page.render(renderContext);
+                });
 
                 document.getElementById("pageInfo").innerText =
                     `第 ${num} / ${pdfDoc.numPages} 頁`;
@@ -121,7 +148,7 @@
         }
 
         function zoomOut() {
-            if (scale <= 0.4) return;
+            if (scale <= 0.3) return;
             scale -= 0.2;
             renderPage(pageNum);
         }
