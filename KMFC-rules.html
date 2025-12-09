@@ -14,20 +14,24 @@
         background: #111;
         font-family: -apple-system, "PingFang TC", sans-serif;
         overflow: hidden;
+        touch-action: manipulation;
     }
 
     /* 工具列 */
     #toolbar {
-        height: 55px;
-        background: #000;
+        height: 58px;
+        background: rgba(0,0,0,0.88);
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 0 12px;
+        gap: 12px;
+        padding: 0 14px;
         color: white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        position: relative;
-        z-index: 10;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 20;
+        transition: opacity 0.25s;
     }
 
     button {
@@ -50,27 +54,26 @@
 
     /* PDF 區域 */
     #viewerContainer {
-        height: calc(100vh - 55px);
+        height: 100vh;
+        background: #1a1a1a;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        background: #1b1b1b;
         text-align: center;
     }
 
-    /* 控制 PDF 寬度（避免超大） */
-    #pdfWrapper {
-        width: 100%;
-        max-width: 100vw;
-        overflow: hidden; /* 防止 iPhone 放大 */
-    }
-
     canvas {
-        width: 100% !important;      /* 自動符合螢幕寬度 */
-        height: auto !important;     /* 自動等比例 */
+        width: 100% !important;
+        height: auto !important;
+        margin-top: 70px;
         background: white;
         border-radius: 6px;
-        margin: 20px 0;
         box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        transition: opacity 0.25s;
+    }
+
+    /* 動畫淡入 */
+    .fade {
+        opacity: 0;
     }
 </style>
 </head>
@@ -79,13 +82,14 @@
 <div id="toolbar">
     <button onclick="prevPage()">⬅</button>
     <button onclick="nextPage()">➡</button>
+
+    <button onclick="jumpPage()">跳頁</button>
+
     <span id="pageInfo">1 / ?</span>
 </div>
 
 <div id="viewerContainer">
-    <div id="pdfWrapper">
-        <canvas id="pdfCanvas"></canvas>
-    </div>
+    <canvas id="pdfCanvas"></canvas>
 </div>
 
 <script>
@@ -93,36 +97,38 @@ const url = "114福誠高中學生手冊.pdf";
 
 let pdfDoc = null;
 let pageNum = 1;
-let scale = 1.5;  // 先高畫質渲染，再自動縮小顯示
+let scale = 1.6;
 const canvas = document.getElementById("pdfCanvas");
 const ctx = canvas.getContext("2d");
+let toolbarVisible = true;
 
+/* ===================== 載入 PDF ===================== */
 pdfjsLib.getDocument(url).promise.then(pdf => {
     pdfDoc = pdf;
     renderPage(pageNum);
 });
 
+/* ===================== 渲染頁面（含淡入動畫） ===================== */
 function renderPage(num) {
+    canvas.classList.add("fade");
+
     pdfDoc.getPage(num).then(page => {
         const dpi = window.devicePixelRatio || 2;
-
-        const viewport = page.getViewport({
-            scale: scale * dpi
-        });
+        const viewport = page.getViewport({ scale: scale * dpi });
 
         canvas.width = viewport.width;
         canvas.height = viewport.height;
 
-        page.render({
-            canvasContext: ctx,
-            viewport
-        });
+        page.render({ canvasContext: ctx, viewport });
 
         document.getElementById("pageInfo").innerText =
             `${num} / ${pdfDoc.numPages}`;
+
+        setTimeout(() => canvas.classList.remove("fade"), 50);
     });
 }
 
+/* ===================== 基本功能 ===================== */
 function prevPage() {
     if (pageNum <= 1) return;
     pageNum--;
@@ -134,6 +140,44 @@ function nextPage() {
     pageNum++;
     renderPage(pageNum);
 }
+
+function jumpPage() {
+    const page = prompt("輸入頁碼 (1 - " + pdfDoc.numPages + "):");
+    const num = parseInt(page);
+
+    if (!isNaN(num) && num >= 1 && num <= pdfDoc.numPages) {
+        pageNum = num;
+        renderPage(pageNum);
+    }
+}
+
+/* ===================== 手勢：左右滑動換頁 ===================== */
+let touchX = 0;
+
+canvas.addEventListener("touchstart", e => {
+    touchX = e.touches[0].clientX;
+});
+
+canvas.addEventListener("touchend", e => {
+    let diff = e.changedTouches[0].clientX - touchX;
+
+    if (diff > 80) prevPage();
+    else if (diff < -80) nextPage();
+});
+
+/* ===================== 輕點 PDF → 顯示/隱藏工具列 ===================== */
+canvas.addEventListener("click", () => {
+    toolbarVisible = !toolbarVisible;
+    document.getElementById("toolbar").style.opacity = toolbarVisible ? 1 : 0;
+});
+
+/* ===================== 阻止 iPhone Safari 自動放大 ===================== */
+document.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+
+document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+
 </script>
 
 </body>
