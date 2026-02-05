@@ -1,204 +1,661 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>一鍵定位 & 寄送座標</title>
-  <meta name="color-scheme" content="light dark" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet" />
+  <title>位置確認 · 個性化定位</title>
+  <!-- 簡潔、美觀的座標傳送工具，保留安全離線重試功能。 -->
+  <meta name="description" content="簡潔、美觀的座標傳送工具，安全離線重試功能。" />
+  <!-- 使用 Poppins 與 Noto Sans TC 字體，讓中文字體與西文字體更協調 -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- 引入 Leaflet 用於地圖預覽 -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
   <style>
-    :root{
-      --bg1:#0b0b12; --bg2:#121326; --card:rgba(255,255,255,.06);
-      --ink:#eaeaff; --muted:#a6a6c9; --accent:#8b7bff; --accent2:#ffe94d; --ok:#42d392; --warn:#ffb74d; --err:#ff6b6b;
+    /*
+      在本檔案中使用 CSS 變數定義色票與版面統一設定。
+      這些顏色與陰影的搭配經過微調，帶來低調質感的深色風格。
+    */
+    :root {
+      --primary-bg: #101018;
+      --secondary-bg: #1b1c2d;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --border-color: rgba(255, 255, 255, 0.12);
+      --text-color: #f5f5fa;
+      --muted-color: #8c8ca5;
+      --accent-color: #5a8cff;
+      --accent-color-2: #8acfff;
+      --success-color: #42d392;
+      --danger-color: #ff6b6b;
+      --radius: 16px;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:"Inter","Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
-      color:var(--ink); background: radial-gradient(1200px 800px at 20% -20%, #1b1c3a 0%, transparent 60%), linear-gradient(160deg, var(--bg1), var(--bg2));
-      display:grid; place-items:center; padding:24px;
+
+    * {
+      box-sizing: border-box;
     }
-    .wrap{width:min(920px,100%);}
-    .card{
-      background:var(--card); backdrop-filter: blur(10px);
-      border:1px solid rgba(255,255,255,.08); box-shadow:0 20px 60px rgba(0,0,0,.35);
-      border-radius:24px; padding:24px; overflow:hidden;
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      font-family: "Noto Sans TC", "Poppins", system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, "Helvetica Neue", sans-serif;
+      color: var(--text-color);
+      background: linear-gradient(180deg, var(--primary-bg), var(--secondary-bg));
+      display: grid;
+      place-items: center;
     }
-    h1{font-size:clamp(24px,3.6vw,36px); letter-spacing:.3px; margin:0 0 6px 0}
-    p.lead{color:var(--muted); margin:0 0 16px 0}
-    .grid{display:grid; gap:16px}
-    .actions{display:flex; gap:12px; flex-wrap:wrap}
-    button, a.button{
-      appearance:none; border:none; cursor:pointer; text-decoration:none;
-      padding:12px 16px; border-radius:14px; font-weight:600; font-size:15px;
-      background:linear-gradient(180deg, var(--accent), #6c5cff);
-      color:white; box-shadow:0 10px 24px rgba(124,108,255,.35);
-      transition:.2s transform ease, .2s filter ease, .2s box-shadow ease;
+
+    /* 主容器，包裹內容，並加入玻璃磨砂效果 */
+    .wrapper {
+      width: min(760px, 94vw);
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius);
+      padding: 24px 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
     }
-    button.secondary, a.button.secondary{background:#2a2b49; color:#e8e8ff; box-shadow:none; border:1px solid rgba(255,255,255,.06)}
-    button:disabled{filter:saturate(.4) brightness(.8); cursor:not-allowed}
-    button:hover, a.button:hover{transform:translateY(-1px); box-shadow:0 14px 28px rgba(124,108,255,.45)}
-    .kv{display:grid; grid-template-columns:140px 1fr; gap:8px 12px; align-items:center}
-    .kv .k{color:var(--muted)} .kv .v{word-break:break-all}
-    .status{margin-top:6px; font-size:14px}
-    .status.ok{color:var(--ok)} .status.warn{color:var(--warn)} .status.err{color:var(--err)}
-    .note{color:var(--muted); font-size:13px}
-    .mapbox{background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px;}
-    input, textarea{width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.2); color:var(--ink)}
-    label{font-size:14px; color:var(--muted)}
-    .row{display:grid; gap:10px; grid-template-columns:1fr 1fr}
-    @media (max-width:620px){.row{grid-template-columns:1fr} .kv{grid-template-columns:1fr}}
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(20px, 3.6vw, 30px);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    p.lead {
+      color: var(--muted-color);
+      margin: 0 0 20px;
+      line-height: 1.6;
+    }
+
+    /* 表單網格設定 */
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-color);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus,
+    select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(90, 140, 255, 0.35);
+    }
+
+    .actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-color-2));
+      color: #0f0f17;
+      transition: transform 0.08s ease, filter 0.2s ease, opacity 0.3s;
+    }
+    button:hover:not(:disabled) {
+      filter: brightness(1.1);
+    }
+    button:active:not(:disabled) {
+      transform: translateY(2px);
+    }
+    button.ghost {
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.25);
+      color: var(--text-color);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .row-inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .status {
+      margin-top: 14px;
+      font-weight: 700;
+      color: var(--muted-color);
+      white-space: pre-line;
+    }
+    .status.ok {
+      color: var(--success-color);
+    }
+    .status.bad {
+      color: var(--danger-color);
+    }
+
+    .tip {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      margin-top: 4px;
+    }
+
+    .result {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .card {
+      padding: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      background: var(--card-bg);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 6px;
+      align-items: center;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+    }
+    .sr {
+      position: absolute;
+      left: -9999px;
+    }
+    /* 簡易 toast 彈窗 */
+    .toast {
+      position: fixed;
+      inset: auto 12px 12px auto;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 小地圖樣式 */
+    .map-card {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    #miniMap {
+      height: 220px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    .map-hint {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--muted-color);
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>一鍵定位 & 用 Gmail 傳給對方 📡✉️</h1>
-      <p class="lead">點一下就取得你現在的經緯度與精確度，並自動產生 Gmail 草稿（含 Google 地圖連結）。</p>
-      <div class="grid">
-        <div class="actions">
-          <button id="btnGet">📍 取得我的位置</button>
-          <button id="btnCopy" class="secondary" disabled>📋 複製座標</button>
-          <a id="btnGmail" class="button" target="_blank" rel="noopener" style="display:none">✉️ 用 Gmail 傳送</a>
-          <a id="btnMailto" class="button secondary" target="_blank" rel="noopener" style="display:none">✉️（備用）用預設信箱</a>
-        </div>
+  <main class="wrapper" role="main">
+    <h1>確認地址</h1>
+    <p class="lead">輸入姓名並授權定位，系統會<strong>加密傳送</strong>座標及地圖連結。常見錯誤會自動翻譯成中文。</p>
 
-        <div class="row">
-          <div>
-            <label for="to">收件者 Email（必填）</label>
-            <input id="to" type="email" placeholder="someone@example.com" />
-          </div>
-          <div>
-            <label for="subj">主旨</label>
-            <input id="subj" type="text" placeholder="我的即時座標" />
-          </div>
-        </div>
-
-        <div>
-          <label for="msg">自訂訊息（選填）</label>
-          <textarea id="msg" rows="3" placeholder="這是我的位置，麻煩留意～"></textarea>
-        </div>
-
-        <div class="mapbox">
-          <div class="kv">
-            <div class="k">緯度 (lat)</div>
-            <div class="v" id="lat">—</div>
-            <div class="k">經度 (lng)</div>
-            <div class="v" id="lng">—</div>
-            <div class="k">精確度</div>
-            <div class="v" id="acc">—</div>
-            <div class="k">Google 地圖</div>
-            <div class="v"><a id="mapLink" href="#" target="_blank" rel="noopener">—</a></div>
-          </div>
-          <div id="status" class="status">尚未取得定位</div>
-          <div class="note">提示：定位需要 HTTPS 網站或本機 <code>localhost</code>。若你關閉權限，請到瀏覽器設定重新開啟定位權限。</div>
-        </div>
+    <div class="grid grid-2" style="align-items:end">
+      <div>
+        <label for="username">姓名</label>
+        <input id="username" placeholder="請輸入姓名" autocomplete="username" />
+        <div class="tip" id="nameTip">會自動記住你上次輸入的姓名</div>
+      </div>
+      <div>
+        <label for="mapProvider">地圖服務</label>
+        <select id="mapProvider">
+          <option value="auto">自動（iOS → Apple / 其他 → Google）</option>
+          <option value="google">Google 地圖</option>
+          <option value="apple">Apple 地圖</option>
+          <option value="osm">OpenStreetMap</option>
+        </select>
       </div>
     </div>
-  </div>
+
+    <div class="actions">
+      <div class="grid grid-2">
+        <button id="sendLocationBtn" disabled>📍 取得定位</button>
+        <button id="retryBtn" class="ghost" disabled>再試一次</button>
+      </div>
+      <div class="row-inline">
+        <button id="shareBtn" class="ghost" disabled>分享連結</button>
+        <span class="pill">精度：<span id="accVal">—</span> m</span>
+      </div>
+    </div>
+
+    <div id="status" class="status" aria-live="polite">請先輸入姓名再點擊按鈕</div>
+
+    <section id="result" class="result" hidden>
+      <div class="card">
+        <div class="kv"><strong>緯度</strong><span id="latText" class="mono">—</span></div>
+        <div class="kv"><strong>經度</strong><span id="lngText" class="mono">—</span></div>
+        <div class="kv"><strong>座標</strong><span id="coords" class="mono">—</span></div>
+      </div>
+      <!-- 地圖預覽區塊：顯示使用者定位到的座標 -->
+      <div class="map-card">
+        <div id="miniMap" aria-label="位置小地圖"></div>
+        <div class="map-hint">地圖是即時預覽；你也可以用右側「查看地圖 ↗」跳到完整地圖。</div>
+      </div>
+      <div class="row-inline">
+        <button id="copyLat" class="ghost" disabled>複製緯度</button>
+        <button id="copyLng" class="ghost" disabled>複製經度</button>
+        <button id="copyBoth" class="ghost" disabled>複製座標</button>
+        <a id="mapLink" class="pill" href="#" target="_blank" rel="noopener">查看地圖 ↗</a>
+        <a id="altMapLink" class="pill" href="#" target="_blank" rel="noopener">備用地圖 ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
 
   <script>
-    const btnGet = document.getElementById('btnGet');
-    const btnCopy = document.getElementById('btnCopy');
-    const btnGmail = document.getElementById('btnGmail');
-    const btnMailto = document.getElementById('btnMailto');
-    const latEl = document.getElementById('lat');
-    const lngEl = document.getElementById('lng');
-    const accEl = document.getElementById('acc');
-    const statusEl = document.getElementById('status');
-    const mapLink = document.getElementById('mapLink');
+    // ====== DOM ======
+    const $ = sel => document.querySelector(sel);
+    const usernameInput = $('#username');
+    const mapProviderSel = $('#mapProvider');
+    const btnSend = $('#sendLocationBtn');
+    const btnRetry = $('#retryBtn');
+    const btnShare = $('#shareBtn');
+    const statusEl = $('#status');
+    const result = $('#result');
+    const latText = $('#latText');
+    const lngText = $('#lngText');
+    const coordsEl = $('#coords');
+    const accVal = $('#accVal');
+    const copyLatBtn = $('#copyLat');
+    const copyLngBtn = $('#copyLng');
+    const copyBothBtn = $('#copyBoth');
+    const mapLink = $('#mapLink');
+    const altMapLink = $('#altMapLink');
+    const toast = $('#toast');
+    const miniMapEl = $('#miniMap');
 
-    const toEl = document.getElementById('to');
-    const subjEl = document.getElementById('subj');
-    const msgEl = document.getElementById('msg');
+    // ====== 設定 ======
+    // 表單提交端點，可自行修改為其他可處理 JSON 的服務
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnndkpja';
+    const CLICK_COOLDOWN_MS = 1200; // 防止重複點擊
 
-    let lastPos = null;
-
-    function setStatus(text, cls){
-      statusEl.className = 'status ' + (cls||'');
-      statusEl.textContent = text;
+    // ====== 小工具 ======
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+    function setLoading(loading) {
+      const noName = usernameInput.value.trim() === '';
+      btnSend.disabled = loading || noName;
+      btnRetry.disabled = loading || noName;
+      btnShare.disabled = loading;
+      btnSend.textContent = loading ? '傳送中…' : '📍 取得定位';
+    }
+    function isIOS() {
+      return /iP(hone|od|ad)/.test(navigator.platform) || /iOS|iPhone|iPad|iPod/.test(navigator.userAgent);
+    }
+    function buildMapUrls(lat, lng, provider) {
+      const g = `https://maps.google.com/?q=${lat},${lng}&ll=${lat},${lng}&z=18`;
+      const a = `https://maps.apple.com/?ll=${lat},${lng}&q=${lat},${lng}`;
+      const o = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}`;
+      let primary = g, secondary = o;
+      if (provider === 'apple' || (provider === 'auto' && isIOS())) {
+        primary = a; secondary = g;
+      }
+      if (provider === 'osm') {
+        primary = o; secondary = g;
+      }
+      if (provider === 'google') {
+        primary = g; secondary = o;
+      }
+      return { primary, secondary, google: g, apple: a, osm: o };
     }
 
-    function buildMapUrl(lat, lng){
-      return `https://maps.google.com/?q=${lat},${lng}`;
+    // ====== 小地圖（Leaflet / OSM）======
+    let leafletMap = null;
+    let leafletMarker = null;
+    let accuracyCircle = null;
+
+    /**
+     * 初始化 Leaflet 小地圖
+     * 只會在第一次呼叫時建立，之後重新使用原有地圖
+     */
+    function initMiniMap() {
+      if (!miniMapEl) return;
+      if (leafletMap) return;
+      // 建立地圖並預設顯示全圖
+      leafletMap = L.map('miniMap', {
+        zoomControl: true,
+        attributionControl: true
+      }).setView([0, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(leafletMap);
     }
 
-    function buildBody(lat, lng, acc){
-      const lines = [
-        `座標：${lat}, ${lng}`,
-        acc? `精確度：約 ${acc} 公尺` : null,
-        `地圖：${buildMapUrl(lat,lng)}`,
-        '',
-        msgEl.value?.trim()? msgEl.value.trim() : ''
-      ].filter(Boolean);
-      return lines.join('\n');
+    /**
+     * 更新小地圖座標與精度圈
+     * @param {number} lat 緯度
+     * @param {number} lng 經度
+     * @param {number} acc 精度（公尺）
+     */
+    function updateMiniMap(lat, lng, acc) {
+      initMiniMap();
+      if (!leafletMap) return;
+      const ll = [lat, lng];
+      if (!leafletMarker) {
+        leafletMarker = L.marker(ll).addTo(leafletMap);
+      } else {
+        leafletMarker.setLatLng(ll);
+      }
+      // 精度圈
+      if (acc && Number.isFinite(acc)) {
+        if (!accuracyCircle) {
+          accuracyCircle = L.circle(ll, { radius: acc, color: '#5a8cff', weight: 2, fillOpacity: 0.15 }).addTo(leafletMap);
+        } else {
+          accuracyCircle.setLatLng(ll);
+          accuracyCircle.setRadius(acc);
+        }
+      } else if (accuracyCircle) {
+        leafletMap.removeLayer(accuracyCircle);
+        accuracyCircle = null;
+      }
+      // 調整視角：顯示精度圈或聚焦座標
+      if (acc && acc > 0) {
+        const bounds = accuracyCircle ? accuracyCircle.getBounds() : L.latLng(ll).toBounds(200);
+        leafletMap.fitBounds(bounds, { padding: [18, 18] });
+      } else {
+        leafletMap.setView(ll, 17);
+      }
+      // 若地圖之前是 hidden，可能需要刷新尺寸
+      setTimeout(() => leafletMap.invalidateSize(), 60);
     }
+    function revealResult(lat, lng, acc, provider) {
+      latText.textContent = lat.toFixed(6);
+      lngText.textContent = lng.toFixed(6);
+      coordsEl.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+      accVal.textContent = acc ? Math.round(acc) : '—';
+      const { primary, secondary } = buildMapUrls(lat, lng, provider);
+      mapLink.href = primary;
+      altMapLink.href = secondary;
+      result.hidden = false;
+      [copyLatBtn, copyLngBtn, copyBothBtn].forEach(b => b.disabled = false);
+      btnShare.disabled = !(navigator.share || navigator.canShare);
+      if (acc && acc > 100) {
+        statusEl.textContent = `定位成功，但精度較差（約 ${Math.round(acc)} 公尺），建議到空曠處重試。`;
+        statusEl.className = 'status';
+      }
 
-    function encode(v){ return encodeURIComponent(v || ''); }
-
-    function updateLinks(){
-      if(!lastPos) return;
-      const to = toEl.value.trim();
-      const subj = subjEl.value.trim() || '我的即時座標';
-      const body = buildBody(lastPos.lat, lastPos.lng, lastPos.acc);
-
-      // Gmail 網頁版
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encode(to)}&su=${encode(subj)}&body=${encode(body)}`;
-      btnGmail.href = gmailUrl;
-
-      // 備用：mailto（行動裝置可直接喚起 Gmail/預設信箱）
-      const mailtoUrl = `mailto:${encode(to)}?subject=${encode(subj)}&body=${encode(body)}`;
-      btnMailto.href = mailtoUrl;
-
-      // 若填了收件者就顯示按鈕
-      const show = !!to;
-      btnGmail.style.display = show ? 'inline-block' : 'none';
-      btnMailto.style.display = show ? 'inline-block' : 'none';
+      // 更新內嵌小地圖
+      updateMiniMap(lat, lng, acc);
     }
-
-    function onSuccess(pos){
-      const { latitude, longitude, accuracy } = pos.coords;
-      lastPos = { lat: latitude.toFixed(8), lng: longitude.toFixed(8), acc: Math.round(accuracy) };
-      latEl.textContent = lastPos.lat;
-      lngEl.textContent = lastPos.lng;
-      accEl.textContent = isFinite(lastPos.acc)? `${lastPos.acc} m` : '—';
-      const url = buildMapUrl(lastPos.lat, lastPos.lng);
-      mapLink.textContent = url; mapLink.href = url;
-      btnCopy.disabled = false;
-      setStatus('定位成功 ✓', 'ok');
-      updateLinks();
+    // ====== 錯誤訊息轉中文 ======
+    function geoErrorToZh(err) {
+      const mapByCode = {
+        1: '權限被拒絕：請允許本網站使用定位權限。',
+        2: '無法取得位置：裝置未回報座標或沒有可用的定位來源。',
+        3: '逾時：定位花太久，請移動到較開闊處或稍後重試。'
+      };
+      if (typeof err?.code === 'number' && mapByCode[err.code]) return mapByCode[err.code];
+      const msg = (err?.message || '').toLowerCase();
+      if (msg.includes('only secure origins') || location.protocol !== 'https:') return '需使用 HTTPS 安全連線才可定位，請改用 https:// 網址。';
+      if (msg.includes('permission') && msg.includes('denied')) return '你拒絕了定位權限，請在瀏覽器權限中將「位置」改為允許。';
+      if (msg.includes('timeout')) return '定位逾時，訊號或環境可能不佳，請移動到空曠處再試。';
+      if (msg.includes('unavailable')) return '目前無法取得位置，可能是裝置沒有 GPS 或尚未啟用。';
+      return '定位失敗：' + (err?.message || '不明錯誤');
     }
-
-    function onError(err){
-      console.error(err);
-      let msg = '定位失敗';
-      if(err.code === 1) msg += '：權限被拒絕（請到瀏覽器設定開啟定位）';
-      else if(err.code === 2) msg += '：位置不可用（檢查網路 / GPS）';
-      else if(err.code === 3) msg += '：逾時（請再試一次）';
-      setStatus(msg, 'err');
+    function networkErrorToZh(err) {
+      const msg = (err?.message || '').toLowerCase();
+      if (msg.includes('failed to fetch')) return '網路請求失敗：可能離線、CORS 或伺服器無回應。';
+      if (msg.includes('cors')) return 'CORS 限制：請確認伺服器允許本網域發送請求。';
+      return '送出失敗：' + (err?.message || '不明錯誤');
     }
-
-    btnGet.addEventListener('click', () => {
-      if(!('geolocation' in navigator)){
-        setStatus('此裝置不支援 Geolocation API', 'err');
+    function httpStatusToZh(status) {
+      const m = {
+        400: '錯誤的請求（400）：請檢查送出的資料格式。',
+        401: '未授權（401）：請確認伺服器金鑰或授權設定。',
+        403: '被拒絕（403）：你沒有權限呼叫此端點。',
+        404: '找不到資源（404）：請確認端點 URL 是否正確。',
+        413: '內容太大（413）：傳送資料超過伺服器允許上限。',
+        429: '請求過多（429）：呼叫太頻繁，請稍後再試。',
+        500: '伺服器錯誤（500）：伺服器發生問題。',
+        502: '閘道錯誤（502）：上游服務異常。',
+        503: '服務不可用（503）：伺服器忙碌或維護中。',
+        504: '逾時（504）：伺服器回應逾時。'
+      };
+      return m[status] || `送出失敗（HTTP ${status}）`;
+    }
+    async function postJSON(url, data) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error(httpStatusToZh(res.status));
+        return true;
+      } catch (err) {
+        throw new Error(networkErrorToZh(err));
+      }
+    }
+    // ====== 離線佇列 ======
+    const QUEUE_KEY = 'geo_queue_v1';
+    function enqueue(record) {
+      const q = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+      q.push(record);
+      localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+    }
+    async function flushQueue() {
+      let q = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+      if (!q.length) return;
+      statusEl.textContent = `偵測到 ${q.length} 筆待補送資料，嘗試上傳中…`;
+      statusEl.className = 'status';
+      const remain = [];
+      for (const item of q) {
+        try {
+          await postJSON(FORMSPREE_ENDPOINT, item);
+        } catch {
+          remain.push(item);
+        }
+        await sleep(200);
+      }
+      localStorage.setItem(QUEUE_KEY, JSON.stringify(remain));
+      if (remain.length === 0) {
+        showToast('離線資料已全部補送 ✔');
+      }
+    }
+    window.addEventListener('online', flushQueue);
+    // ====== 主流程 ======
+    let lastClick = 0;
+    async function sendLocationFlow() {
+      const now = Date.now();
+      if (now - lastClick < CLICK_COOLDOWN_MS) return;
+      lastClick = now;
+      if (!('geolocation' in navigator)) {
+        statusEl.textContent = '抱歉，瀏覽器不支援定位功能。建議改用 Chrome / Safari / Edge 並確保 HTTPS。';
+        statusEl.className = 'status bad';
         return;
       }
-      setStatus('定位中…', 'warn');
-      navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-        enableHighAccuracy: true, timeout: 15000, maximumAge: 0
-      });
+      const name = usernameInput.value.trim();
+      if (!name) {
+        statusEl.textContent = '請先輸入姓名～';
+        statusEl.className = 'status bad';
+        return;
+      }
+      setLoading(true);
+      const provider = mapProviderSel.value;
+      const geoOpts = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        const urls = buildMapUrls(latitude, longitude, provider);
+        const payload = {
+          username: name,
+          latitude,
+          longitude,
+          accuracy,
+          maps_url_primary: urls.primary,
+          maps_url_secondary: urls.secondary,
+          maps_url_google: urls.google,
+          maps_url_apple: urls.apple,
+          maps_url_osm: urls.osm,
+          latlng: `${latitude}, ${longitude}`,
+          userAgent: navigator.userAgent,
+          language: navigator.language,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          online: navigator.onLine,
+          timestamp: new Date().toISOString()
+        };
+        try {
+          if (!navigator.onLine) {
+            enqueue(payload);
+            showToast('目前離線，已加入佇列');
+          } else {
+            await postJSON(FORMSPREE_ENDPOINT, payload);
+          }
+          revealResult(latitude, longitude, accuracy, provider);
+          statusEl.textContent = `✓ 已送出：${name}`;
+          statusEl.className = 'status ok';
+          localStorage.setItem('geo_name', name);
+        } catch (err) {
+          revealResult(latitude, longitude, accuracy, provider);
+          enqueue(payload);
+          statusEl.textContent = String(err.message || err);
+          statusEl.className = 'status bad';
+        } finally {
+          setLoading(false);
+        }
+      }, err => {
+        statusEl.textContent = geoErrorToZh(err);
+        statusEl.className = 'status bad';
+        setLoading(false);
+      }, geoOpts);
+    }
+    // ====== 分享 ======
+    async function shareCurrent() {
+      const text = `${usernameInput.value.trim()} 的位置：\n${coordsEl.textContent}\n`;
+      const url = mapLink.href;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: '我的位置', text, url });
+        } catch {
+          /* 使用者取消 */
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(text + url);
+          showToast('已複製分享文字與連結');
+        } catch {
+          showToast('分享失敗，請手動複製');
+        }
+      }
+    }
+    // ====== 權限偵測 ======
+    async function initPermissionHints() {
+      try {
+        if (!('permissions' in navigator)) return;
+        const q = await navigator.permissions.query({ name: 'geolocation' });
+        const setStatus = (msg, cls = 'status') => {
+          statusEl.textContent = msg;
+          statusEl.className = cls;
+        };
+        if (q.state === 'denied') setStatus('定位權限為「拒絕」。請在瀏覽器權限中將「位置」改為允許後再試。', 'status bad');
+        else if (q.state === 'prompt') setStatus('當需要座標時會詢問定位權限，請點允許以取得位置。');
+        else if (q.state === 'granted') setStatus('定位權限已允許，輸入姓名後即可取得座標。', 'status ok');
+        q.onchange = () => initPermissionHints();
+      } catch {}
+    }
+    // ====== 事件綁定 ======
+    usernameInput.addEventListener('input', () => {
+      const hasName = usernameInput.value.trim() !== '';
+      btnSend.disabled = !hasName;
+      btnRetry.disabled = !hasName;
     });
-
-    btnCopy.addEventListener('click', async () => {
-      if(!lastPos) return;
-      const text = `${lastPos.lat}, ${lastPos.lng}`;
-      try{ await navigator.clipboard.writeText(text); setStatus('已複製座標到剪貼簿', 'ok'); }
-      catch{ setStatus('無法複製，請手動選取複製', 'warn'); }
-    });
-
-    toEl.addEventListener('input', updateLinks);
-    subjEl.addEventListener('input', updateLinks);
-    msgEl.addEventListener('input', updateLinks);
+    btnSend.addEventListener('click', sendLocationFlow);
+    btnRetry.addEventListener('click', sendLocationFlow);
+    btnShare.addEventListener('click', shareCurrent);
+    async function copy(text, msg) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(msg);
+      } catch {
+        showToast('複製失敗');
+      }
+    }
+    copyLatBtn.addEventListener('click', () => copy(latText.textContent, '已複製緯度'));
+    copyLngBtn.addEventListener('click', () => copy(lngText.textContent, '已複製經度'));
+    copyBothBtn.addEventListener('click', () => copy(coordsEl.textContent, '已複製座標'));
+    // ====== 初始化 ======
+    (function init() {
+      // 若不是 https 連線，提示用戶可能無法定位
+      if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+        statusEl.textContent = '⚠ 目前不是 HTTPS 連線，瀏覽器可能會擋定位。請改用 https:// 網址。';
+        statusEl.className = 'status bad';
+      }
+      const saved = localStorage.getItem('geo_name');
+      if (saved) {
+        usernameInput.value = saved;
+        btnSend.disabled = false;
+        btnRetry.disabled = false;
+      }
+      initPermissionHints();
+      if (navigator.onLine) flushQueue();
+    })();
   </script>
 </body>
 </html>
