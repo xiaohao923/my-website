@@ -34,7 +34,7 @@
     }
 
     .wrap{
-      width:min(880px, 92vw);
+      width:min(900px, 92vw);
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:18px;
@@ -84,7 +84,6 @@
 
     .tips{
       font-size:14px;
-      color: var(--text);
       line-height:1.7;
     }
 
@@ -96,7 +95,7 @@
 
     /* rules */
     .rules h3{
-      margin:0 0 14px;
+      margin:22px 0 14px;
       font-size:14px;
       letter-spacing:2px;
       color: var(--muted);
@@ -125,13 +124,21 @@
       width:10px;
       height:10px;
       border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(108,242,194,0.45);
       margin-top:6px;
       flex-shrink:0;
     }
 
-    .penalty{
+    .dot.minus{
+      background: var(--danger);
+      box-shadow: 0 0 12px rgba(255,77,77,0.45);
+    }
+
+    .dot.plus{
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(108,242,194,0.45);
+    }
+
+    .note{
       margin-left:auto;
       font-size:12px;
       color: var(--muted);
@@ -155,7 +162,7 @@
     <section class="card">
       <div class="title">教 化 評 分 系 統</div>
 
-      <div class="score">110</div>
+      <div class="score">150</div>
       <div class="scoreSub">您目前的教化分數</div>
 
       <div class="divider"></div>
@@ -167,29 +174,55 @@
 
     <!-- Rules -->
     <section class="card rules">
+
       <h3>扣 分 規 則</h3>
       <ul>
         <li>
-          <span class="dot"></span>
+          <span class="dot minus"></span>
           <div>敷衍</div>
-          <div class="penalty">皆會扣分</div>
+          <div class="note">皆會扣分</div>
         </li>
         <li>
-          <span class="dot"></span>
+          <span class="dot minus"></span>
           <div>不報備</div>
-          <div class="penalty">皆會扣分</div>
+          <div class="note">皆會扣分</div>
         </li>
         <li>
-          <span class="dot"></span>
+          <span class="dot minus"></span>
           <div>不跟我坐</div>
-          <div class="penalty">皆會扣分</div>
+          <div class="note">皆會扣分</div>
         </li>
         <li>
-          <span class="dot"></span>
+          <span class="dot minus"></span>
           <div>跟我討厭的人在一間房間</div>
-          <div class="penalty">皆會扣分</div>
+          <div class="note">皆會扣分</div>
         </li>
       </ul>
+
+      <h3>加 分 規 則</h3>
+      <ul>
+        <li>
+          <span class="dot plus"></span>
+          <div>主動報備</div>
+          <div class="note">可加分</div>
+        </li>
+        <li>
+          <span class="dot plus"></span>
+          <div>願意陪我、坐我旁邊</div>
+          <div class="note">可加分</div>
+        </li>
+        <li>
+          <span class="dot plus"></span>
+          <div>認真回應、不敷衍</div>
+          <div class="note">可加分</div>
+        </li>
+        <li>
+          <span class="dot plus"></span>
+          <div>把我放在優先順位</div>
+          <div class="note">可加分</div>
+        </li>
+      </ul>
+
     </section>
   </main>
 
