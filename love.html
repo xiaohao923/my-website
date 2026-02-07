@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>教化分數系統</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --card: rgba(255,255,255,0.08);
+      --accent: #6cf2c2;
+      --danger: #ff5c5c;
+      --text: #e8ecf3;
+      --muted: #9aa4b2;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background:
+        radial-gradient(circle at top, #16213e, #0b0f1a 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    .card {
+      width: 90%;
+      max-width: 420px;
+      padding: 32px 28px;
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      box-shadow:
+        0 0 30px rgba(108,242,194,0.15),
+        inset 0 0 0 1px rgba(255,255,255,0.06);
+      text-align: center;
+      animation: fadeUp 0.8s ease-out;
+    }
+
+    .title {
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .score {
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(108,242,194,0.6);
+      margin: 10px 0 6px;
+    }
+
+    .score-label {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.2),
+        transparent
+      );
+      margin: 24px 0;
+    }
+
+    .tips {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .tips span {
+      color: var(--danger);
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(255,92,92,0.6);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="title">教 化 評 分 系 統</div>
+
+    <div class="score">95</div>
+    <div class="score-label">您目前的教化分數</div>
+
+    <div class="divider"></div>
+
+    <div class="tips">
+      Tips：達到 <span>0 分</span> 就不用玩了
+    </div>
+  </div>
+
+</body>
+</html>
