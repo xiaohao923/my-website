@@ -182,7 +182,6 @@
       flex:1;
     }
 
-    /* ===== 新增：分數顏色（不影響原結構） ===== */
     .logScore{
       font-weight:600;
     }
@@ -196,7 +195,6 @@
       color: var(--danger);
       text-shadow: 0 0 10px var(--dangerGlow);
     }
-    /* ===== 新增結束 ===== */
 
     @keyframes fadeUp{
       from{ opacity:0; transform: translateY(14px); }
@@ -216,7 +214,8 @@
     <section class="card">
       <div class="title">教 化 評 分 系 統</div>
 
-      <div class="score">240</div>
+      <!-- 這裡會被 JS 自動更新 -->
+      <div class="score">0</div>
       <div class="scoreSub">您目前的教化分數</div>
       
       <a href="exchange.html" class="linkBtn">前往教化分數兌換 →</a>
@@ -259,62 +258,33 @@
       <div class="title">加 分 及 扣 分 紀 錄</div>
 
       <ul>
-        <li>
-          <div class="logIndex">#1</div>
-          <div class="logText">基礎分數</div>
-          <div class="logScore">+150</div>
-        </li>
-        <li>
-          <div class="logIndex">#2</div>
-          <div class="logText">主動報備</div>
-          <div class="logScore">+10</div>
-        </li>
-        <li>
-          <div class="logIndex">#3</div>
-          <div class="logText">陪我玩遊戲</div>
-          <div class="logScore">+20</div>
-        </li>
-        <li>
-          <div class="logIndex">#4</div>
-          <div class="logText">陪我唱歌</div>
-          <div class="logScore">+10</div>
-        </li>
-        <li>
-          <div class="logIndex">#5</div>
-          <div class="logText">陪我玩遊戲聊天跟我撒嬌</div>
-          <div class="logScore">+50</div>
-        </li>
-        <li>
-          <div class="logIndex">#6</div>
-          <div class="logText">陪我睡覺</div>
-          <div class="logScore">+20</div>
-        </li>
-        <li>
-          <div class="logIndex">#7</div>
-          <div class="logText">按時作息</div>
-          <div class="logScore">+10</div>
-        </li>
-        <li>
-          <div class="logIndex">#8</div>
-          <div class="logText">敷衍我。</div>
-          <div class="logScore">-30</div>
-        </li>
+        <li><div class="logIndex">#1</div><div class="logText">基礎分數</div><div class="logScore">+150</div></li>
+        <li><div class="logIndex">#2</div><div class="logText">主動報備</div><div class="logScore">+10</div></li>
+        <li><div class="logIndex">#3</div><div class="logText">陪我玩遊戲</div><div class="logScore">+20</div></li>
+        <li><div class="logIndex">#4</div><div class="logText">陪我唱歌</div><div class="logScore">+10</div></li>
+        <li><div class="logIndex">#5</div><div class="logText">陪我玩遊戲聊天跟我撒嬌</div><div class="logScore">+50</div></li>
+        <li><div class="logIndex">#6</div><div class="logText">陪我睡覺</div><div class="logScore">+20</div></li>
+        <li><div class="logIndex">#7</div><div class="logText">按時作息</div><div class="logScore">+10</div></li>
+        <li><div class="logIndex">#8</div><div class="logText">敷衍我。</div><div class="logScore">-30</div></li>
       </ul>
     </section>
   </main>
 
-  <!-- ===== 新增：方案二 JS（自動判斷正負） ===== -->
+  <!-- ⭐ 核心 JS：自動上色 + 自動計算總分 -->
   <script>
+    const scoreEl = document.querySelector('.score');
+    let total = 0;
+
     document.querySelectorAll('.logScore').forEach(el => {
       const value = parseInt(el.textContent, 10);
-      if (value < 0) {
-        el.classList.add('minus');
-      } else {
-        el.classList.add('plus');
+      if (!isNaN(value)) {
+        total += value;
+        el.classList.add(value < 0 ? 'minus' : 'plus');
       }
     });
+
+    scoreEl.textContent = total;
   </script>
-  <!-- ===== 新增結束 ===== -->
 
 </body>
 </html>
