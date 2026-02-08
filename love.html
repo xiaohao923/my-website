@@ -182,10 +182,21 @@
       flex:1;
     }
 
+    /* ===== 新增：分數顏色（不影響原結構） ===== */
     .logScore{
-      color: var(--accent);
       font-weight:600;
     }
+
+    .logScore.plus{
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(108,242,194,0.45);
+    }
+
+    .logScore.minus{
+      color: var(--danger);
+      text-shadow: 0 0 10px var(--dangerGlow);
+    }
+    /* ===== 新增結束 ===== */
 
     @keyframes fadeUp{
       from{ opacity:0; transform: translateY(14px); }
@@ -290,6 +301,19 @@
       </ul>
     </section>
   </main>
+
+  <!-- ===== 新增：方案二 JS（自動判斷正負） ===== -->
+  <script>
+    document.querySelectorAll('.logScore').forEach(el => {
+      const value = parseInt(el.textContent, 10);
+      if (value < 0) {
+        el.classList.add('minus');
+      } else {
+        el.classList.add('plus');
+      }
+    });
+  </script>
+  <!-- ===== 新增結束 ===== -->
 
 </body>
 </html>
