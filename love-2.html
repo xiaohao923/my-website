@@ -50,9 +50,7 @@
       animation: fadeUp 0.7s ease-out;
     }
 
-    .full{
-      grid-column: 1 / -1;
-    }
+    .full{ grid-column: 1 / -1; }
 
     .title{
       font-size: 14px;
@@ -66,7 +64,6 @@
       font-weight: 700;
       color: var(--accent);
       text-shadow: 0 0 16px rgba(108,242,194,0.6);
-      line-height: 1;
     }
 
     .scoreSub{
@@ -77,12 +74,7 @@
 
     .divider{
       height:1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba(255,255,255,0.20),
-        transparent
-      );
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
       margin: 22px 0;
     }
 
@@ -115,13 +107,11 @@
 
     .rules li{
       display:flex;
-      align-items:flex-start;
       gap:12px;
-      padding:14px 14px;
+      padding:14px;
       border-radius:14px;
       background: rgba(0,0,0,0.18);
       border:1px solid rgba(255,255,255,0.08);
-      line-height:1.6;
     }
 
     .dot{
@@ -129,17 +119,16 @@
       height:10px;
       border-radius:50%;
       margin-top:6px;
-      flex-shrink:0;
-    }
-
-    .dot.minus{
-      background: var(--danger);
-      box-shadow: 0 0 12px rgba(255,77,77,0.45);
     }
 
     .dot.plus{
       background: var(--accent);
       box-shadow: 0 0 12px rgba(108,242,194,0.45);
+    }
+
+    .dot.minus{
+      background: var(--danger);
+      box-shadow: 0 0 12px rgba(255,77,77,0.45);
     }
 
     .note{
@@ -150,11 +139,6 @@
     }
 
     /* log */
-    .log{
-      font-size:14px;
-      line-height:1.7;
-    }
-
     .log ul{
       list-style:none;
       padding:0;
@@ -174,17 +158,23 @@
 
     .logIndex{
       color: var(--muted);
-      font-size:13px;
-      min-width: 2.2em;
+      min-width:2.2em;
     }
 
-    .logText{
-      flex:1;
-    }
+    .logText{ flex:1; }
 
     .logScore{
-      color: var(--accent);
       font-weight:600;
+    }
+
+    .logScore.plus{
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(108,242,194,0.45);
+    }
+
+    .logScore.minus{
+      color: var(--danger);
+      text-shadow: 0 0 10px var(--dangerGlow);
     }
 
     @keyframes fadeUp{
@@ -192,83 +182,76 @@
       to{ opacity:1; transform: translateY(0); }
     }
 
-    @media (max-width: 760px){
-      .wrap{ grid-template-columns: 1fr; }
+    @media (max-width:760px){
+      .wrap{ grid-template-columns:1fr; }
       .full{ grid-column:auto; }
     }
   </style>
 </head>
+
 <body>
+<main class="wrap">
 
-  <main class="wrap">
-    <!-- Score -->
-    <section class="card">
-      <div class="title">教 化 評 分 系 統</div>
+  <!-- Score -->
+  <section class="card">
+    <div class="title">教 化 評 分 系 統</div>
+    <div class="score">0</div>
+    <div class="scoreSub">您目前的教化分數</div>
+    <a href="exchange-2.html" class="linkBtn">前往教化分數兌換 →</a>
+    <div class="divider"></div>
+    <div class="tips">Tips：達到 <span>0 分</span> 就不理你 1 Day</div>
+  </section>
 
-      <div class="score">180</div>
-      <div class="scoreSub">您目前的教化分數</div>
-      
-      <a href="exchange-2.html" class="linkBtn">前往教化分數兌換 →</a>
-      <div class="divider"></div>
+  <!-- Rules -->
+  <section class="card rules">
+    <h3>扣 分 規 則</h3>
+    <ul>
+      <li><span class="dot minus"></span><div>敷衍</div><div class="note">皆會扣分</div></li>
+      <li><span class="dot minus"></span><div>無理取鬧</div><div class="note">皆會扣分</div></li>
+      <li><span class="dot minus"></span><div>罵我</div><div class="note">皆會扣分</div></li>
+      <li><span class="dot minus"></span><div>說嘖</div><div class="note">皆會扣分</div></li>
+    </ul>
 
-      <div class="tips">
-        Tips：達到 <span>0 分</span> 就不理你1Day
-      </div>
-    </section>
+    <h3>加 分 規 則</h3>
+    <ul>
+      <li><span class="dot plus"></span><div>哄我</div><div class="note">可加分</div></li>
+      <li><span class="dot plus"></span><div>陪我玩遊戲</div><div class="note">可加分</div></li>
+      <li><span class="dot plus"></span><div>不亂罵人</div><div class="note">可加分</div></li>
+      <li><span class="dot plus"></span><div>不要讓李品研生氣</div><div class="note">可加分</div></li>
+      <li><span class="dot plus"></span><div>給我紅包</div><div class="note">50分</div></li>
+    </ul>
+  </section>
 
-    <!-- Rules -->
-    <section class="card rules">
-      <h3>扣 分 規 則</h3>
-      <ul>
-        <li><span class="dot minus"></span><div>敷衍</div><div class="note">皆會扣分</div></li>
-        <li><span class="dot minus"></span><div>無理取鬧</div><div class="note">皆會扣分</div></li>
-        <li><span class="dot minus"></span><div>罵我</div><div class="note">皆會扣分</div></li>
-        <li><span class="dot minus"></span><div>說嘖</div><div class="note">皆會扣分</div></li>
-      </ul>
+  <!-- Log -->
+  <section class="card full log">
+    <div class="title">加 分 及 扣 分 紀 錄</div>
+    <ul>
+      <li><div class="logIndex">#1</div><div class="logText">基礎分數</div><div class="logScore">+150</div></li>
+      <li><div class="logIndex">#2</div><div class="logText">陪我唱歌</div><div class="logScore">+10</div></li>
+      <li><div class="logIndex">#3</div><div class="logText">陪我撒嬌</div><div class="logScore">+50</div></li>
+      <li><div class="logIndex">#4</div><div class="logText">陪我睡覺</div><div class="logScore">+20</div></li>
+      <li><div class="logIndex">#5</div><div class="logText">做一件事（開麥）</div><div class="logScore">-50</div></li>
+    </ul>
+  </section>
 
-      <h3>加 分 規 則</h3>
-      <ul>
-        <li><span class="dot plus"></span><div>哄我</div><div class="note">可加分</div></li>
-        <li><span class="dot plus"></span><div>陪我玩遊戲</div><div class="note">可加分</div></li>
-        <li><span class="dot plus"></span><div>不亂罵人</div><div class="note">可加分</div></li>
-        <li><span class="dot plus"></span><div>不要讓李品研生氣</div><div class="note">可加分</div></li>
-        <li><span class="dot plus"></span><div>給我紅包</div><div class="note">50分</div></li>
-      </ul>
-    </section>
+</main>
 
-    <!-- Log -->
-    <section class="card full log">
-      <div class="title">加 分 及 扣 分 紀 錄</div>
+<!-- ⭐ 核心 JS：自動算總分 + 正負顏色 -->
+<script>
+  const scoreEl = document.querySelector('.score');
+  let total = 0;
 
-      <ul>
-        <li>
-          <div class="logIndex">#1</div>
-          <div class="logText">基礎分數</div>
-          <div class="logScore">+150</div>
-        </li>
-        <li>
-          <div class="logIndex">#2</div>
-          <div class="logText">陪我唱歌</div>
-          <div class="logScore">+10</div>
-        </li>
-        <li>
-          <div class="logIndex">#3</div>
-          <div class="logText">陪我撒嬌</div>
-          <div class="logScore">+50</div>
-        </li>
-        <li>
-          <div class="logIndex">#4</div>
-          <div class="logText">陪我睡覺</div>
-          <div class="logScore">+20</div>
-        </li>
-        <li>
-          <div class="logIndex">#5</div>
-          <div class="logText">做一件事（開麥）</div>
-          <div class="logScore">-50</div>
-        </li>
-      </ul>
-    </section>
-  </main>
+  document.querySelectorAll('.logScore').forEach(el => {
+    const value = parseInt(el.textContent, 10);
+
+    if (!isNaN(value)) {
+      total += value;
+      el.classList.add(value < 0 ? 'minus' : 'plus');
+    }
+  });
+
+  scoreEl.textContent = total;
+</script>
 
 </body>
 </html>
