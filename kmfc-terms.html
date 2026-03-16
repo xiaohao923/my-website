@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>代購食品服務條款暨免責聲明</title>
+  <style>
+    :root{
+      --bg1:#f8fbff;
+      --bg2:#eef4ff;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#dbe3f0;
+      --accent:#4f46e5;
+      --accent2:#7c3aed;
+      --okbg:#eefcf3;
+      --okbd:#b7e4c7;
+      --warnbg:#fff8e8;
+      --warnbd:#f4d58d;
+      --shadow:0 12px 32px rgba(51, 65, 85, 0.12);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      line-height:1.75;
+    }
+
+    .wrap{
+      max-width:960px;
+      margin:0 auto;
+      padding:24px 16px 56px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-radius:24px;
+      padding:28px 22px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(1.6rem, 3vw, 2.4rem);
+      line-height:1.25;
+    }
+
+    .hero p{
+      margin:0;
+      opacity:.95;
+      font-size:1rem;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px 20px;
+    }
+
+    .notice{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px 16px;
+      border-radius:16px;
+      margin-bottom:18px;
+      border:1px solid var(--okbd);
+      background:var(--okbg);
+      font-size:.98rem;
+    }
+
+    .notice.warn{
+      background:var(--warnbg);
+      border-color:var(--warnbd);
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.2);
+      font-size:.85rem;
+      margin-bottom:12px;
+    }
+
+    h2{
+      margin:28px 0 10px;
+      font-size:1.16rem;
+      color:#111827;
+      border-left:5px solid var(--accent);
+      padding-left:10px;
+    }
+
+    h2:first-of-type{
+      margin-top:8px;
+    }
+
+    ol, ul{
+      margin:8px 0 0 1.25rem;
+      padding:0;
+    }
+
+    li{
+      margin:8px 0;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .footer{
+      margin-top:22px;
+      padding-top:16px;
+      border-top:1px dashed var(--line);
+      font-size:.95rem;
+      color:var(--muted);
+    }
+
+    .agree-box{
+      margin-top:22px;
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#f9fbff;
+    }
+
+    .agree-title{
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    button{
+      appearance:none;
+      border:none;
+      border-radius:14px;
+      padding:12px 18px;
+      font-size:1rem;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      box-shadow:0 8px 20px rgba(79,70,229,.25);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
+
+    .btn-secondary{
+      background:#eef2ff;
+      color:#312e81;
+    }
+
+    .status{
+      margin-top:12px;
+      font-weight:700;
+      color:#166534;
+      display:none;
+    }
+
+    .top-meta{
+      margin-top:12px;
+      font-size:.92rem;
+      opacity:.95;
+    }
+
+    @media (max-width: 640px){
+      .hero{
+        padding:22px 18px;
+      }
+      .card{
+        padding:20px 16px;
+      }
+      .notice{
+        font-size:.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="badge">公告制條款 / 繼續使用即視為同意</div>
+      <h1>代購食品服務條款暨免責聲明</h1>
+      <p>
+        本服務為個人提供之代購協助服務，接受委託外出購買食品並收取代購服務費。
+        為避免爭議並保障雙方權益，特公告以下條款。
+      </p>
+      <div class="top-meta">公告生效日：<span id="publishDate"></span></div>
+    </section>
+
+    <section class="card">
+      <div class="notice">
+        <div>✅</div>
+        <div>
+          凡於本公告發布後，仍委託代購、下單、付款、取貨或以任何方式使用本服務者，
+          視為已閱讀、理解並同意本條款全部內容。
+        </div>
+      </div>
+
+      <div class="notice warn">
+        <div>⚠️</div>
+        <div>
+          未滿十八歲之使用者，應先取得法定代理人（家長或監護人）同意。
+          公告發送後仍繼續使用本服務者，視為已取得法定代理人同意。
+        </div>
+      </div>
+
+      <h2>一、服務性質</h2>
+      <ol>
+        <li>本服務僅屬代為購買之協助行為，非食品販售業者，亦非餐飲提供者。</li>
+        <li>本服務所收取之費用為代購服務費，並非食品販售收入。</li>
+        <li>代購人僅依委託內容代為購買指定商品，不對食品之製作、成分、保存、衛生或安全性負責。</li>
+      </ol>
+
+      <h2>二、食品風險與免責</h2>
+      <ol>
+        <li>若因食品本身問題，包括但不限於變質、過敏、食物中毒、包裝瑕疵、保存不良、店家製作問題等，造成任何身體不適、損失或醫療需求，應由委託人自行承擔。</li>
+        <li>委託人應自行確認所購食品是否符合自身健康狀況、體質、過敏原、宗教或其他飲食限制。</li>
+        <li>代購人不負健康審查義務，亦不對食品內容作任何明示或默示保證。</li>
+      </ol>
+
+      <h2>三、代購過程說明</h2>
+      <ol>
+        <li>代購人僅依委託人提供之店家、品項、數量及需求進行購買。</li>
+        <li>如遇缺貨、停售、價格調整、等待時間過長、交通因素、天氣因素或其他不可抗力情形，代購人得調整、延後或取消代購。</li>
+        <li>因前項情形導致未能完成代購者，委託人不得要求代購人負擔損害賠償責任。</li>
+      </ol>
+
+      <h2>四、費用、取消與取貨</h2>
+      <ol>
+        <li>代購服務費為代購人提供跑腿、時間及處理代購事務之對價。</li>
+        <li>委託人應依約付款；未付款、延遲付款、拒收商品、延遲取貨或臨時取消者，代購人有權拒絕提供後續服務。</li>
+        <li>已實際支出之費用、已購買之商品費用及已收取之代購服務費，除代購人另行同意外，原則上不予退還。</li>
+      </ol>
+
+      <h2>五、未成年人使用條款</h2>
+      <ol>
+        <li>未滿十八歲之使用者，應於使用本服務前取得法定代理人同意。</li>
+        <li>經本系統、群組、聊天訊息、頁面公告或其他可得知之方式發送本條款後，未成年人仍下單、付款、委託代購、取貨或繼續使用本服務者，視為其已取得法定代理人同意。</li>
+        <li>如未成年人未經法定代理人同意而使用本服務，其相關法律責任應由該使用者及其法定代理人自行負責，與代購人無關。</li>
+      </ol>
+
+      <h2>六、視同同意與條款生效</h2>
+      <ol>
+        <li>本條款採公告方式生效，無須另行紙本簽名或逐一簽署。</li>
+        <li>自本條款公告後，任何人只要繼續使用本服務，即視為已完整閱讀、理解並同意本條款全部內容。</li>
+        <li>不同意本條款內容者，應立即停止委託、下單、付款、領取商品或以其他方式使用本服務。</li>
+      </ol>
+
+      <h2>七、責任限制</h2>
+      <ol>
+        <li>除代購人有故意或重大過失外，因本服務所生之一切直接或間接損害，代購人均不負賠償責任。</li>
+        <li>代購人不因收取代購服務費而成為食品販售者、製造者、經銷者或食品安全保證人。</li>
+        <li>本服務屬個人代購協助性質，使用者不得以一般商業販售標準主張其他額外責任。</li>
+      </ol>
+
+      <div class="agree-box">
+        <div class="agree-title">同意方式</div>
+        <div class="muted">
+          本頁面僅作條款公告與留存用途。依本條款規定，使用者於公告後繼續使用本服務，
+          即視為已同意，無須另行簽名。
+        </div>
+
+        <div class="btns">
+          <button class="btn-primary" onclick="showAgree()">我已閱讀本公告</button>
+          <button class="btn-secondary" onclick="window.print()">列印 / 存成 PDF</button>
+        </div>
+
+        <div class="status" id="agreeStatus">已閱讀紀錄完成。</div>
+      </div>
+
+      <div class="footer">
+        本條款自公告日起生效。<br>
+        建議你把這頁網址放在群組公告、LINE 選單、下單頁或表單前面，這樣比較完整。
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const publishDateEl = document.getElementById("publishDate");
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(now.getDate()).padStart(2, "0");
+    publishDateEl.textContent = `${y}-${m}-${d}`;
+
+    function showAgree() {
+      const box = document.getElementById("agreeStatus");
+      box.style.display = "block";
+      localStorage.setItem("food_proxy_terms_read", `${y}-${m}-${d}`);
+    }
+  </script>
+</body>
+</html>
