@@ -3,73 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>五張圖片五個文字</title>
+  <title>ATM 無卡存款教學</title>
+
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
-      background: #f5f5f5;
       margin: 0;
-      padding: 30px;
+      background: linear-gradient(135deg, #eef5ff, #fdfbff);
+      color: #333;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 32px;
+      color: #2563eb;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 35px;
+      color: #666;
+      font-size: 16px;
     }
 
     .container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .card {
-      width: 200px;
       background: white;
-      border-radius: 15px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
+    }
+
+    .step {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #2563eb;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: bold;
     }
 
     .card img {
       width: 100%;
-      height: 150px;
+      height: 180px;
       object-fit: cover;
       display: block;
     }
 
     .card p {
       margin: 0;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
+      padding: 18px;
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 35px;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
+
 <body>
+
+  <h1>ATM 無卡存款教學</h1>
+  <div class="subtitle">照著以下步驟操作，就可以完成無卡存款囉</div>
 
   <div class="container">
     <div class="card">
+      <div class="step">STEP 1</div>
       <img src="https://pimg.1px.tw/cellus709/1621601403-3966045995-g.jpg" alt="圖片1">
-      <p>文字一</p>
+      <p>看到 ATM 後，請點選「無卡交易」。</p>
     </div>
 
     <div class="card">
+      <div class="step">STEP 2</div>
       <img src="https://pimg.1px.tw/cellus709/1621601403-4062880190-g.jpg" alt="圖片2">
-      <p>文字二</p>
+      <p>接著點選「無卡存款」。</p>
     </div>
 
     <div class="card">
+      <div class="step">STEP 3</div>
       <img src="https://pimg.1px.tw/cellus709/1621601404-378446610-g.jpg" alt="圖片3">
-      <p>文字三</p>
+      <p>輸入要存入的帳號，確認帳號是否正確。</p>
     </div>
 
     <div class="card">
+      <div class="step">STEP 4</div>
       <img src="https://pimg.1px.tw/cellus709/1621601403-1521339048-g.jpg" alt="圖片4">
-      <p>文字四</p>
+      <p>輸入完帳號後，出鈔口會打開，確認金額後就可以放入鈔票。</p>
     </div>
 
     <div class="card">
-      <img src="image5.jpg" alt="圖片5">
-      <p>文字五</p>
+      <div class="step">STEP 5</div>
+      <img src="https://pimg.1px.tw/cellus709/1621601404-3991761154-g.jpg" alt="圖片5">
+      <p>ATM 會自動數鈔，確認畫面金額正確後，點選「確認存入」就完成囉。</p>
     </div>
+  </div>
+
+  <div class="footer">
+    小提醒：存款前請再次確認帳號與金額是否正確。
   </div>
 
 </body>
