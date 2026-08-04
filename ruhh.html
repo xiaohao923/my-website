@@ -1,39 +1,250 @@
-忽悠你成神 規範（2026/08/04 發布）
-❶ 雙家族得知直接移除
-禁止同時加入家族，一經查證屬實，不另行警告，直接移除。
-❷ 照片攻擊僅對外，不對內（族員可對違規者進行檢舉）
-不得使用照片攻擊自家成員，若發現可向官方檢舉處理。
-❸ 家族資訊勿傳與外人（家族對話、族內恩怨、資金、護罩）
-禁止向非本家族成員洩漏任何家族內部資訊。
-❹ 禁止踢出牽鼻任意館成員（可權限禁踢出）
-不得踢除牽鼻體系任何家族成員，可以禁麥、抱下。
-❺ 偷取一律等到幹部下令，禁止誤偷、偷錯
-所有偷取行動需依照幹部指示執行，不可自行行動、點錯或提早進行。
-❻ 禁止透過任何形式聯合外人攻擊家族人
-不得串通其他玩家、家族或任何第三方，對本家族成員進行攻擊或針對。
-❼ 禁止家族群刷圖、刷字（超過五條）、發布違規內容
-禁止大量洗版、連續發送相同內容，避免影響群組閱讀。
-❽ 禁止乞討（任何形式乞討）
-不得以任何方式向族員索取資源、金幣、禮物、扭蛋或其他利益。
-❾ 禁止跑單、騷擾成員、影響正常營運、偷牽車
-不得跑單、詐騙、騷擾族員、妨礙家族運作或進行任何破壞秩序的行為。
-❶⓪ 對外時禁止攪渾水、聊天、唱歌、靠背族員、攻擊族員
-對外活動期間應配合家族行動，不得故意帶節奏、影響秩序或公開攻擊自家成員。
-❶❶ 禁止散播假消息（幹部未說明／未告知／不同於族規）
-未經幹部確認的資訊不得自行發布，以正式公告及族規內容為準。
-❶❷ 禁止利用標註所有人或打收時刷禮物、刷字，把通知刷掉
-不得故意利用大量訊息或禮物覆蓋重要通知，影響成員閱讀公告。
-❶❸ 禁止內鬨吵架（收到檢舉或幹部目擊）
-家族成員間應理性溝通，如發生爭執，將依檢舉內容或幹部查證結果處理。
-❶❹ 禁止導致家族房倒房
-不得從事任何造成家族房間解散、倒房或影響正常使用的行為。
-❶❺ 禁止損害家族或家族人成譽
-不得公開抹黑、造謠、惡意誹謗家族或任何家族成員，影響整體聲譽。
-❶❻ 未寫於族規但寫於體系規定
-若體系另有公告或新增規定，即視同正式族規，所有成員皆須遵守。
-懲處說明
-	•	累犯將視情況提高懲處，初次違規可視情節給予改正機會，再犯一律重罰。
-	•	違規罰金 30,000 起跳，上不封頂，依違規情節調整。
-	•	所有罰金不列入寶箱制度。
-	•	最終裁定與解釋權歸幹部所有。
-	•	上述規範禁止任何形式代捐，並將依違規情節調整處分。
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>忽悠你成神 規範（2026/08/04 發布）</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #09070f;
+      --panel: rgba(29, 20, 43, 0.92);
+      --panel-2: rgba(45, 29, 66, 0.92);
+      --text: #ffffff;
+      --muted: #ddd6e8;
+      --accent: #c9a7ff;
+      --line: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding:
+        max(18px, env(safe-area-inset-top))
+        max(14px, env(safe-area-inset-right))
+        max(24px, env(safe-area-inset-bottom))
+        max(14px, env(safe-area-inset-left));
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(125, 74, 180, 0.28), transparent 34rem),
+        linear-gradient(180deg, #120b1e 0%, var(--bg) 100%);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        "PingFang TC",
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 900px);
+      margin: 0 auto;
+    }
+
+    .card {
+      width: 100%;
+      padding: clamp(18px, 4vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      overflow: visible;
+    }
+
+    h1,
+    h2,
+    p,
+    li {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      white-space: normal;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: clamp(25px, 6vw, 42px);
+      line-height: 1.3;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .rule {
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .rule:first-of-type {
+      border-top: 0;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: clamp(18px, 4.5vw, 23px);
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 3.8vw, 19px);
+    }
+
+    .penalty {
+      margin-top: 24px;
+      padding: clamp(18px, 4vw, 26px);
+      border: 1px solid rgba(201, 167, 255, 0.28);
+      border-radius: 18px;
+      background: rgba(9, 7, 15, 0.38);
+    }
+
+    .penalty h2 {
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.35em;
+    }
+
+    li {
+      margin: 8px 0;
+      color: var(--muted);
+      font-size: clamp(16px, 3.8vw, 19px);
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <article class="card">
+      <h1>忽悠你成神 規範（2026/08/04 發布）</h1>
+
+      <section class="rule">
+        <h2>❶ 雙家族得知直接移除</h2>
+        <p>禁止同時加入家族，一經查證屬實，不另行警告，直接移除。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❷ 照片攻擊僅對外，不對內（族員可對違規者進行檢舉）</h2>
+        <p>不得使用照片攻擊自家成員，若發現可向官方檢舉處理。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❸ 家族資訊勿傳與外人（家族對話、族內恩怨、資金、護罩）</h2>
+        <p>禁止向非本家族成員洩漏任何家族內部資訊。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❹ 禁止踢出牽鼻任意館成員（可權限禁踢出）</h2>
+        <p>不得踢除牽鼻體系任何家族成員，可以禁麥、抱下。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❺ 偷取一律等到幹部下令，禁止誤偷、偷錯</h2>
+        <p>所有偷取行動需依照幹部指示執行，不可自行行動、點錯或提早進行。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❻ 禁止透過任何形式聯合外人攻擊家族人</h2>
+        <p>不得串通其他玩家、家族或任何第三方，對本家族成員進行攻擊或針對。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❼ 禁止家族群刷圖、刷字（超過五條）、發布違規內容</h2>
+        <p>禁止大量洗版、連續發送相同內容，避免影響群組閱讀。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❽ 禁止乞討（任何形式乞討）</h2>
+        <p>不得以任何方式向族員索取資源、金幣、禮物、扭蛋或其他利益。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❾ 禁止跑單、騷擾成員、影響正常營運、偷牽車</h2>
+        <p>不得跑單、詐騙、騷擾族員、妨礙家族運作或進行任何破壞秩序的行為。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶⓪ 對外時禁止攪渾水、聊天、唱歌、靠背族員、攻擊族員</h2>
+        <p>對外活動期間應配合家族行動，不得故意帶節奏、影響秩序或公開攻擊自家成員。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❶ 禁止散播假消息（幹部未說明／未告知／不同於族規）</h2>
+        <p>未經幹部確認的資訊不得自行發布，以正式公告及族規內容為準。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❷ 禁止利用標註所有人或打收時刷禮物、刷字，把通知刷掉</h2>
+        <p>不得故意利用大量訊息或禮物覆蓋重要通知，影響成員閱讀公告。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❸ 禁止內鬨吵架（收到檢舉或幹部目擊）</h2>
+        <p>家族成員間應理性溝通，如發生爭執，將依檢舉內容或幹部查證結果處理。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❹ 禁止導致家族房倒房</h2>
+        <p>不得從事任何造成家族房間解散、倒房或影響正常使用的行為。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❺ 禁止損害家族或家族人成譽</h2>
+        <p>不得公開抹黑、造謠、惡意誹謗家族或任何家族成員，影響整體聲譽。</p>
+      </section>
+
+      <section class="rule">
+        <h2>❶❻ 未寫於族規但寫於體系規定</h2>
+        <p>若體系另有公告或新增規定，即視同正式族規，所有成員皆須遵守。</p>
+      </section>
+
+      <section class="penalty">
+        <h2>懲處說明</h2>
+        <ul>
+          <li>累犯將視情況提高懲處，初次違規可視情節給予改正機會，再犯一律重罰。</li>
+          <li>違規罰金 30,000 起跳，上不封頂，依違規情節調整。</li>
+          <li>所有罰金不列入寶箱制度。</li>
+          <li>最終裁定與解釋權歸幹部所有。</li>
+          <li>上述規範禁止任何形式代捐，並將依違規情節調整處分。</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
