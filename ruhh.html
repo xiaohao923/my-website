@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>忽悠你成神 規範（2026/08/04 發布）</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>狼人殺 9 人局（屠邊）新手教學</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #09070f;
-      --panel: rgba(29, 20, 43, 0.92);
-      --panel-2: rgba(45, 29, 66, 0.92);
-      --text: #ffffff;
-      --muted: #ddd6e8;
-      --accent: #c9a7ff;
-      --line: rgba(255, 255, 255, 0.14);
+      --bg: #171329;
+      --bg-soft: #221b3d;
+      --card: #2d2452;
+      --card-2: #3b2f6d;
+      --purple: #7657d5;
+      --purple-light: #9d83f3;
+      --yellow: #ffbf18;
+      --orange: #ff7a00;
+      --red: #e44b52;
+      --green: #4fc38a;
+      --blue: #5fa8ff;
+      --text: #f8f7ff;
+      --muted: #d8d2ee;
+      --line: rgba(255, 255, 255, 0.12);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      --radius: 24px;
     }
 
     * {
@@ -23,228 +30,726 @@
     }
 
     html {
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-      background: var(--bg);
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding:
-        max(18px, env(safe-area-inset-top))
-        max(14px, env(safe-area-inset-right))
-        max(24px, env(safe-area-inset-bottom))
-        max(14px, env(safe-area-inset-left));
-      color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(125, 74, 180, 0.28), transparent 34rem),
-        linear-gradient(180deg, #120b1e 0%, var(--bg) 100%);
       font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Text",
-        "PingFang TC",
-        "Noto Sans TC",
-        "Microsoft JhengHei",
-        Arial,
-        sans-serif;
-      font-size: 16px;
+        -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC",
+        "Microsoft JhengHei", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(118, 87, 213, 0.35), transparent 34rem),
+        linear-gradient(180deg, #211942 0%, var(--bg) 45%, #100d1d 100%);
+      color: var(--text);
       line-height: 1.75;
-      overflow-x: hidden;
-    }
-
-    main {
-      width: min(100%, 900px);
-      margin: 0 auto;
-    }
-
-    .card {
-      width: 100%;
-      padding: clamp(18px, 4vw, 36px);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: linear-gradient(180deg, var(--panel-2), var(--panel));
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-      overflow: visible;
-    }
-
-    h1,
-    h2,
-    p,
-    li {
-      max-width: 100%;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-      white-space: normal;
-    }
-
-    h1 {
-      margin: 0 0 24px;
-      font-size: clamp(25px, 6vw, 42px);
-      line-height: 1.3;
-      text-align: center;
       letter-spacing: 0.02em;
     }
 
-    .rule {
-      padding: 18px 0;
-      border-top: 1px solid var(--line);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .rule:first-of-type {
-      border-top: 0;
+    .page {
+      width: min(100% - 28px, 980px);
+      margin: 0 auto;
+      padding: 26px 0 60px;
     }
 
-    h2 {
-      margin: 0 0 8px;
-      color: var(--accent);
-      font-size: clamp(18px, 4.5vw, 23px);
-      line-height: 1.55;
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 28px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+        linear-gradient(135deg, #4b3695, #2c214f);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      filter: blur(4px);
+      opacity: 0.2;
+    }
+
+    .hero::before {
+      background: var(--yellow);
+      top: -110px;
+      right: -70px;
+    }
+
+    .hero::after {
+      background: var(--purple-light);
+      bottom: -120px;
+      left: -80px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255, 191, 24, 0.16);
+      color: #ffd65f;
       font-weight: 800;
+      font-size: 0.92rem;
+      border: 1px solid rgba(255, 191, 24, 0.3);
     }
 
-    p {
+    h1 {
       margin: 0;
-      color: var(--muted);
-      font-size: clamp(16px, 3.8vw, 19px);
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1.2;
+      letter-spacing: 0.03em;
     }
 
-    .penalty {
-      margin-top: 24px;
-      padding: clamp(18px, 4vw, 26px);
-      border: 1px solid rgba(201, 167, 255, 0.28);
+    .subtitle {
+      margin: 14px auto 0;
+      max-width: 650px;
+      color: var(--muted);
+      font-size: clamp(1rem, 3.3vw, 1.2rem);
+    }
+
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .quick-info div {
+      padding: 14px 10px;
       border-radius: 18px;
-      background: rgba(9, 7, 15, 0.38);
+      background: rgba(12, 8, 28, 0.28);
+      border: 1px solid var(--line);
     }
 
-    .penalty h2 {
-      margin-bottom: 12px;
-      color: #ffffff;
+    .quick-info strong {
+      display: block;
+      color: #fff;
+      font-size: 1.1rem;
     }
 
-    ul {
-      margin: 0;
-      padding-left: 1.35em;
-    }
-
-    li {
-      margin: 8px 0;
+    .quick-info span {
       color: var(--muted);
-      font-size: clamp(16px, 3.8vw, 19px);
+      font-size: 0.9rem;
     }
 
-    @media (max-width: 380px) {
-      body {
-        padding-left: 10px;
-        padding-right: 10px;
+    .toc {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin: 22px 0;
+      padding: 4px 2px 10px;
+      scrollbar-width: none;
+    }
+
+    .toc::-webkit-scrollbar {
+      display: none;
+    }
+
+    .toc a {
+      flex: 0 0 auto;
+      padding: 10px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .toc a:hover {
+      background: var(--purple);
+      color: white;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, var(--card), var(--bg-soft));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+      font-size: clamp(1.45rem, 4.5vw, 2rem);
+      line-height: 1.3;
+    }
+
+    .section-title .icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      color: #301b00;
+      font-size: 1.4rem;
+      box-shadow: 0 8px 20px rgba(255, 122, 0, 0.25);
+    }
+
+    .identity-grid,
+    .role-grid,
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .identity-card,
+    .role-card,
+    .term-card,
+    .win-card,
+    .step {
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.055);
+    }
+
+    .identity-card {
+      padding: 18px;
+    }
+
+    .identity-card h3,
+    .role-card h3,
+    .term-card h3,
+    .win-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.16rem;
+    }
+
+    .identity-card p,
+    .role-card p,
+    .term-card p,
+    .win-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .wolf {
+      border-color: rgba(228, 75, 82, 0.45);
+      background: linear-gradient(135deg, rgba(228,75,82,0.17), rgba(255,255,255,0.04));
+    }
+
+    .good {
+      border-color: rgba(95,168,255,0.4);
+      background: linear-gradient(135deg, rgba(95,168,255,0.14), rgba(255,255,255,0.04));
+    }
+
+    .win-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .win-card {
+      padding: 20px;
+    }
+
+    .win-card.wolf-win h3 {
+      color: #ff858a;
+    }
+
+    .win-card.good-win h3 {
+      color: #7fc0ff;
+    }
+
+    .highlight {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 191, 24, 0.11);
+      border: 1px solid rgba(255, 191, 24, 0.25);
+      color: #ffe39a;
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      color: #321900;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .step h3 {
+      margin: 0 0 4px;
+      font-size: 1.13rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .role-card {
+      padding: 18px;
+    }
+
+    .role-card ul,
+    .tips {
+      margin: 10px 0 0;
+      padding-left: 1.2rem;
+      color: var(--muted);
+    }
+
+    .role-card li + li,
+    .tips li + li {
+      margin-top: 6px;
+    }
+
+    .term-card {
+      padding: 15px 16px;
+    }
+
+    .term-card h3 {
+      color: #ffd45d;
+      font-size: 1.03rem;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 8px 0 2px;
+    }
+
+    .flow span {
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    .flow b {
+      color: var(--yellow);
+      font-size: 1.25rem;
+    }
+
+    .note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding: 20px 8px 0;
+      text-align: center;
+      color: rgba(255,255,255,0.58);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 20px, 980px);
+        padding-top: 12px;
       }
 
-      .card {
-        padding: 16px;
-        border-radius: 18px;
+      .hero {
+        padding: 34px 20px;
+        border-radius: 25px;
+      }
+
+      .quick-info {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 20px 16px;
+        border-radius: 22px;
+      }
+
+      .identity-grid,
+      .role-grid,
+      .term-grid,
+      .win-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 42px 1fr;
+      }
+
+      .step-number {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .page {
+        width: 100%;
+      }
+
+      .hero,
+      .section {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .toc {
+        display: none;
       }
     }
   </style>
 </head>
-
 <body>
-  <main>
-    <article class="card">
-      <h1>忽悠你成神 規範（2026/08/04 發布）</h1>
+  <main class="page">
+    <header class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">🐺 9 人標準屠邊局</div>
+        <h1>狼人殺新手教學</h1>
+        <p class="subtitle">
+          適合第一次接觸狼人殺的玩家。看懂身份、流程與常用術語後，就能直接開始遊戲。
+        </p>
 
-      <section class="rule">
-        <h2>❶ 雙家族得知直接移除</h2>
-        <p>禁止同時加入家族，一經查證屬實，不另行警告，直接移除。</p>
-      </section>
+        <div class="quick-info">
+          <div>
+            <strong>9 位玩家</strong>
+            <span>3 狼人＋6 好人</span>
+          </div>
+          <div>
+            <strong>屠邊規則</strong>
+            <span>屠神或屠民即勝</span>
+          </div>
+          <div>
+            <strong>夜晚＋白天</strong>
+            <span>輪流進行直到分出勝負</span>
+          </div>
+        </div>
+      </div>
+    </header>
 
-      <section class="rule">
-        <h2>❷ 照片攻擊僅對外，不對內（族員可對違規者進行檢舉）</h2>
-        <p>不得使用照片攻擊自家成員，若發現可向官方檢舉處理。</p>
-      </section>
+    <nav class="toc" aria-label="快速導覽">
+      <a href="#identity">身份配置</a>
+      <a href="#win">勝利條件</a>
+      <a href="#process">遊戲流程</a>
+      <a href="#roles">角色介紹</a>
+      <a href="#terms">常用術語</a>
+      <a href="#tips">新手建議</a>
+    </nav>
 
-      <section class="rule">
-        <h2>❸ 家族資訊勿傳與外人（家族對話、族內恩怨、資金、護罩）</h2>
-        <p>禁止向非本家族成員洩漏任何家族內部資訊。</p>
-      </section>
+    <section class="section" id="identity">
+      <h2 class="section-title">
+        <span class="icon">🎴</span>
+        身份配置
+      </h2>
 
-      <section class="rule">
-        <h2>❹ 禁止踢出牽鼻任意館成員（可權限禁踢出）</h2>
-        <p>不得踢除牽鼻體系任何家族成員，可以禁麥、抱下。</p>
-      </section>
+      <div class="identity-grid">
+        <article class="identity-card wolf">
+          <h3>🐺 狼人陣營</h3>
+          <p>狼人 ×3</p>
+        </article>
 
-      <section class="rule">
-        <h2>❺ 偷取一律等到幹部下令，禁止誤偷、偷錯</h2>
-        <p>所有偷取行動需依照幹部指示執行，不可自行行動、點錯或提早進行。</p>
-      </section>
+        <article class="identity-card good">
+          <h3>🛡️ 好人陣營</h3>
+          <p>村民 ×3、預言家 ×1、女巫 ×1、獵人 ×1</p>
+        </article>
+      </div>
+    </section>
 
-      <section class="rule">
-        <h2>❻ 禁止透過任何形式聯合外人攻擊家族人</h2>
-        <p>不得串通其他玩家、家族或任何第三方，對本家族成員進行攻擊或針對。</p>
-      </section>
+    <section class="section" id="win">
+      <h2 class="section-title">
+        <span class="icon">🏆</span>
+        勝利條件
+      </h2>
 
-      <section class="rule">
-        <h2>❼ 禁止家族群刷圖、刷字（超過五條）、發布違規內容</h2>
-        <p>禁止大量洗版、連續發送相同內容，避免影響群組閱讀。</p>
-      </section>
+      <div class="win-grid">
+        <article class="win-card wolf-win">
+          <h3>🐺 狼人獲勝</h3>
+          <p>殺死所有神民，或殺死所有村民。</p>
+        </article>
 
-      <section class="rule">
-        <h2>❽ 禁止乞討（任何形式乞討）</h2>
-        <p>不得以任何方式向族員索取資源、金幣、禮物、扭蛋或其他利益。</p>
-      </section>
+        <article class="win-card good-win">
+          <h3>👨‍🌾 好人獲勝</h3>
+          <p>放逐或擊殺全部狼人。</p>
+        </article>
+      </div>
 
-      <section class="rule">
-        <h2>❾ 禁止跑單、騷擾成員、影響正常營運、偷牽車</h2>
-        <p>不得跑單、詐騙、騷擾族員、妨礙家族運作或進行任何破壞秩序的行為。</p>
-      </section>
+      <div class="highlight">
+        屠邊重點：狼人不必殺光全部好人，只要「神職全滅」或「村民全滅」，遊戲就立即結束。
+      </div>
+    </section>
 
-      <section class="rule">
-        <h2>❶⓪ 對外時禁止攪渾水、聊天、唱歌、靠背族員、攻擊族員</h2>
-        <p>對外活動期間應配合家族行動，不得故意帶節奏、影響秩序或公開攻擊自家成員。</p>
-      </section>
+    <section class="section" id="process">
+      <h2 class="section-title">
+        <span class="icon">🌙</span>
+        遊戲流程
+      </h2>
 
-      <section class="rule">
-        <h2>❶❶ 禁止散播假消息（幹部未說明／未告知／不同於族規）</h2>
-        <p>未經幹部確認的資訊不得自行發布，以正式公告及族規內容為準。</p>
-      </section>
+      <div class="timeline">
+        <article class="step">
+          <div class="step-number">1</div>
+          <div>
+            <h3>夜晚：狼人行動</h3>
+            <p>3 名狼人共同選擇一名玩家襲擊。</p>
+          </div>
+        </article>
 
-      <section class="rule">
-        <h2>❶❷ 禁止利用標註所有人或打收時刷禮物、刷字，把通知刷掉</h2>
-        <p>不得故意利用大量訊息或禮物覆蓋重要通知，影響成員閱讀公告。</p>
-      </section>
+        <article class="step">
+          <div class="step-number">2</div>
+          <div>
+            <h3>夜晚：預言家查驗</h3>
+            <p>預言家選擇一名玩家，得知對方是「好人」或「狼人」。</p>
+          </div>
+        </article>
 
-      <section class="rule">
-        <h2>❶❸ 禁止內鬨吵架（收到檢舉或幹部目擊）</h2>
-        <p>家族成員間應理性溝通，如發生爭執，將依檢舉內容或幹部查證結果處理。</p>
-      </section>
+        <article class="step">
+          <div class="step-number">3</div>
+          <div>
+            <h3>夜晚：女巫用藥</h3>
+            <p>
+              女巫可使用解藥救人，或使用毒藥毒死一名玩家。9 人局可以自救，但同一晚不能同時使用兩瓶藥。
+            </p>
+          </div>
+        </article>
 
-      <section class="rule">
-        <h2>❶❹ 禁止導致家族房倒房</h2>
-        <p>不得從事任何造成家族房間解散、倒房或影響正常使用的行為。</p>
-      </section>
+        <article class="step">
+          <div class="step-number">4</div>
+          <div>
+            <h3>白天：公布死亡</h3>
+            <p>主持人公布昨晚死亡玩家。第一晚死亡的玩家可以發表遺言。</p>
+          </div>
+        </article>
 
-      <section class="rule">
-        <h2>❶❺ 禁止損害家族或家族人成譽</h2>
-        <p>不得公開抹黑、造謠、惡意誹謗家族或任何家族成員，影響整體聲譽。</p>
-      </section>
+        <article class="step">
+          <div class="step-number">5</div>
+          <div>
+            <h3>白天：依序發言</h3>
+            <p>所有存活玩家依照順序發言，分享資訊、分析身份或為自己辯解。</p>
+          </div>
+        </article>
 
-      <section class="rule">
-        <h2>❶❻ 未寫於族規但寫於體系規定</h2>
-        <p>若體系另有公告或新增規定，即視同正式族規，所有成員皆須遵守。</p>
-      </section>
+        <article class="step">
+          <div class="step-number">6</div>
+          <div>
+            <h3>白天：投票放逐</h3>
+            <p>所有玩家投票，得票最高者出局，並可發表遺言。</p>
+          </div>
+        </article>
 
-      <section class="penalty">
-        <h2>懲處說明</h2>
-        <ul>
-          <li>累犯將視情況提高懲處，初次違規可視情節給予改正機會，再犯一律重罰。</li>
-          <li>違規罰金 30,000 起跳，上不封頂，依違規情節調整。</li>
-          <li>所有罰金不列入寶箱制度。</li>
-          <li>最終裁定與解釋權歸幹部所有。</li>
-          <li>上述規範禁止任何形式代捐，並將依違規情節調整處分。</li>
-        </ul>
-      </section>
-    </article>
+        <article class="step">
+          <div class="step-number">7</div>
+          <div>
+            <h3>檢查勝負</h3>
+            <p>若尚未達成任何勝利條件，便再次進入夜晚，持續循環。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="roles">
+      <h2 class="section-title">
+        <span class="icon">🎭</span>
+        角色介紹
+      </h2>
+
+      <div class="role-grid">
+        <article class="role-card wolf">
+          <h3>🐺 狼人</h3>
+          <ul>
+            <li>每晚共同襲擊一名玩家。</li>
+            <li>白天隱藏身份並誤導好人。</li>
+            <li>可以假裝村民或神職。</li>
+          </ul>
+        </article>
+
+        <article class="role-card good">
+          <h3>👨‍🌾 村民</h3>
+          <ul>
+            <li>夜晚沒有技能。</li>
+            <li>靠發言、推理及投票找出狼人。</li>
+            <li>不要盲目跟票，村民的判斷很重要。</li>
+          </ul>
+        </article>
+
+        <article class="role-card good">
+          <h3>🔮 預言家</h3>
+          <ul>
+            <li>每晚查驗一名玩家。</li>
+            <li>結果只會顯示「好人」或「狼人」。</li>
+            <li>白天利用查驗資訊帶領好人。</li>
+          </ul>
+        </article>
+
+        <article class="role-card good">
+          <h3>🧪 女巫</h3>
+          <ul>
+            <li>解藥 ×1：救活被狼人襲擊的玩家。</li>
+            <li>毒藥 ×1：毒死任意一名玩家。</li>
+            <li>9 人局可以自救。</li>
+            <li>同一晚不能同時使用解藥與毒藥。</li>
+          </ul>
+        </article>
+
+        <article class="role-card good">
+          <h3>🔫 獵人</h3>
+          <ul>
+            <li>被狼人殺死或被投票放逐時，可以開槍帶走一名玩家。</li>
+            <li>若被女巫毒死，則不能開槍。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="terms">
+      <h2 class="section-title">
+        <span class="icon">📚</span>
+        常用術語
+      </h2>
+
+      <div class="term-grid">
+        <article class="term-card">
+          <h3>查殺</h3>
+          <p>預言家查驗結果為狼人。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>金水</h3>
+          <p>預言家查驗結果為好人。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>銀水</h3>
+          <p>女巫使用解藥救活的玩家。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>有身份</h3>
+          <p>表示自己的角色不是村民。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>強神</h3>
+          <p>技能較重要或影響力較大的神職。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>悍跳</h3>
+          <p>狼人假裝自己是神職，通常指假跳預言家。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>對跳</h3>
+          <p>多名玩家同時聲稱自己是同一個神職。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>自刀</h3>
+          <p>狼人夜晚襲擊自己的狼人隊友，用來迷惑好人。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>擋刀</h3>
+          <p>好人故意吸引狼人襲擊，保護更重要的角色。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>扛推</h3>
+          <p>白天被懷疑並遭投票放逐。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>上警</h3>
+          <p>參與警長競選。</p>
+        </article>
+
+        <article class="term-card">
+          <h3>警徽流</h3>
+          <p>預言家交代接下來的查驗順序，以及死後警徽要交給誰。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tips">
+      <h2 class="section-title">
+        <span class="icon">💡</span>
+        新手建議
+      </h2>
+
+      <ul class="tips">
+        <li>預言家有查驗資訊時，要清楚說明查了誰、結果是什麼。</li>
+        <li>女巫不要隨便用毒，錯毒好人可能直接讓好人陷入劣勢。</li>
+        <li>獵人出局後，開槍前先想清楚，不要因為情緒亂帶人。</li>
+        <li>村民要聽完整發言，注意誰前後矛盾、誰一直帶錯方向。</li>
+        <li>狼人發言要自然，不要完全沉默，也不要過度緊張。</li>
+        <li>死亡玩家不得繼續提醒、暗示或影響場上玩家。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">🔁</span>
+        流程總結
+      </h2>
+
+      <div class="flow">
+        <span>發身份</span><b>→</b>
+        <span>狼人襲擊</span><b>→</b>
+        <span>預言家查驗</span><b>→</b>
+        <span>女巫救／毒</span><b>→</b>
+        <span>天亮公布死亡</span><b>→</b>
+        <span>依序發言</span><b>→</b>
+        <span>投票放逐</span><b>→</b>
+        <span>檢查勝負</span>
+      </div>
+
+      <p class="note">若遊戲尚未結束，就再次進入夜晚，直到其中一方達成勝利條件。</p>
+    </section>
+
+    <footer>
+      狼人殺 9 人局（屠邊）新手教學
+    </footer>
   </main>
 </body>
 </html>
